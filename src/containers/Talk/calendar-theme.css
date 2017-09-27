@@ -1,0 +1,131 @@
+.cell {
+    display: inline-block;
+    width: 100%;
+    height: 2.4rem;
+    padding: 5px;
+    text-align: center;
+  }
+  .rc-Calendar-header {
+    text-align: center;
+    font-weight: bolder;
+  }
+  .rc-Month {
+    display: flex;
+    align-items:center;
+    vertical-align: top;
+    flex-wrap:wrap;
+    justify-content:center;
+    width:100%;
+    padding-top:4rem;
+    height:21rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #d7d1c4;
+    background:white;
+  }
+
+  .rc-Month-header {
+    text-align: center;
+    color: #50bbcd;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    width: 100%;
+    height: 3.5rem;
+    font-size: 1.1rem;
+    line-height: 3.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e9e6e0;
+  }
+
+  .rc-Month-weekdays {
+    margin-left: 2.4rem;
+  }
+
+  .rc-Month-weekdays-weekday {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    padding: 5px;
+    text-align: center;
+    font-weight: bolder;
+  }
+  .rc-Month--current .rc-Month-header {
+    color: #337ab7;
+  }
+  .rc-Week {
+    height: 2.5rem;
+  }
+  .rc-Week-number {
+    color: #777777;
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    padding: 5px;
+    text-align: center;
+  }
+  .rc-Week-days {
+    display: inline-block;
+  }
+
+  .rc-Week  .rc-Week-days .rc-Day:first-child{
+    color:#ff8062;
+  }
+
+  .rc-Week--current {
+    background-color: #50bbcd;
+  }
+  .rc-Day {
+    display: inline-block;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin:5px;
+    line-height: 2.4rem;
+    text-align: center;
+    cursor: pointer;
+  }
+  .rc-Day--active {
+    background-color: #50bbcd!important;
+    color:white !important;
+    border-radius: 8px!important;
+  }
+  /*
+  .rc-Day:hover {
+    background-color: #50bbcd;
+    color:white !important;
+    border-radius: 8px;
+  }
+  */
+  .rc-Day--outside {
+    cursor: default;
+    color: white;
+    visibility: hidden;
+  }
+
+  .rc-Day--outside:hover {
+    background-color: transparent;
+  }
+
+  .rc-Day--event {
+    background-color: #e9e6e0;
+    border-radius: 8px;
+  }
+
+  .rc-Day--current {
+    background-color: #f0fdff;
+    border:1px solid #50bbcd;
+    color:black;
+    border-radius: 8px;
+  }
+
+  .rc-Day--longEvent {
+    background-color: #5cb85c;
+  }
+
+  .rc-Day--warning {
+    background-color: #f0ad4e;
+  }
+
+
+  .rc-Month-weekdays{
+    display:none;
+  }

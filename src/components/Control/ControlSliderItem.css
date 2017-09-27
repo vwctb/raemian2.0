@@ -1,0 +1,101 @@
+
+.rs-bg-color {
+    background: #ffffff; /* Old Browsers */
+    background: linear-gradient(to bottom, #ffffff, #e5e5e5); /*Standard*/
+}
+
+.rslider{
+    text-align: center;
+    display:inline-block;
+}
+
+.controlType_heating .rs-range-color{
+    background-color: #ff8062;
+}
+.controlType_aircon .rs-range-color{
+    background-color: #50bbcd;
+}
+
+.rs-path-color {
+    background-color: #908d8a;
+}
+
+.rs-handle {
+    background-color: white !important;
+    box-shadow: 0 0 10px rgba(0,0,0,0.10), 0 0 10px rgba(0,0,0,0.20);
+}
+
+.rs-handle-square{
+    display: none;
+}
+
+.rs-handle.rs-move{
+  cursor: pointer;
+}
+
+.rs-handle-dot{
+  border:0px;
+}
+
+.rs-handle-dot:after{
+    background-color:'#fffff';
+}
+
+.rs-handle-dot:after{
+    border:0px;
+}
+
+.rs-border  {
+    border-color: transparent;
+}
+
+.rs-seperator{
+  border:0px;
+}
+
+.sliderSignle .rs-tooltip-text{
+    font-family: numans;
+    font-size: 4.5rem;
+ 
+    margin-top: -54px!important;
+    margin-left: -68px!important;
+    text-align: center;
+    width: 150px;
+}
+
+.sliderSignle .rs-tooltip-text .tooltip{
+    font-size: 1rem;
+    width: 130px;
+    color:#49433c;
+}
+
+.sliderMulti .rs-tooltip-text{
+    font-family: numans;
+    width: 70px;
+    text-align: center;
+    font-size: 2rem;
+    margin-left: -32px!important;
+}
+
+.rs-readonly{
+    position: relative;
+    display: inline-block;
+}
+
+.controlType_heating .sliderSignle .rs-tooltip-text, .controlType_heating .sliderMulti .rs-tooltip-text {
+   color: #ff8062;
+}
+
+
+
+.controlType_heating .CurrentTempValue{
+    color:#50bbcd;
+}
+
+.controlType_aircon .CurrentTempValue{
+    color:#ff8062;
+}
+
+.controlType_aircon .sliderSignle .rs-tooltip-text, .controlType_aircon .sliderMulti .rs-tooltip-text {
+   color: #50bbcd;
+}

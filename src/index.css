@@ -1,0 +1,32 @@
+
+@font-face {
+	font-family:"rixM";
+	src:local('rixM'), url("fonts/RixmodernM.eot");
+	src:local('rixM'), url("fonts/RixmodernM.eot?#iefix") format('embedded-opentype');
+	src:local('rixM'), url("fonts/RixmodernM.woff") format('woff');
+}
+
+@font-face {
+	font-family:"numans";
+	src:local('rixM'), url("fonts/Numans-Regular.eot");
+	src:local('rixM'), url("fonts/Numans-Regular.eot?#iefix") format('embedded-opentype');
+	src:local('rixM'), url("fonts/Numans-Regular.woff") format('woff');
+}
+
+body {
+  margin: 0; 
+  padding: 0;
+  font-family: sans-serif;
+  background: #e9ecef;
+  box-sizing: border-box;
+}
+
+* {
+  font-family: rixM;
+  box-sizing: inherit;
+  user-select: none;
+
+  -webkit-tap-highlight-color: rgba(0,0,0,0)!important; 
+  -webkit-user-select: none!important;
+  -webkit-touch-callout:none!important;
+}
