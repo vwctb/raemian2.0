@@ -9,7 +9,6 @@ import configureStore from 'redux/configureStore';
 import socket from 'lib/socket';
 
 const store = configureStore();
-
 const socketURI = process.env.NODE_ENV === 'production' 
                     ? ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws"
                     : 'ws://122.199.242.18:4804';

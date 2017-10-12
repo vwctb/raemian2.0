@@ -9,8 +9,11 @@
     "base-64": "^0.1.0",
     "crypto-js": "^3.1.9-1",
     "gibberish-aes": "^1.0.0",
+    "ignore-loader": "^0.1.2",
     "immutable": "^3.8.1",
     "jquery": "^3.2.1",
+    "koa": "^2.3.0",
+    "koa-static": "^4.0.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "open-color": "^1.5.1",
@@ -83,7 +86,9 @@
   },
   "scripts": {
     "start": "cross-env NODE_PATH=src node scripts/start.js",
-    "build": "NODE_PATH=src node scripts/build.js",
+    "start:server": "node server",
+    "build": "cross-env NODE_PATH=src node scripts/build.js",
+    "build:server": "cross-env NODE_PATH=src node scripts/build.server.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "proxy": "http://122.199.242.18:17501",

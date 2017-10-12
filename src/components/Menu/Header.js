@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';     
-import {LogoImage} from 'img'
+import { LogoImage } from 'img'
 import * as SvgIcon from 'lib/icon_svg'
 import { Link } from 'react-router-dom';
 
