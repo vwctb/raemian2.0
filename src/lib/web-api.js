@@ -1,17 +1,15 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = 'http://122.199.242.18:17501';
 
 //var plaintext = "사용자 토큰이 잘못 되었습니다.";
 //KEY.encryptedKey(plaintext)
-
 //var encStr = "hol6c5B6tRG+SdWFFtb99rYtb6W7fsD9tKmeIJ12rFUkC6wNbNTpZfxacjb2rcuZgrkaHi3YR4R3jycj/FVmiw==";
 //KEY.decryptedKey(encStr);
-
 
 //export const createMemo = ({title, body}) => axios.post('/memo', {title,body});
 export const getInitialFschedules = () => axios.get('http://localhost:3001/fschedules'); 
 export const getInitialNewalarms = () => axios.get('http://localhost:3001/newalarms'); 
-
 export const getInitalFamilyGroup = (registtoken) => axios.get('/smarthome/v1/familys',{headers:{'Content-Type':'application/json; charest=utf-8','registtoken':registtoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
