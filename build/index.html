@@ -18,7 +18,7 @@
             var bPhoneGap = false;
             var userId;
             (function() {
-                
+
                     strAgent = navigator.userAgent.toLowerCase();
                     bPhoneGap = true;
                     console.log("... is phone gap...");
@@ -102,7 +102,7 @@
                             FCMPlugin.getToken(success, error);
                         }
 
-                        loadReactApp(); 
+                        //loadReactApp(); 
                     }
                 }
                 function loadReactApp(){
@@ -125,7 +125,6 @@
                 function onResume()
                 {
                     //showMessage('onResume');
-                    localStorage.setItem("config_create",1);
                     console.log("-----------------onResume(): " );
                 }
         </script>
