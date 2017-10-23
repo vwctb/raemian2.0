@@ -31,10 +31,12 @@ class App extends Component {
         const strAgent = navigator.userAgent.toLowerCase();
 
         console.log('strAgent',strAgent);
-        alert('deviceId:', window.deviceId);
+        setTimeout(function(){      alert('deviceId:', window.deviceId); }, 3000);
+   
         //console.log('module', module.device);
         //console.log('uuid1:',module.exports);
         //console.log('uuid2:', module.device.uuid);
+
 
         if(!history.location.pathname.match('auth')){
             const { AuthActions } = this.props;
@@ -75,7 +77,7 @@ class App extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.initializeUserInfo();
     }
 
