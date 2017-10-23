@@ -1,4 +1,4 @@
-window.cordova.define("cordova-plugin-network-information.network", function(require, exports, module) { /*
+cordova.define("cordova-plugin-network-information.network", function(require, exports, module) { /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -28,7 +28,7 @@ var exec = require('cordova/exec'),
 // object in bootstrap.js.
 // Browser platform do not need to define this property, because
 // it is already supported by modern browsers
-if (window.cordova.platformId !== 'browser' && typeof navigator != 'undefined') {
+if (cordova.platformId !== 'browser' && typeof navigator != 'undefined') {
     utils.defineGetter(navigator, 'onLine', function() {
         return this.connection.type != 'none';
     });
@@ -61,7 +61,7 @@ channel.onCordovaReady.subscribe(function() {
         if (info === "none") {
             // set a timer if still offline at the end of timer send the offline event
             timerId = setTimeout(function(){
-                window.cordova.fireDocumentEvent("offline");
+                cordova.fireDocumentEvent("offline");
                 timerId = null;
             }, timeout);
         } else {
@@ -70,7 +70,7 @@ channel.onCordovaReady.subscribe(function() {
                 clearTimeout(timerId);
                 timerId = null;
             }
-            window.cordova.fireDocumentEvent("online");
+            cordova.fireDocumentEvent("online");
         }
 
         // should only fire this once

@@ -1,4 +1,4 @@
-window.cordova.define("cordova-plugin-device.device", function(require, exports, module) { /*
+cordova.define("cordova-plugin-device.device", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -49,9 +49,9 @@ function Device() {
 
     channel.onCordovaReady.subscribe(function() {
         me.getInfo(function(info) {
-            //ignoring info.cordova returning from native, we should use value from window.cordova.version defined in window.cordova.js
+            //ignoring info.cordova returning from native, we should use value from cordova.version defined in cordova.js
             //TODO: CB-5105 native implementations should not return info.cordova
-            var buildLabel = window.cordova.version;
+            var buildLabel = cordova.version;
             me.available = true;
             me.platform = info.platform;
             me.version = info.version;

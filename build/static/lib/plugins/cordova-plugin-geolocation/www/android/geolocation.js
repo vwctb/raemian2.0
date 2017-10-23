@@ -1,4 +1,4 @@
-window.cordova.define("cordova-plugin-geolocation.geolocation", function(require, exports, module) { /*
+cordova.define("cordova-plugin-geolocation.geolocation", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,7 +19,7 @@ window.cordova.define("cordova-plugin-geolocation.geolocation", function(require
  *
 */
 
-var exec = window.cordova.require('cordova/exec');
+var exec = cordova.require('cordova/exec');
 var utils = require('cordova/utils');
 var PositionError = require('./PositionError');
 
@@ -30,7 +30,7 @@ var pluginToNativeWatchMap = {};
 module.exports = {
     getCurrentPosition: function(success, error, args) {
         var win = function() {
-          var geo = window.cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
+          var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
           geo.getCurrentPosition(success, error, args);
         };
         var fail = function() {
@@ -45,7 +45,7 @@ module.exports = {
         var pluginWatchId = utils.createUUID();
 
         var win = function() {
-            var geo = window.cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
+            var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
             pluginToNativeWatchMap[pluginWatchId] = geo.watchPosition(success, error, args);
         };
 
@@ -62,7 +62,7 @@ module.exports = {
     clearWatch: function(pluginWatchId) {
         var win = function() {
             var nativeWatchId = pluginToNativeWatchMap[pluginWatchId];
-            var geo = window.cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
+            var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation');
             geo.clearWatch(nativeWatchId);
         };
 

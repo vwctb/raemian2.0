@@ -17,7 +17,7 @@ PushPlugin.prototype.getToken = function(callBackTokenId){
     //alert(error);
     console.log(error);
   };
-  window.cordova.exec(callbackSuccess, callbackFail, "PushPlugin", "token", []);
+  cordova.exec(callbackSuccess, callbackFail, "PushPlugin", "token", []);
 };
 
 function VersionPlugin() {}
@@ -43,7 +43,7 @@ VersionPlugin.prototype.getVersion = function(callBackVer){
     //alert(error);
   };
 
-  window.cordova.exec(callbackSuccess, callbackFail, "VersionPlugin", "version", []);
+  cordova.exec(callbackSuccess, callbackFail, "VersionPlugin", "version", []);
 };
 /*
 function CallPlugin() {}
@@ -86,7 +86,7 @@ VoiceControlPlugin.prototype.control = function(callBackVoice, lang)
         console.log(error);
     };
 
-    window.cordova.exec(callbackSuccess, callbackFail, "VoiceControlPlugin", "control", [lang]);	//언어 (0:한국어, 1:영어, 2:중국어)
+    cordova.exec(callbackSuccess, callbackFail, "VoiceControlPlugin", "control", [lang]);	//언어 (0:한국어, 1:영어, 2:중국어)
 };
 
 module.exports = new PushPlugin();
