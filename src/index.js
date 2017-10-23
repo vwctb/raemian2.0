@@ -24,11 +24,10 @@ const render = Component => {
 
 render(Root);
 
-if(window.cordova){
-    if(module.hot) {
-        module.hot.accept('./Root', () => render(Root));
-    }
-
-    console.log(window);
+if(module.hot) {
+    module.hot.accept('./Root', () => render(Root));
 }
+
+
+
 registerServiceWorker();

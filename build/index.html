@@ -110,22 +110,19 @@
                             onResume();
                         }
                     }
-                    
-                    
-
                 }
-
                 function loadReactApp(){
                     var headTag2 = document.getElementsByTagName("head")[0];
                     var newScript2 = document.createElement('script');
                     newScript2.type = 'text/javascript';
                     newScript2.onload = function() {
                         console.log("react app: ");
+                        console.log('window',window);
+                        alert('uuid:',window.device.uuid);
                     };
-                    newScript2.src = '/static/js/main.fced2f9e.js';
+                    newScript2.src = '/static/js/main.96b46486.js';
                     headTag2.appendChild(newScript2);
                 }
-                
                 function onPause()
                 {
                     console.log("-----------------onPause(): ");
