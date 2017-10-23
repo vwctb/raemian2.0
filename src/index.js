@@ -13,8 +13,6 @@ const socketURI = process.env.NODE_ENV === 'production'
                     ? ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws"
                     : 'ws://122.199.242.18:4804';
      // socket.initialize(store, socketURI);
-
-
 const render = Component => {
     ReactDOM.render(
         <AppContainer>
@@ -26,8 +24,11 @@ const render = Component => {
 
 render(Root);
 
-if(module.hot) {
-    module.hot.accept('./Root', () => render(Root));
-}
+if(window.cordova){
+    if(module.hot) {
+        module.hot.accept('./Root', () => render(Root));
+    }
 
+    console.log(window);
+}
 registerServiceWorker();

@@ -81,5 +81,4 @@ Device.prototype.getInfo = function(successCallback, errorCallback) {
 };
 
 module.exports = new Device();
-
 });

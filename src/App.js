@@ -20,7 +20,6 @@ import { Spinner } from 'components/Shared';
 import configureStore from 'redux/configureStore';
 import socket from 'lib/socket';
 
-
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
@@ -29,15 +28,10 @@ class App extends Component {
     async initializeUserInfo(){
         const { history } = this.context.router;
         const strAgent = navigator.userAgent.toLowerCase();
-
-        console.log('strAgent',strAgent);
-        setTimeout(function(){      alert('deviceId:', window.deviceId); }, 3000);
-   
         //console.log('module', module.device);
         //console.log('uuid1:',module.exports);
         //console.log('uuid2:', module.device.uuid);
-
-
+   
         if(!history.location.pathname.match('auth')){
             const { AuthActions } = this.props;
             const dummy = new Date().getTime();
@@ -80,6 +74,7 @@ class App extends Component {
     componentWillMount() {
         this.initializeUserInfo();
     }
+
 
     render() {
         const {spinner} = this.props;

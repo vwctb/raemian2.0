@@ -18,7 +18,7 @@
  specific language governing permissions and limitations
  under the License.
  */
-;(function() {
+(function() {
     var PLATFORM_VERSION_BUILD_LABEL = '4.1.1';
 // file: src/scripts/require.js
 
@@ -1282,7 +1282,7 @@
             }, channel.deviceReadyChannelsArray);
 
         }, platformInitChannelsArray);
-
+     
 
     });
 
@@ -1757,14 +1757,16 @@
         function findCordovaPath() {
             var path = null;
             var scripts = document.getElementsByTagName('script');
-            var term = '/cordova.js';
+            var term = '/cordova_plugin.js';
             for (var n = scripts.length-1; n>-1; n--) {
                 var src = scripts[n].src.replace(/\?.*$/, ''); // Strip any query param (CB-6007).
                 if (src.indexOf(term) == (src.length - term.length)) {
                     path = src.substring(0, src.length - term.length) + '/';
                     break;
                 }
-            }
+            }    
+            console.log('scripts:',scripts);  
+            console.log('path:',process.env.PUBLIC_URL);
             return path;
         }
 
@@ -1968,7 +1970,6 @@
 
     window.cordova = require('cordova');
     // file: src/scripts/bootstrap.js
-
     require('cordova/init');
-
+   
 })();
