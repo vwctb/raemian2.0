@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://122.199.242.18:17501';
+//axios.defaults.baseURL = 'http://122.199.242.18:17501';
 
 //var plaintext = "사용자 토큰이 잘못 되었습니다.";
 //KEY.encryptedKey(plaintext)
@@ -14,6 +14,27 @@ export const getInitalFamilyGroup = (registtoken) => axios.get('/smarthome/v1/fa
     console.log("channel error",error.response);
 });
 
+//setting
+export const getInitialProfile = (usertoken) => axios.get('/smarthome/v1/profiles',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setSettingProfile = (value) => axios.post('/smarthome/v1/profiles',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const getHomeBgs = (usertoken) => axios.get('/smarthome/v1/homebgs',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setHomeBgs = (value) => axios.post('/smarthome/v1/homebgs',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+
+
+
+
 
 // auth
 export const getAuth = (value) => axios.post('/smarthome/v1/auths',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
@@ -25,6 +46,21 @@ export const regists = (value) => axios.post('/smarthome/v1/regists',value,{head
 });
 
 export const login = (value) => axios.post('/smarthome/v1/login',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const deleteFamily  = (value) => axios.delete(`/smarthome/v1/familys/${value.userkey}`,{
+    data: { data: value.jsonData },
+    headers:{
+        'registtoken':value.registtoken,
+    }
+}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/all',{
+    data: { data: value }, 
+}).catch(function (error) {
     console.log("channel error",error.response);
 });
 

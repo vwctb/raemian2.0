@@ -87,7 +87,7 @@ class SetProfileContainers extends Component {
     }
 
     async login(data){
-         const { AuthActions } = this.props;
+        const { AuthActions } = this.props;
         try {
           await AuthActions.postRegists({'data':data});
         } catch(e) {
@@ -126,11 +126,23 @@ class SetProfileContainers extends Component {
     iconClick = (val) => {
         const { history } = this.context.router;
         const { AuthActions } = this.props;
-         console.log('iconClick click'+val);
+        console.log('iconClick click'+val);
         AuthActions.setProfileIcon(val);
-        
     }
 
+    handleChangeFile = (e) => {
+        const { AuthActions} = this.props;
+        if(e.target.files.length === 0) return;
+        const type =  e.target.files[0].type;
+        if(e.target.files[0] && type.split('/')[0] === 'image'){
+          let reader = new FileReader();
+          reader.onload = function (e) {
+            AuthActions.setProfileUploadFile(e.target.result);
+            AuthActions.setProfileIcon(0);
+          }
+          reader.readAsDataURL(e.target.files[0]);
+        }
+    }
 
     addFamilyClick = () => {
         console.log('addFamilyClick click');
@@ -143,7 +155,7 @@ class SetProfileContainers extends Component {
 
     render() {
  
-        const {tagcolor,icon,alias} = this.props.profile.toJS();
+        const {tagcolor,icon,alias, img} = this.props.profile.toJS();
         return (
             <Layout>
                 <AuthHeader
@@ -171,7 +183,9 @@ class SetProfileContainers extends Component {
                     <ProfilePhotoAliasContainer
                         icon={icon}
                         alias={alias}
+                        img = {img}
                         onClickEventIcon = {this.iconClick}
+                        handleChangeFile = {this.handleChangeFile}
                     />
                     
                 </Wrapper>

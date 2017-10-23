@@ -46,6 +46,11 @@ const Wrapper = styled.div`
     text-align:center;
 `;
 
+const MainPhotoWrapper = styled.div`
+    width: 100%;
+    text-align:center;
+`;
+
 const Logo = styled.div`
     position: relative;
     width: 100%;
@@ -97,12 +102,21 @@ const MainPhoto = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: 6rem 6rem;
-    float: left;
+    display:inline-block;
+
 `;
 
 MainPhoto.propTypes = {
     icon : PropTypes.number
 }
+
+const MainPhotoImage = styled.img`
+    width: 6rem;
+    height: 6rem;
+    display:inline-block;
+    border-radius:6rem;
+`;
+
 
 const ColorTag = styled.div`
     width: 7rem;
@@ -133,7 +147,7 @@ class SignupContainers extends Component {
     render() {
         const { pageType, checkBoxListArray} = this.props;
         const { dong, ho } = this.props.base.toJS();
-        const { icon, alias, tagcolor } = this.props.profile.toJS();
+        const { icon, alias, tagcolor, img } = this.props.profile.toJS();
         return (
             <Wrapper>
                 <Logo/>
@@ -143,7 +157,14 @@ class SignupContainers extends Component {
                 {'서초 에스티지S'}<br/> 
                 {dong+'동 '+ ho+'호'}
                 </UserInfo>
-                <MainPhoto icon = {icon}/>
+                <MainPhotoWrapper>
+                {
+                    icon <= 0 ?
+                    <MainPhotoImage src = {img}/>
+                    :
+                    <MainPhoto icon = {icon}/>
+                }
+               </MainPhotoWrapper>
                 <Alias>
                     {"'"+alias+"'"}
                 </Alias>

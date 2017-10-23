@@ -57,7 +57,7 @@ const InputWrapper = styled.div`
 const MainNotice = styled.div`
     width: 100%;
     text-align:center;
-    padding: 1rem;
+    padding: 1rem 0.9rem 1rem 0.9rem;
     line-height: 1.6rem;
     color:#49433c;
 `;
@@ -161,10 +161,8 @@ class SignupContainers extends Component {
         } catch(e) {
             console.log(e);
         }
-
         const { history } = this.context.router;
         const { authConfirm } = this.props.base.toJS();
-        
 
         console.log('authConfirm:',authConfirm);
         if(authConfirm.success){
@@ -183,7 +181,7 @@ class SignupContainers extends Component {
 
     render() {
         const { pageType, checkBoxListArray, error, visible } = this.props;
-        const { dong, ho, pass } = this.props.base.toJS();
+        const { dong, ho, pass, authConfirm } = this.props.base.toJS();
         return (
             <Wrapper>
                 <Logo/>
@@ -212,9 +210,21 @@ class SignupContainers extends Component {
                 />
                 
                 <Modal visible={visible} onHide={this.onHide} title={'입주민 인증'}>
-                    <MainNotice>
-                        우리집 외부접속 비밀번호를<br/>입력하세요!
-                    </MainNotice>
+                    {
+                        authConfirm.success === null && 
+                        <MainNotice>
+                            우리집 외부접속 비밀번호를<br/>입력하세요!
+                        </MainNotice>
+                    }
+
+                    {
+                        authConfirm.success === false &&
+                        <MainNotice>
+                            외부접속 비밀번호가 일치하지 않습니다.<br/>확인 후 다시 입력해 주세요!
+                        </MainNotice>
+                    }
+             
+
                     <InputWithLabelModal
                         autoFocus
                         name="pass"

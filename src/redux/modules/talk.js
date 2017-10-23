@@ -136,7 +136,7 @@ export default handleActions({
     [CHECKBOX_FMSGS_RECEIVETIME]: (state, action) => state.setIn(['fmsgs','write','receivetime'],action.payload),
     [SET_FMSGS_WRITE_UPLOADFILE] :  (state, action) => {
         const { fileName, fileType, fileData } = action.payload;
-       const result = Map({
+        const result = Map({
             fileData:fileData,
             fileName:fileName,
             fileType:fileType

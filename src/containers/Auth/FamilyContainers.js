@@ -34,7 +34,7 @@ class FamilyContainers extends Component {
     
     async componentDidMount() {
         const { AuthActions } = this.props;
-        const {authConfirm} = this.props.base.toJS();
+        const { authConfirm } = this.props.base.toJS();
 
        // console.log(authConfirm.registtoken);
     try {
@@ -114,7 +114,6 @@ class FamilyContainers extends Component {
         )
     };
 };
-
 
 export default connect(
     (state) => ({

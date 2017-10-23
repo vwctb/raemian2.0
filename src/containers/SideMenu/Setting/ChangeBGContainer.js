@@ -4,6 +4,7 @@ import { SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
 import AuthHeader from 'components/Auth/AuthHeader';
 import {BtnSingle} from 'components/Shared';
 import * as authActions from 'redux/modules/auth';
+import * as uiActions from 'redux/modules/ui';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
@@ -11,7 +12,7 @@ import PropTypes from 'prop-types';
 import  {BG_Basic} from 'img';
 import * as SvgIcon from 'lib/icon_svg'
 import FileInput from 'react-file-input';
-
+import * as KEY from 'lib/raemianAES';
 const Wrapper = styled.div`
     position: absolute;
     width: 100%;
@@ -63,10 +64,31 @@ const BasicImage = styled.div`
     width:7rem;
     height:5rem;
     border:1px solid gray;
-        background-image: url(${BG_Basic});
+    background-image: url(${BG_Basic});
 	background-position: center;
 	background-size: cover;
 `;
+
+
+const CustomImage = styled.img`
+    width:7rem;
+    height:5rem;
+    border:1px solid gray;
+`;
+
+const FileInputSpace = styled.div`
+    width:7rem;
+    height:5rem;
+    top: 9rem;
+    z-index:100;
+    position: fixed;
+    visibility:hidden;
+    input {
+        height:100%;
+    }
+
+`;
+
 
 
 const PhotoImage = styled.div`
@@ -77,11 +99,7 @@ const PhotoImage = styled.div`
     color:#b5b6b8;
     border:1px solid gray;
 
-    input {
-        height:100%;
-    }
-
-`;
+`
 
 const InputNotice =styled.div`
     width:100%;
@@ -129,11 +147,34 @@ const CheckIcon = styled.div`
 class SettingFamilyContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
-	}
-
-    handleClick = () => {
-        
     }
+    handleClick  = async () =>{
+        const { AuthActions,UIActions } = this.props;
+        const { desc, phototype, img } = this.props.homebgs.toJS();
+        const { usertoken, result } = this.props.loginUserInfo;
+        const jsonData = {
+            img:img,
+            desc:desc,
+            phototype:phototype,
+        }
+        console.log('jsonData:',jsonData);
+        console.log('usertoken:',usertoken);
+        if(result !== 'true') {   
+            const data = KEY.encryptedKey(JSON.stringify(jsonData));
+            try {
+            await AuthActions.setHomeBgs({'data':data,'usertoken':usertoken});
+            } catch(e) {
+                console.log(e);
+            }
+            const { success } = this.props;
+            if(success){
+                UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+            }else{
+                alert('에러');
+            }
+        }
+    }
+
 
     backClickEvent = () => {
         const { history } = this.context.router;
@@ -147,44 +188,32 @@ class SettingFamilyContainer extends Component {
         AuthActions.changeHomeTitleInput(value);
     }
 
+   
     handleChangeFile = (e) => {
-        const { TalkActions} = this.props;
-        const name = e.target.files[0].name;
+        const { AuthActions } = this.props;
+
+        if(e.target.files.length === 0) return;
         const type =  e.target.files[0].type;
         if(e.target.files[0] && type.split('/')[0] === 'image'){
           let reader = new FileReader();
           reader.onload = function (e) {
-              TalkActions.setFmsgsWriteUploadFile(
-                 {
-                      fileData:e.target.result,
-                      fileName:name,
-                      fileType:type
-                  } 
-              )
+            AuthActions.setHomeBgsImage(e.target.result);
           }
           reader.readAsDataURL(e.target.files[0]);
         }
-  
-        if(e.target.files[0] && type.split('/')[0] === 'video'){
-          var URL = window.URL || window.webkitURL
-            var file = e.target.files[0]
-            var fileURL = URL.createObjectURL(file)
-            TalkActions.setFmsgsWriteUploadFile(
-              {
-                   fileData:fileURL,
-                   fileName:name,
-                   fileType:type
-               } 
-           )
-        }
-        
-      }
+    }
+    basicImageClich=()=>{ 
+        const { AuthActions} = this.props;
+        AuthActions.setCheckboxHomeBGType(1);
+    }
 
+    handleClickPhotoImage=()=>{ 
+        const { AuthActions} = this.props;
+        AuthActions.setCheckboxHomeBGType(2);
+    }
 
     render() {
- 
-        const {tagcolor,icon,alias} = this.props.profile.toJS();
-        const {desc,phototype } = this.props.homebgs.toJS();
+        const {desc,phototype,img } = this.props.homebgs.toJS();
         const $CheckIcon = <CheckIcon dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('checkSmall')}} />;
         return (
             <Layout>
@@ -201,19 +230,30 @@ class SettingFamilyContainer extends Component {
                     <ImageSelectSpace>
                         <ImageSpace>
                             {phototype === 1 && $CheckIcon}
-                            <BasicImage />
+                            <BasicImage onClick={this.basicImageClich}/>
                         </ImageSpace>
-                        <ImageSpace>
+                        <ImageSpace onClick={this.handleClickPhotoImage}>
                             {phototype === 2 && $CheckIcon}
-                            <PhotoImage>
+                        {      
+                            img !== null ?
+                            <CustomImage src={img}>
+                            </CustomImage>
+                            :
+                            <PhotoImage >
                                 <Name>사진 선택</Name>
-                                <FileInput
+                               
+                            </PhotoImage>
+                          
+                        }
+                        <FileInputSpace>
+                            <FileInput
                                     name="myImage"
                                     accept=".png,.jpg,.jpeg"
                                     className="inputFileClass"
                                     onChange={this.handleChangeFile}
+                                   
                                 />
-                            </PhotoImage>
+                        </FileInputSpace>
                         </ImageSpace>
                     </ImageSelectSpace>
                     <SubTitle
@@ -224,7 +264,7 @@ class SettingFamilyContainer extends Component {
                         <InputWrapper>
                             <Input 
                                 onChange = {this.handleChange}
-                                value = {desc}
+                                value = {desc === null ? "행복한 래미안 하우스" : desc}
                             />
                             <InputIcon/>
                             <InputNotice>{'(16자 이내)'}</InputNotice>
@@ -245,12 +285,14 @@ class SettingFamilyContainer extends Component {
 
 export default connect(
     (state) => ({
+        loginUserInfo: state.auth.get('loginUserInfo'),
         profile: state.auth.getIn(['register','base','profile']),
         base: state.auth.getIn(['register','base']),
-        homebgs: state.auth.getIn(['setting','homebgs']),
+        homebgs: state.auth.getIn(['setting','homebgs'])
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UIActions: bindActionCreators(uiActions, dispatch)
     })
 )(SettingFamilyContainer);
 

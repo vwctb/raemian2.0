@@ -61,7 +61,7 @@ const IconNext = styled.div`
 
 let cnt = 0;
 
-const FschedulesList = ({fschedulesArray, svgIconArrowRight, onOpen, index}) => {
+const FschedulesList = ({fschedulesArray,onClickEvent, svgIconArrowRight, onOpen, index}) => {
     const fschedulesList = fschedulesArray.map(
         fschedules => (
             <FamilyScheduleItem
@@ -72,7 +72,7 @@ const FschedulesList = ({fschedulesArray, svgIconArrowRight, onOpen, index}) => 
     );
     return (
         <Wrapper>
-            <TitleBar>
+            <TitleBar onClick={onClickEvent}>
                 <Title>가족 일정</Title>
                 <IconNext
                    dangerouslySetInnerHTML={{__html: svgIconArrowRight}}

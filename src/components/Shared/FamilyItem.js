@@ -40,7 +40,8 @@ const CheckIcon = styled.div`
 const FamilyImage = styled.div`
     width: ${props => props.size+'rem'};
     height: ${props => props.size+'rem'};
-    background-image: url(${props => ImgArray[props.icon]});
+    border-radius: ${props => props.size+'rem'};
+    background-image: url(${props => props.icon > 0 ? ImgArray[props.icon] : props.imgData});
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -55,7 +56,6 @@ const TagColor = styled.div`
     height: ${props => props.size+'rem'};
     border-radius: ${props => props.size+'rem'};
     background:${props => ColorArray[props.tagcolor]};
-
 `;
 
 TagColor.propTypes = {
@@ -65,8 +65,8 @@ TagColor.propTypes = {
 FamilyImage.propTypes = {
     icon : PropTypes.number,
     size : PropTypes.number,
-    check: PropTypes.bool
-
+    check: PropTypes.bool,
+    imgData : PropTypes.string
 }
 
 const Icon = styled.div` 
@@ -85,13 +85,14 @@ class FamilyItem extends Component {
         tagcolor : PropTypes.string,
         icon: PropTypes.number,
         size: PropTypes.number,
+        imgData: PropTypes.string,
         news:PropTypes.bool,
         check:PropTypes.bool,
         onCheckEvent: PropTypes.func
     }
     render() {
-        const {icon,tagcolor,check,onCheckEvent,size,news} = this.props;
-        
+        const {icon,imgData,tagcolor,check,onCheckEvent,size,news} = this.props;
+        console.log('imgData:',imgData);
         return (
            // 
            <Wrapper
@@ -101,21 +102,23 @@ class FamilyItem extends Component {
                     check && <CheckIcon dangerouslySetInnerHTML ={{__html : SvgIcon.getInitialSvgIcon('checkSmall')}} />
                 }
 
-                
-                <FamilyImage
-                    icon = {icon}
-                    size = {size}
-                    check={check}
-
-                >
                 {
-                    news && <Icon/>
+                   <FamilyImage
+                        icon = {icon}
+                        imgData = {imgData}
+                        size = {size}
+                        check = {check}
+                    >
+                    {
+                        news && <Icon/>
+                    }
+                    {tagcolor && <TagColor tagcolor = {tagcolor} size = {size/4}/>}
+                    </FamilyImage>
                 }
+
+              
+
                 
-                {tagcolor && <TagColor tagcolor = {tagcolor} size = {size/4}/>}
-                </FamilyImage>
-
-
             </Wrapper>
 
         )

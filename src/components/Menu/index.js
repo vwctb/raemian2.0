@@ -5,6 +5,7 @@ import SideItemContainer from 'containers/SideMenu/SideItemContainer'
 import { connect } from 'react-redux';
 import * as homeActions from 'redux/modules/home';
 import * as uiActions from 'redux/modules/ui';
+import * as authActions from 'redux/modules/auth';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
@@ -41,9 +42,42 @@ class Menu extends Component {
         history.push(pageType);
     }
 
-    changeSideMenuView = (sideView) => {
-        const { UIActions } = this.props;
+    changeSideMenuView = async (sideView) => {
+        const { UIActions, AuthActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo;
+        
         UIActions.changeSideMenuView(sideView);
+        //console.log('sideView:',sideView.sideViewIndex);
+        UIActions.setSpinnerVisible(true);
+        try {
+            switch(sideView.sideViewIndex){
+                case 1 :  // 1. 비밀번호잠금
+                    //await AuthActions.getHomeBgs(usertoken);
+                    break;
+                case 2 :  // 2. 홈 배경 변경
+                    await AuthActions.getHomeBgs(usertoken);
+                    break;
+                case 3 : // 3. 알림 설정
+                    //await AuthActions.getHomeBgs(usertoken);
+                    break;
+                case 4 : // 4. 프로필 관리
+                   // await AuthActions.getHomeBgs(usertoken);
+                    break;
+                case 5 : // 5. 가족관리
+                    //await AuthActions.getHomeBgs(usertoken);
+                    break;
+                case 6 : // 6. 스마트폰 출입
+                    //await AuthActions.getHomeBgs(usertoken);
+                    break;
+                default : // 7. 버전정보
+                    //await AuthActions.getHomeBgs(usertoken);
+                    break;
+            }
+        } catch(e) {
+            console.log(e);
+        }
+        UIActions.setSpinnerVisible(false);
+
     }
 
     render() {
@@ -98,6 +132,7 @@ class Menu extends Component {
 
 export default connect(
     (state) => ({
+        loginUserInfo: state.auth.get('loginUserInfo'),
         sideOpen: state.ui.getIn(['sideMenu','sideOpen']),
         sideView: state.ui.getIn(['sideMenu','sideView']),
         pageType: state.ui.getIn(['roots', 'pageType']),
@@ -105,6 +140,7 @@ export default connect(
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),
+        AuthActions: bindActionCreators(authActions, dispatch),
         HomeActions: bindActionCreators(homeActions, dispatch)
     })
 )(Menu);

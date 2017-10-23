@@ -85,7 +85,7 @@ class NewAlarmItem extends Component {
     }
 
 
-    setContent = (item,value)=>{
+    setContent = (item,value,onClickEvent)=>{
 
         let result ='';
 
@@ -106,15 +106,15 @@ class NewAlarmItem extends Component {
                 result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
                 break;
         }
-        return <List><Contents><Icon icon={item} />{result} </Contents><IconNext dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('arrowRight')}} /></List>;
+        return <List onClick={onClickEvent}><Contents><Icon icon={item} />{result} </Contents><IconNext dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('arrowRight')}} /></List>;
     }
 
     render() {
         
-        const { item, value } = this.props;   
+        const { item, value, onClickEvent } = this.props;   
         return (
             <div>
-                {this.setContent(item, value)}  
+                {this.setContent(item, value, onClickEvent)}  
             </div>
         )
     }

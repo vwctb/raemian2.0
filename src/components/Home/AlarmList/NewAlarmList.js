@@ -32,7 +32,7 @@ const IconNext = styled.div`
 
 let cnt = 0;
 
-const NewAlarmList = ({newalarms, onOpen, index}) => {
+const NewAlarmList = ({newalarms, onClickEventParcels, onClickEventNotices, onClickEventVisitors}) => {
     return (
         <Wrapper>
             <TitleBar>
@@ -40,14 +40,17 @@ const NewAlarmList = ({newalarms, onOpen, index}) => {
                 <IconNext/>
             </TitleBar>
             <NewAlarmItem
+                onClickEvent= {onClickEventParcels}
                 item = {'parcel'}
                 value = {newalarms.get('parcel')}
             />
             <NewAlarmItem
+                onClickEvent= {onClickEventNotices}
                 item = {'notice'}
                 value = {newalarms.get('notice')}
             />
             <NewAlarmItem
+                onClickEvent= {onClickEventVisitors}
                 item = {'visitor'}
                 value = {newalarms.get('visitor')}
             />
@@ -63,7 +66,10 @@ NewAlarmList.propTypes = {
             homecome:  PropTypes.string,
             homecomeIcon: PropTypes.number,
             notice: PropTypes.number
-        })
+    }),
+    onClickEventParcels:PropTypes.func,
+    onClickEventNotices:PropTypes.func,
+    onClickEventVisitors:PropTypes.func
     
 }
 

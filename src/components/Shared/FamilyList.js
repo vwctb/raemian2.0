@@ -86,6 +86,7 @@ const FamilyList = ({familyListArray,onCheck,profile,familyClick,addFamilyClick,
                 <FamilyItem
                     familyListArray={familyListArray}
                     profile = {profile}
+                    imgData = {familyList.get('img')}
                     icon = {familyList.get('icon')}
                     tagcolor = {familyList.get('tagcolor')}
                     size={5}
@@ -93,7 +94,7 @@ const FamilyList = ({familyListArray,onCheck,profile,familyClick,addFamilyClick,
          
                 <Body>{familyList.get('alias')}</Body>
                 <Date>{familyList.get('joindate') + '가입'}</Date>
-                <DeleteBtn onClick={()=>deleteFamilyClick(familyList.get('userkey'))}>{'삭 제'}</DeleteBtn>
+                <DeleteBtn onClick={()=>deleteFamilyClick(familyList.get('userkey'),familyList.get('alias'))}>{'삭 제'}</DeleteBtn>
             </ItemSpace> 
 
             :
@@ -105,13 +106,14 @@ const FamilyList = ({familyListArray,onCheck,profile,familyClick,addFamilyClick,
                 <FamilyItem
                     familyListArray={familyListArray}
                     profile = {profile}
+                    imgData = {familyList.get('img')}
                     icon = {familyList.get('icon')}
                     tagcolor = {familyList.get('tagcolor')}
                     size={5}
                 />
          
                 <Body>{familyList.get('alias')}</Body>
-                <Date>{familyList.get('joindate') + '가입'}</Date>
+                <Date>{familyList.get('joindate') + ' 가입'}</Date>
             </ItemSpace> 
         )
     );

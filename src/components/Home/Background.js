@@ -34,11 +34,24 @@ const TitleBar = styled.div`
     bottom: 0;
 `;
 
-const BGBox = ({desc}) => {
+const ImageBackground = styled.img`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+`;
+
+const BGBox = ({desc,phototype,img}) => {
     return (
         <Wrapper>
             <TitleBar>{desc}</TitleBar>
-            <Background/>
+            {
+                phototype === 1 ?
+                <Background/>
+                :
+                <ImageBackground src = {img}/>
+            }
+           
 
         </Wrapper>
     );

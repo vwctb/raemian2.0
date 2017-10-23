@@ -8,7 +8,7 @@ import {FamliyItemSmall} from 'components/Shared';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authActions from 'redux/modules/auth';
-
+import FileInput from 'react-file-input';
 
 const Wrapper = styled.div`
     position:relative;
@@ -63,18 +63,27 @@ const CheckIcon = styled.div`
 `;
 
 const MainPhoto = styled.div`
-    width: 100%;
+    width: 6rem;
     height: 6rem;
+    display:inline-block;
     background-image: url(${props => ImgArray[props.icon]});
     background-position: center;
     background-repeat: no-repeat;
     background-size: 6rem 6rem;
-    float: left;
+
 `;
 
 MainPhoto.propTypes = {
-    icon : PropTypes.number
+    icon : PropTypes.number,
+    img : PropTypes.string
 }
+
+const MainPhotoImage= styled.img`
+    width: 6rem;
+    height: 6rem;
+    display:inline-block;
+    border-radius:6rem;
+`;
 
 const MainPhotoSpace = styled.div`
     position:relative;
@@ -139,13 +148,28 @@ const BtnAddPhoto = styled.div`
     border-radius:2.5rem;
     color:#b5b6b8;
     border:1px solid #787d81;
+    margin-top: 0.4rem;
 `;
 
 const BtnAddPhotoSpace =styled.div`
 
 `;
 
+const BtnFileSpan = styled.div`
+    width:2.5rem;
+    height:2.5rem;
+    position: absolute;
+`;
 
+const BtnFileUpload = styled.div`
+    float:right;
+    border:0;
+    background:0;
+    outline-width: 0;
+    width:2.5rem;
+    height:2.5rem;
+    overflow: hidden;
+`;
 
 class ProfilePhotoAliasContainer extends Component {
      handleChange = (e) => {
@@ -156,7 +180,7 @@ class ProfilePhotoAliasContainer extends Component {
     }
 
     render() {
-        const { onClickEventIcon, icon, alias,userkey } = this.props;
+        const { onClickEventIcon, icon, alias, img, userkey, handleChangeFile } = this.props;
         const $CheckIcon = <CheckIcon dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('checkSmall')}} />;
         
         return (
@@ -164,7 +188,7 @@ class ProfilePhotoAliasContainer extends Component {
                 <InnerWrapper>
                     <MainPhotoSpace>
                         {
-                            icon === 0 ?  <MainPhoto icon = {9}/> : <MainPhoto icon = {icon}/>
+                            icon === 0 ?  <MainPhotoImage src={img} /> : <MainPhoto icon = {icon}/>
                         }
                         <InputSpace>
                             <Input 
@@ -184,7 +208,21 @@ class ProfilePhotoAliasContainer extends Component {
                        <FamliyItemSmall icon = {6} onClickEvent={()=>onClickEventIcon(6)} userIcon={icon}/>
                         <BtnAddPhotoSpace>
                           {icon === 0 && $CheckIcon}
-                       <BtnAddPhoto onClick={()=>onClickEventIcon(0)}>{'사진'}</BtnAddPhoto>
+                       <BtnAddPhoto>
+                           <BtnFileSpan>
+                               사진
+                           </BtnFileSpan>
+                           <BtnFileUpload>
+                                <FileInput
+                                    name="myImage"
+                                    accept=".png,.jpg,.jpeg"
+                                    placeholder=''
+                                    className="inputFileClass"
+                                    onChange={handleChangeFile}
+                                />
+                        </BtnFileUpload>
+                        </BtnAddPhoto>
+                       
                        </BtnAddPhotoSpace>
                     </FamilyImageSpace>    
 

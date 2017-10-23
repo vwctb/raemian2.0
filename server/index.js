@@ -10,6 +10,7 @@ app.use(serve(path.resolve(__dirname, '../build/')));
 app.use(ctx => {
   ctx.body = indexHtml;
 });
+
 app.use(logger());
 app.listen(4002, () => {
   console.log('raemian server is listening to port 4002');

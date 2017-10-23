@@ -13,16 +13,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authActions from 'redux/modules/auth';
 import * as uiActions from 'redux/modules/ui';
-
-
 import * as KEY from 'lib/raemianAES';
 import PropTypes from 'prop-types';
 import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
 import configureStore from 'redux/configureStore';
 import socket from 'lib/socket';
-
-
+import 'lib/cordova';
+import 'lib/plugin_natice_interface';
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
@@ -30,21 +28,38 @@ class App extends Component {
     
     async initializeUserInfo(){
         const { history } = this.context.router;
+        const strAgent = navigator.userAgent.toLowerCase();
+        console.log('strAgent',strAgent);
+        console.log('window', window);
+        alert('module', module.device);
+        alert('module', module.device.uuid);
+
         if(!history.location.pathname.match('auth')){
             const { AuthActions } = this.props;
             const dummy = new Date().getTime();
-            const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120201',dummy:dummy}));
+            const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
             try {
                 await AuthActions.postLogin({'data':data});
             } catch(e) {
                   console.log(e);
             }
+            const {usertoken, result} = this.props.loginUserInfo;    
+            console.log(this.props.loginUserInfo);
+            
+            if(result !== 'true') {   
+                try {
+                    await AuthActions.getHomeBgs(usertoken);
+                } catch(e) {
+                    console.log(e);
+                }
+            }   
+
         }
         if(this.props.loginUserInfo.result === 'fail'){
             history.push('/auth');
         }
-      
     }
+
     componentWillReceiveProps(){
         const { history } = this.context.router;
         //console.log(this);
