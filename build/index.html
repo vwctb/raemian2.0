@@ -18,10 +18,10 @@
             var bPhoneGap = false;
             var userId;
             (function() {
+                
                     strAgent = navigator.userAgent.toLowerCase();
                     bPhoneGap = true;
                     console.log("... is phone gap...");
-            
                     var headTag = document.getElementsByTagName("head")[0];
                     var newScript = document.createElement('script');
                     newScript.type = 'text/javascript';
@@ -73,6 +73,7 @@
                 {
                     console.log("onResult tokenId: " + _tokenId);
                     tokenId = _tokenId;
+                    alert('tokenId:',tokenId);
                 };
                 
                 function onDeviceReady()
@@ -100,15 +101,8 @@
                             }
                             FCMPlugin.getToken(success, error);
                         }
+
                         loadReactApp(); 
-                
-                        console.log("deviceId: " + deviceId);
-                        onDocumentReady();
-                        var configCreate = localStorage.getItem("config_create");
-                        if(configCreate != null && configCreate == 0){
-                            localStorage.setItem("config_create",1);
-                            onResume();
-                        }
                     }
                 }
                 function loadReactApp(){
@@ -117,8 +111,6 @@
                     newScript2.type = 'text/javascript';
                     newScript2.onload = function() {
                         console.log("react app: ");
-                        console.log('window',window);
-                        alert('uuid:',deviceId);
                     };
                     newScript2.src = '/static/js/main.96b46486.js';
                     headTag2.appendChild(newScript2);
@@ -127,8 +119,7 @@
                 {
                     console.log("-----------------onPause(): ");
                     //alert('onPause');
-                    localStorage.setItem("config_create",0);
-                    connectGuard(guardJson_id, guardJson_dev);
+     
                 }
                 
                 function onResume()
@@ -136,9 +127,6 @@
                     //showMessage('onResume');
                     localStorage.setItem("config_create",1);
                     console.log("-----------------onResume(): " );
-                    existLockScreen(0);
-                    connectGuard(guardJson_id, guardJson_dev);
-                    badgeinit();
                 }
         </script>
 
