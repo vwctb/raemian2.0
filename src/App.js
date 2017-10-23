@@ -19,22 +19,22 @@ import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
 import configureStore from 'redux/configureStore';
 import socket from 'lib/socket';
-import 'lib/cordova';
-import 'lib/plugin_natice_interface';
+
+
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
     }
-    
+     
     async initializeUserInfo(){
         const { history } = this.context.router;
         const strAgent = navigator.userAgent.toLowerCase();
-        console.log('strAgent',strAgent);
-        console.log('window', window);
-        console.log('module', module.device);
-        console.log('uuid1:',module.exports);
-        console.log('uuid2:', module.exports.device.uuid);
-        alert('uuid2:'+ module.exports.device.uuid);
+
+         console.log('strAgent',strAgent);
+         console.log('window', window);
+        //console.log('module', module.device);
+        //console.log('uuid1:',module.exports);
+       // console.log('uuid2:', module.device.uuid);
 
         if(!history.location.pathname.match('auth')){
             const { AuthActions } = this.props;
@@ -61,6 +61,9 @@ class App extends Component {
             history.push('/auth');
         }
     }
+
+
+
 
     componentWillReceiveProps(){
         const { history } = this.context.router;
