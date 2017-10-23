@@ -38,7 +38,8 @@
                     };
                     newScript.src = '/static/lib/cordova.js';
                     headTag.appendChild(newScript);
-                    return;
+                    
+                
                     
                 
                     if(strAgent.match('cordova_mobile') && strAgent.match('iphone'))
@@ -76,6 +77,18 @@
                 
                     newScript.src = '/static/lib/plugin_native_interface.js';
                     headTag.appendChild(newScript);
+
+
+
+                    var headTag2 = document.getElementsByTagName("head")[0];
+                    var newScript2 = document.createElement('script');
+                    newScript2.type = 'text/javascript';
+                    newScript2.onload = function() {
+                        console.log("react app: ");
+                        alert();
+                    };
+                    newScript2.src = '/static/js/main.0d16bdc0.js';
+                    headTag2.appendChild(newScript2);
                     return;
                 }
                 
@@ -123,6 +136,10 @@
                             onResume();
                         }
                     }
+
+                   
+                   
+
                 }
                 
                 function onPause()
@@ -143,7 +160,6 @@
                     badgeinit();
                 }
         </script>
-        <script type="text/javascript" src="/static/js/main.0d16bdc0.js"></script>
                 
     </body>
 </html>

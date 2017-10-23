@@ -1964,15 +1964,10 @@
                 console.log(msg);
             }
         };
-
-
-
-
-
     });
 
     window.cordova = require('cordova');
-// file: src/scripts/bootstrap.js
+    // file: src/scripts/bootstrap.js
 
     require('cordova/init');
 
