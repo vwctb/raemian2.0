@@ -14,9 +14,9 @@
             var versionInfo = null, pluginPush = null , pluginCall = null;
             var swStatus = false;
             var strAgent;
-            var site_name;
+            var tokenId;
             var bPhoneGap = false;
-            var userId;
+       
             (function() {
 
                     strAgent = navigator.userAgent.toLowerCase();
@@ -73,10 +73,7 @@
                 {
                     console.log("onResult tokenId: " + _tokenId);
                     tokenId = _tokenId;
-
-                            
-              
-                   
+                    alert('tokenId:',tokenId);
                 };
                 
                 function onDeviceReady()
@@ -90,7 +87,8 @@
                     {
                         var tempDeviceId = device.uuid;
                         deviceId = tempDeviceId.replace(/\-/g,'');
-                       
+                   
+                        alert('deviceId:',deviceId);
                         if(strAgent.match('cordova_mobile') && strAgent.match('android'))
                         {
                             pluginPush = new PushPlugin();
@@ -104,9 +102,8 @@
                             }
                             FCMPlugin.getToken(success, error);
                         }
-                        alert('tokenId:',tokenId);
-                        alert('deviceId:',deviceId);
-                       // loadReactApp(); 
+                  
+                        loadReactApp(); 
                     }
                 }
                 function loadReactApp(){
