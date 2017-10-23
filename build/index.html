@@ -60,9 +60,9 @@
                     newScript.onload = function()
                     {
                         console.log("loaded cordova loadNativeInterfacePlugin : ");
-                        document.addEventListener("deviceready", onDeviceReady, false);
-                        document.addEventListener("resume", onResume, false);
-                        document.addEventListener("pause", onPause, false);
+                       // document.addEventListener("deviceready", onDeviceReady, false);
+                       // document.addEventListener("resume", onResume, false);
+                       // document.addEventListener("pause", onPause, false);
                     };
                     newScript.src = '/static/lib/plugin_native_interface.js';
                     headTag.appendChild(newScript);
@@ -73,7 +73,7 @@
                 {
                     console.log("onResult tokenId: " + _tokenId);
                     tokenId = _tokenId;
-                    alert('tokenId:',tokenId);
+                   
                 };
                 
                 function onDeviceReady()
@@ -87,7 +87,7 @@
                     {
                         var tempDeviceId = device.uuid;
                         deviceId = tempDeviceId.replace(/\-/g,'');
-                        alert('deviceId:',deviceId);
+                       
                         if(strAgent.match('cordova_mobile') && strAgent.match('android'))
                         {
                             pluginPush = new PushPlugin();
@@ -101,8 +101,9 @@
                             }
                             FCMPlugin.getToken(success, error);
                         }
-
-                        //loadReactApp(); 
+                        alert('tokenId:',tokenId);
+                        alert('deviceId:',deviceId);
+                        loadReactApp(); 
                     }
                 }
                 function loadReactApp(){
