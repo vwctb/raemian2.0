@@ -31,7 +31,8 @@ class App extends Component {
         const strAgent = navigator.userAgent.toLowerCase();
         console.log('strAgent',strAgent);
         console.log('window', window);
-        alert('module', module.device);
+        console.log('module', module.device);
+        console.log('module', module.device.uuid);
         alert('module', module.device.uuid);
 
         if(!history.location.pathname.match('auth')){
