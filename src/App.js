@@ -32,9 +32,8 @@ class App extends Component {
         console.log('strAgent',strAgent);
         console.log('window', window);
         console.log('module', module.device);
-        console.log('uuid1', module.device.uuid);
-        console.log('uuid2', module.exports.device.uuid);
-        alert('module', module.device.uuid);
+        alert('uuid1', module.device.uuid);
+        alert('uuid2', module.exports.device.uuid);
 
         if(!history.location.pathname.match('auth')){
             const { AuthActions } = this.props;
