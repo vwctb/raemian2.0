@@ -86,7 +86,7 @@
                     {
                         var tempDeviceId = device.uuid;
                         deviceId = tempDeviceId.replace(/\-/g,'');
-        
+                        alert('deviceId:',deviceId);
                         if(strAgent.match('cordova_mobile') && strAgent.match('android'))
                         {
                             pluginPush = new PushPlugin();
