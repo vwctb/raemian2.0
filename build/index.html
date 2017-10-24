@@ -74,7 +74,7 @@
                 {
                     console.log("onResult tokenId: " + _tokenId);
                     tokenId = _tokenId;
-                    alert('tokenId:',tokenId);
+                    alert('tokenId:'+tokenId);
                 }
                 
                 function onDeviceReady()
@@ -84,7 +84,7 @@
                         var tempDeviceId = device.uuid;
                         deviceId = tempDeviceId.replace(/\-/g,'');
                    
-                        alert('deviceId:',deviceId);
+                        alert('deviceId:'+deviceId);
                         if(strAgent.match('cordova_mobile') && strAgent.match('android'))
                         {
                             pluginPush = new PushPlugin();
@@ -98,6 +98,8 @@
                             }
                             FCMPlugin.getToken(success, error);
                         }
+                  
+
                 }
                 function loadReactApp(){
                     var headTag2 = document.getElementsByTagName("head")[0];
