@@ -31,8 +31,7 @@ class ListViewHome extends Component {
     componentDidMount() {
         const { UIActions } = this.props;
         UIActions.setPageType({pageType:'main'});
-        alert('uuid2:'+window.device.uuid);
-        alert('uuid3:'+window.deviceId);
+
     }
 
    render() {
@@ -47,7 +46,6 @@ class ListViewHome extends Component {
         )
     };
 };
-
 
 export default connect(
     (state) => ({

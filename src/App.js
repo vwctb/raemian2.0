@@ -31,7 +31,8 @@ class App extends Component {
         //console.log('module', module.device);
         //console.log('uuid1:',module.exports);
         //console.log('uuid2:', module.device.uuid);
-   
+        alert('uuid2:'+window.device.uuid);
+        alert('uuid3:'+window.deviceId);
         if(!history.location.pathname.match('auth')){
             const { AuthActions } = this.props;
             const dummy = new Date().getTime();
