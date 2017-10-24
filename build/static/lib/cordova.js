@@ -18,7 +18,7 @@
  specific language governing permissions and limitations
  under the License.
  */
-(function() {
+;(function() {
     var PLATFORM_VERSION_BUILD_LABEL = '4.1.1';
 // file: src/scripts/require.js
 
@@ -1964,6 +1964,11 @@
                 console.log(msg);
             }
         };
+
+
+
+
+
     });
 
     window.cordova = require('cordova');
