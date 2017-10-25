@@ -68,7 +68,6 @@
                         document.addEventListener("resume", onResume, false);
                         document.addEventListener("pause", onPause, false);
                         */
-                        console.log('document:',document);
                         loadReactApp(); 
                     };
                     newScript.src = '/static/lib/plugin_native_interface.js';
@@ -108,10 +107,10 @@
                     newScript2.onload = function() {
                         console.log("react app: ");
                     };
-                    newScript2.src = '/static/js/main.f5f97d64.js';
+                    newScript2.src = '/static/js/main.9b6a4355.js';
                     headTag2.appendChild(newScript2);
                 }
-                
+
                 function onPause()
                 {
                     console.log("-----------------React APP onPause(): ");

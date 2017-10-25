@@ -86,7 +86,6 @@ class App extends Component {
     onResume = () => {
         const { AuthActions} = this.props;
         alert(r_count++);
-        AuthActions.setCPS(false);
     }
 
     onPause = () => {
