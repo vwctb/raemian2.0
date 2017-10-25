@@ -74,6 +74,7 @@ const CustomImage = styled.img`
     width:7rem;
     height:5rem;
     border:1px solid gray;
+
 `;
 
 const FileInputSpace = styled.div`
@@ -82,14 +83,14 @@ const FileInputSpace = styled.div`
     top: 9rem;
     z-index:100;
     position: fixed;
-    visibility:hidden;
+    opacity: 0;
     input {
         height:100%;
     }
-
+    div {
+        height:5rem;
+    }
 `;
-
-
 
 const PhotoImage = styled.div`
     width:7rem;
@@ -98,7 +99,6 @@ const PhotoImage = styled.div`
     font-size:0.8rem;
     color:#b5b6b8;
     border:1px solid gray;
-
 `
 
 const InputNotice =styled.div`
@@ -166,7 +166,8 @@ class SettingFamilyContainer extends Component {
             } catch(e) {
                 console.log(e);
             }
-            const { success } = this.props;
+            const { success } = this.props.homebgs.toJS();
+            console.log('success:',success);
             if(success){
                 UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
             }else{
@@ -191,8 +192,7 @@ class SettingFamilyContainer extends Component {
    
     handleChangeFile = (e) => {
         const { AuthActions } = this.props;
-
-        if(e.target.files.length === 0) return;
+        //if(e.target.files.length === 0) return;
         const type =  e.target.files[0].type;
         if(e.target.files[0] && type.split('/')[0] === 'image'){
           let reader = new FileReader();
@@ -234,7 +234,17 @@ class SettingFamilyContainer extends Component {
                         </ImageSpace>
                         <ImageSpace onClick={this.handleClickPhotoImage}>
                             {phototype === 2 && $CheckIcon}
-                        {      
+
+                            <FileInputSpace>
+                            <FileInput
+                                    name="myImage"
+                                    accept=".png,.jpg,.jpeg"
+                                    className="inputFileClass"
+                                    onChange={this.handleChangeFile}
+                                />
+                            </FileInputSpace>
+
+                            {      
                             img !== null ?
                             <CustomImage src={img}>
                             </CustomImage>
@@ -243,17 +253,8 @@ class SettingFamilyContainer extends Component {
                                 <Name>사진 선택</Name>
                                
                             </PhotoImage>
-                          
-                        }
-                        <FileInputSpace>
-                            <FileInput
-                                    name="myImage"
-                                    accept=".png,.jpg,.jpeg"
-                                    className="inputFileClass"
-                                    onChange={this.handleChangeFile}
-                                   
-                                />
-                        </FileInputSpace>
+                            }
+                       
                         </ImageSpace>
                     </ImageSelectSpace>
                     <SubTitle

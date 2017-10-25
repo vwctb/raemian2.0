@@ -14,6 +14,7 @@ import {FamilyListContainer,BottomBtnContainer} from 'containers/Shared'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {BtnSingle,BtnDoubleModal,Modal,Dimmed,InputWithLabelModal} from 'components/Shared';
+import * as KEY from 'lib/raemianAES';
 
 const Wrapper = styled.div`
     /* 레이아웃 */
@@ -95,7 +96,6 @@ class FamilyContainers extends Component {
         if(!modalSW) return; //반복 모달 호출현상 방지
         UIActions.setModalVisible(!visible);
         modalSW = false;
-
     }
 
     onHide = () =>{
@@ -105,6 +105,68 @@ class FamilyContainers extends Component {
             modalSW = true;
         },500);
     }
+
+    onDelete = async () => {
+        const { AuthActions } = this.props;
+        const { userkey } = this.props.familyListDelete.toJS();
+        const { authConfirm, uuid } = this.props.base.toJS();
+        const jsonData = {
+            uuid:uuid
+        }
+        const data = {
+            userkey:userkey,
+            jsonData:KEY.encryptedKey(JSON.stringify(jsonData)),
+            registtoken:authConfirm.registtoken
+        }
+        console.log('data:',data);
+        try {
+            await AuthActions.deleteFamily(data);
+        } catch(e) {
+            console.log(e);
+        }
+
+        const { success } = this.props.familyListDelete.toJS();
+        if(success){
+            const { history } = this.context.router;
+            const {  UIActions, visible } = this.props;
+            UIActions.setModalVisible(!visible);
+            history.push('/auth/setFamilyGroup');
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+        }
+    }
+
+         
+    handleClickFormat = async () => {
+        const { AuthActions } = this.props;
+        const { pass } = this.props.familyListFormat.toJS();
+        const { uuid,dong,ho } = this.props.base.toJS();
+        console.log('pass:',pass);
+        const data = {
+            dong:dong,
+            ho:ho,
+            pass:KEY.encryptedKey(JSON.stringify(pass)),
+            uuid:uuid
+        }
+        console.log('data:',data);
+        try {
+            await AuthActions.setFormatFamily(KEY.encryptedKey(JSON.stringify(data)));
+        } catch(e) {
+            console.log(e);
+        }
+        const { success } = this.props.familyListFormat.toJS();
+        if(success){
+            const { history } = this.context.router;
+            const {  UIActions, visible } = this.props;
+            UIActions.setModalVisible(!visible);
+            history.push('/auth/setFamilyGroup');
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+        }
+    }
+
     render() {
         const { pageType, familyListArray,profile,visible } = this.props;
         const { pass } = this.props.base.toJS();
@@ -164,7 +226,7 @@ class FamilyContainers extends Component {
                     </SubNotice>
                     <BtnDoubleModal
                         onClickEvent2={this.onHide}
-                        onClickEvent={this.handleClickNext}
+                        onClickEvent1={this.handleClickFormat}
                         name1={'초기화 실행'}
                         name2={'취소'}
                     />
@@ -181,6 +243,7 @@ class FamilyContainers extends Component {
                     </MainNotice>
                     
                     <BtnDoubleModal
+                        onClickEvent1={this.onDelete}
                         onClickEvent2={this.onHide}
                         name1={'삭제'}
                         name2={'취소'}
@@ -205,6 +268,8 @@ export default connect(
     (state) => ({
         visible: state.ui.getIn(['modal','visible']),
         familyListArray: state.auth.getIn(['setting','familyList']),
+        familyListDelete: state.auth.getIn(['setting','familyListDelete']),
+        familyListFormat: state.auth.getIn(['setting','familyListFormat']),
         base: state.auth.getIn(['register','base']),
         profile: state.auth.getIn(['register','base','profile'])
     }),

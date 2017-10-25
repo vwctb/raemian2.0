@@ -61,13 +61,14 @@ class Menu extends Component {
                     //await AuthActions.getHomeBgs(usertoken);
                     break;
                 case 4 : // 4. 프로필 관리
-                   // await AuthActions.getHomeBgs(usertoken);
+                    await AuthActions.getInitialProfile(usertoken);
                     break;
                 case 5 : // 5. 가족관리
-                    //await AuthActions.getHomeBgs(usertoken);
+                    await AuthActions.getInitialFamilyGroupSetting(usertoken);
+                    
                     break;
                 case 6 : // 6. 스마트폰 출입
-                    //await AuthActions.getHomeBgs(usertoken);
+                    await AuthActions.getRobbycfs(usertoken);
                     break;
                 default : // 7. 버전정보
                     //await AuthActions.getHomeBgs(usertoken);

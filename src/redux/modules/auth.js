@@ -41,7 +41,9 @@ export const setCheckboxAlrim = createAction(CHECKBOX_ALRIM); // index, check
 export const setCheckboxUsePassLock = createAction(CHECKBOX_USEPASSLOCK); // index, check
 export const setCheckboxUseLobbyCFS = createAction(CHECKBOX_USELOBBYCFS); // index, check
 export const setCheckboxHomeBGType = createAction(CHECKBOX_HOMEBG_TYPE); // index, check
-export const getInitialFamilyGroup = createAction(GET_INITIAL_FAMILYGROUP,AuthAPI.getInitalFamilyGroup); // userkey, rigisttoken
+export const getInitialFamilyGroupAuth = createAction(GET_INITIAL_FAMILYGROUP,AuthAPI.getInitialFamilyGroupAuth); //rigisttoken
+export const getInitialFamilyGroupSetting = createAction(GET_INITIAL_FAMILYGROUP,AuthAPI.getInitialFamilyGroupSetting); // userkey
+
 export const deleteFamily = createAction(DELETE_FAMILY,AuthAPI.deleteFamily); // userkey
 export const setDeleteSelectFamily = createAction(SET_DELETE_SELECT_FAMILY); // userkey
 export const setDeleteSelectFamilyAlias = createAction(SET_DELETE_SELECT_FAMILY_ALIAS); // name
@@ -62,15 +64,27 @@ const SET_SETTING_PROFILE = 'setting/SET_SETTING_PROFILE';
 const GET_HOMEBGS = 'setting/GET_HOMEBGS';
 const SET_HOMEBGS = 'setting/SET_HOMEBGS';
 const SET_HOMEBGS_IMAGE = 'setting/SET_HOMEBGS_IMAGE';
+const GET_ROBBYCFS = 'setting/GET_ROBBYCFS';
+const SET_ROBBYCFS = 'setting/SET_ROBBYCFS';
+const SET_CPS = 'setting/SET_CPS';
 
 export const getInitialProfile = createAction(GET_INITIAL_PROFILE,AuthAPI.getInitialProfile); // { usertoken }
 export const setSettingProfile = createAction(SET_SETTING_PROFILE,AuthAPI.setSettingProfile); // { usertoken, }
 export const getHomeBgs = createAction(GET_HOMEBGS,AuthAPI.getHomeBgs); // { usertoken }
 export const setHomeBgs = createAction(SET_HOMEBGS,AuthAPI.setHomeBgs); // { usertoken, data:desc,phototype,img }
 export const setHomeBgsImage = createAction(SET_HOMEBGS_IMAGE); // { img }
+export const setRobbycfs = createAction(SET_ROBBYCFS,AuthAPI.setRobbycfs); // { img }
+export const getRobbycfs = createAction(GET_ROBBYCFS,AuthAPI.getRobbycfs); // { img }
+export const setCPS = createAction(SET_CPS); // { visible }
 
 const initialState = Map({
     ver:'201700102A',
+    cps:Map({
+        pass:'',
+        success:false,
+        use:true,
+        visible:false
+    }),
     loginUserInfo:Map({
         fschedules:List([]),
         result:"fail",
@@ -219,10 +233,13 @@ const initialState = Map({
             pass:"",
             success:null
         }),
-        lobbycfs:false,
+        lobbycfs:Map({
+            status:false,
+            success:false
+        }),
         homebgs:Map({
             desc:null,
-            phototype:1,
+            phototype:null,
             img:null,
             success:false
         }),
@@ -245,6 +262,10 @@ const initialState = Map({
 });
 
 export default handleActions({
+
+    
+
+    [SET_CPS]: (state, action) => state.setIn(['cps', 'visible'], action.payload),
     [CHANGE_INPUT]: (state, action) => {
         const { form, name, value } = action.payload;
         return state.setIn([form, 'base', name], value);
@@ -266,7 +287,7 @@ export default handleActions({
         return state.setIn(['register','agreementList',i,'check'],check);
     },
     [CHECKBOX_USEPASSLOCK]: (state, action) => state.setIn(['setting','lockPass','use'],action.payload),
-    [CHECKBOX_USELOBBYCFS]: (state, action) => state.setIn(['setting','lobbycfs'],action.payload),
+    [CHECKBOX_USELOBBYCFS]: (state, action) => state.setIn(['setting','lobbycfs','status'],action.payload),
     [CHECKBOX_HOMEBG_TYPE]: (state, action) => state.setIn(['setting','homebgs','phototype'],action.payload),
     [CHECKBOX_ALRIM]: (state, action) => {
         const { index, check } = action.payload;
@@ -316,7 +337,22 @@ export default handleActions({
             return state.setIn(['register', 'base', 'profile','success'], fromJS(JSON.parse(jsonData).success));
         }
     }),
-
+    ...pender({
+        type: SET_ROBBYCFS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData).success;
+            return state.setIn(['setting','lobbycfs','success'], data);
+        }
+    }),
+    ...pender({
+        type:GET_ROBBYCFS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData).status;
+            return state.setIn(['setting','lobbycfs','status'], data === 'on' ? true : false );
+        }
+    }),
 
     ...pender({
         type: GET_HOMEBGS,
@@ -337,11 +373,9 @@ export default handleActions({
         type: SET_HOMEBGS,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            return state.setIn(['register', 'homebgs','success'], fromJS(JSON.parse(jsonData).success));
+            return state.setIn(['setting', 'homebgs','success'], fromJS(JSON.parse(jsonData).success));
         }
     }),
-
-    
     ...pender({
         type: FORMAT_FAMILY,
         onSuccess: (state, action) => {
@@ -386,7 +420,7 @@ export default handleActions({
         }
     })
 
-
+    
 
 
     

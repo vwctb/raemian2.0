@@ -44,7 +44,7 @@ const FamilyImage = styled.div`
     background-image: url(${props => props.icon > 0 ? ImgArray[props.icon] : props.imgData});
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
     display:flex;
     justify-content:flex-end;
     align-items:flex-end;

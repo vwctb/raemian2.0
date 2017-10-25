@@ -19,7 +19,8 @@ import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
 import configureStore from 'redux/configureStore';
 import socket from 'lib/socket';
-
+let r_count=0;
+let p_count=0;
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
@@ -28,39 +29,39 @@ class App extends Component {
     async initializeUserInfo(){
         const { history } = this.context.router;
         const strAgent = navigator.userAgent.toLowerCase();
-        //console.log('module', module.device);
-        //console.log('uuid1:',module.exports);
-        //console.log('uuid2:', module.device.uuid);
-        alert('uuid2:'+window.device.uuid);
-        alert('uuid3:'+window.deviceId);
+        //alert('uuid2:'+window.device.uuid);
+        //alert('uuid3:'+window.deviceId);
         if(!history.location.pathname.match('auth')){
-            const { AuthActions } = this.props;
+            const { AuthActions, UIActions } = this.props;
+            
+            UIActions.setSpinnerVisible(true);
+            
             const dummy = new Date().getTime();
-            const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
+           // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
+           const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
             try {
                 await AuthActions.postLogin({'data':data});
             } catch(e) {
-                  console.log(e);
+                  console.log('login error: ',e);
             }
             const {usertoken, result} = this.props.loginUserInfo;    
-            console.log(this.props.loginUserInfo);
-            
+            console.log('loginUserInfo: ',this.props.loginUserInfo);
             if(result !== 'true') {   
                 try {
                     await AuthActions.getHomeBgs(usertoken);
                 } catch(e) {
                     console.log(e);
                 }
-            }   
+            }  
+            if(result === 'fail'){
+                history.push('/auth');
+            }
 
-        }
-        if(this.props.loginUserInfo.result === 'fail'){
-            history.push('/auth');
+            UIActions.setSpinnerVisible(false);
+            
         }
     }
-
-
-
 
     componentWillReceiveProps(){
         const { history } = this.context.router;
@@ -76,9 +77,27 @@ class App extends Component {
         this.initializeUserInfo();
     }
 
+    componentDidMount(){
+        document.addEventListener("resume", this.onResume, false);
+        document.addEventListener("pause", this.onPause, false);
+        console.log('document:',document);
+    }
+
+    onResume = () => {
+        const { AuthActions} = this.props;
+        alert(r_count++);
+        AuthActions.setCPS(false);
+    }
+
+    onPause = () => {
+
+        const { AuthActions} = this.props;
+        alert(p_count++);
+        AuthActions.setCPS(true);
+    }
 
     render() {
-        const {spinner} = this.props;
+        const {spinner,visible} = this.props;
 
         return (
             <div>
@@ -92,6 +111,18 @@ class App extends Component {
                                 />
                     </Spinner>
                 }
+
+                {
+                    visible &&
+                    <Spinner>
+                            <ClipLoader
+                                color={'#50bbcd'} 
+                                size={500}
+                                loading={true} 
+                                />
+                    </Spinner>
+                }
+
                 
                 <Menu/>
                 <Route exact path="/auth/" component={Auth}/>
@@ -151,11 +182,12 @@ class App extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
-        spinner: state.ui.get('spinner')
+        spinner: state.ui.get('spinner'),
+        visible: state.auth.getIn(['spc','visible'])
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch),
-        UIAction: bindActionCreators(uiActions, dispatch),
+        UIActions: bindActionCreators(uiActions, dispatch),
     })
    
 )(App);

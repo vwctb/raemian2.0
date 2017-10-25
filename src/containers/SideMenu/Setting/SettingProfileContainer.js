@@ -41,11 +41,12 @@ class SettingProfileContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
-    
+     /*
     async componentDidMount() {
         const { UIActions, AuthActions} = this.props;
         const {usertoken} = this.props.loginUserInfo;
         console.log('usertoken:',usertoken);
+       
         try {
             UIActions.setSpinnerVisible(true);
             await AuthActions.getInitialProfile(usertoken);
@@ -53,8 +54,9 @@ class SettingProfileContainer extends Component {
             console.log(e);
         }
         UIActions.setSpinnerVisible(false);
+     
     }
-
+   */
     handleClick = async () => {
         const { AuthActions,UIActions } = this.props;
         const { profile } = this.props.base.toJS();

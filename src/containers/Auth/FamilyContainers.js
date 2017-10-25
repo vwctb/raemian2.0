@@ -38,7 +38,7 @@ class FamilyContainers extends Component {
 
        // console.log(authConfirm.registtoken);
     try {
-            await AuthActions.getInitialFamilyGroup(authConfirm.registtoken);
+            await AuthActions.getInitialFamilyGroupAuth(authConfirm.registtoken);
         } catch(e) {
             console.log(e);
         }

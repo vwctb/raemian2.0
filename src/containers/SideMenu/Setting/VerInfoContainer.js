@@ -75,8 +75,8 @@ class VerInfoContainer extends Component {
                     useCheckBox = {false}
                 />
                 <NoticeTitle>
-                      Ver.201700102A<br/>
-                     <Span> 2017.01.06 업데이트 됨</Span>
+                      Ver.20171024A<br/>
+                     <Span> 2017.10.24 업데이트 됨</Span>
                 </NoticeTitle>
                 {
                     /*

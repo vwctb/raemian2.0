@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Wrapper, SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
-
-import {KeyPadNumContainer} from 'containers/Shared'
-import {BtnSingle,BtnSingleModal,Modal,Dimmed} from 'components/Shared';
+import {BtnSingle} from 'components/Shared';
 import * as authActions from 'redux/modules/auth';
 import * as uiActions from 'redux/modules/ui';
 import { bindActionCreators } from 'redux';
-
 import styled from 'styled-components';
-
+import * as KEY from 'lib/raemianAES';
 
 const NoticeTitle = styled.div`
     width: 100%;
@@ -19,6 +16,7 @@ const NoticeTitle = styled.div`
     line-height:1.5rem;
     padding:4rem 0 1rem 0rem;
 `;
+
 const Notice = styled.div`
     width: 100%;
     text-align:center;
@@ -29,40 +27,47 @@ const Notice = styled.div`
     padding:0.5rem 0 1rem 0rem;
 `;
 
-let passInput = '○○○○';
-class PWLockContainer extends Component {
+class SettingSmartPhoneContainer extends Component {
+    handleUpdate = async() => {
+        const { AuthActions, UIActions, status } = this.props;
+        const {usertoken} = this.props.loginUserInfo;
+        const jsonData = {
+            status: status ? 'on' : 'off'
+        }
+        const data = {
+            usertoken:usertoken,
+            data:KEY.encryptedKey(JSON.stringify(jsonData)),
+        }
+        UIActions.setSpinnerVisible(true);
+        try {
+            
+            await AuthActions.setRobbycfs(data);   
+        } catch(e) {
+            console.log(e);
+        }
+        UIActions.setSpinnerVisible(false); 
 
-/*
-    componentDidMount() {
-        const { AuthActions } = this.props;
-        AuthActions.changeInputLockPass("");
-        passInput = '○○○○';
-    }*/
+        const { success } = this.props;
+        if(success){
+            UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+        }else{
+            alert('에러');
+        }
 
-    componentWillUnmount(){
-        const { AuthActions } = this.props;
-        AuthActions.changeInputLockPass("");
-        passInput = '○○○○';
     }
-
-    handleUpdate = () => {
-        console.log('click');
-    }
-
     pwlockCheckEvent = () => {
-        const { AuthActions, lobbycfs } = this.props;
-        AuthActions.setCheckboxUseLobbyCFS(!lobbycfs);   
+        const { AuthActions, status } = this.props;
+        AuthActions.setCheckboxUseLobbyCFS(!status);   
     }
-
     render() {
-        const {lobbycfs} = this.props;
+        const {status} = this.props;
         return (
             <Wrapper>
                 <SubTitle
                     title = {'스마트폰 출입 사용'}
                     useCheckBox = {true}
                     onCheckEvent = {this.pwlockCheckEvent}
-                    checkValue = {lobbycfs}
+                    checkValue = {status}
                 />
                 <NoticeTitle>
                       스마트폰을 통해<br/>공동현관문 문열림이 가능합니다.
@@ -79,13 +84,15 @@ class PWLockContainer extends Component {
         );
     }
 }
-
 export default connect(
     (state) => ({
-        lobbycfs: state.auth.getIn(['setting','lobbycfs'])
+        loginUserInfo: state.auth.get('loginUserInfo'),
+        status: state.auth.getIn(['setting','lobbycfs','status']),
+        success: state.auth.getIn(['setting','lobbycfs','success'])
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UIActions: bindActionCreators(uiActions, dispatch)
     })
    
-)(PWLockContainer);
+)(SettingSmartPhoneContainer);

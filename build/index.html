@@ -1,56 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head><meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    <meta name="theme-color" content="#000000"><link rel="manifest" href="/manifest.json">
-    <link rel="shortcut icon" href="/favicon.ico"><title>React App</title>
-    <link href="/static/css/main.b6f4d77f.css" rel="stylesheet"></head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-        
-        <script>
-            var deviceId = "0";
-            var versionInfo = null, pluginPush = null , pluginCall = null;
-            var swStatus = false;
-            var strAgent;
-            var tokenId;
-            var bPhoneGap = false;
-       
-            (function() {
-                    strAgent = navigator.userAgent.toLowerCase();
-                    bPhoneGap = true;
-                    console.log("... is phone gap...");
-                    var headTag = document.getElementsByTagName("head")[0];
-                    var newScript = document.createElement('script');
-                    newScript.type = 'text/javascript';
-                    newScript.onload = function() {
-                        console.log("loaded cordova javascript succeed : ");
-                        loadNativeInterfacePlugin();
-                    };
-                    newScript.src = '/static/lib/cordova.js';
-                    headTag.appendChild(newScript);
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <meta name="theme-color" content="#000000"><link rel="manifest" href="/manifest.json">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <title>React App</title>
+        <link href="/static/css/main.b6f4d77f.css" rel="stylesheet"></head>
+        <body>
+            <noscript>You need to enable JavaScript to run this app.</noscript>
+            <div id="root"></div>
+            <script>
+                var deviceId = "0";
+                var pluginPush = null;
+                var strAgent;
+                var tokenId;
+                var bPhoneGap = false;
                 
-                    if(strAgent.match('cordova_mobile') && strAgent.match('iphone'))
-                    {
+                (function() {
+                        strAgent = navigator.userAgent.toLowerCase();
                         bPhoneGap = true;
                         console.log("... is phone gap...");
-                        var headTag = document.getElementsByTagName("head")[0];
-                        var newScript = document.createElement('script');
-                        newScript.type = 'text/javascript';
-                        newScript.onload = function() {
-                            //alert('loaded cordova javascript succeed');
-                            console.log("loaded cordova javascript succeed : " );
-                            loadNativeInterfacePlugin();
-                        };
-                        newScript.src = '/static/lib/cordova_ios.js';
-                        headTag.appendChild(newScript);
-                        return;
-                    }
-                    console.log("... is not phone gap...");
-                    bPhoneGap = false;
-                })();
                 
+                        if(strAgent.match('cordova_mobile') && strAgent.match('android'))
+                        {
+                            var headTag = document.getElementsByTagName("head")[0];
+                            var newScript = document.createElement('script');
+                            newScript.type = 'text/javascript';
+                            newScript.onload = function() {
+                                console.log("loaded cordova javascript succeed : ");
+                                loadNativeInterfacePlugin();
+                            };
+                            newScript.src = '/static/lib/cordova.js';
+                            headTag.appendChild(newScript);
+                            return;
+                        }
+                        else if(strAgent.match('cordova_mobile') && strAgent.match('iphone'))
+                        {
+                            bPhoneGap = true;
+                            console.log("... is phone gap...");
+                            var headTag = document.getElementsByTagName("head")[0];
+                            var newScript = document.createElement('script');
+                            newScript.type = 'text/javascript';
+                            newScript.onload = function() {
+                                //alert('loaded cordova javascript succeed');
+                                console.log("loaded cordova javascript succeed : " );
+                                loadNativeInterfacePlugin();
+                            };
+                            newScript.src = '/static/lib/cordova_ios.js';
+                            headTag.appendChild(newScript);
+                            return;
+                        }
+                        console.log("... is not phone gap...");
+                        bPhoneGap = false;
+                })();
+                    
                 function loadNativeInterfacePlugin()
                 {
                     var headTag = document.getElementsByTagName("head")[0];
@@ -60,71 +64,65 @@
                     {
                         console.log("loaded cordova loadNativeInterfacePlugin : ");
                         document.addEventListener("deviceready", onDeviceReady, false);
-                       // document.addEventListener("resume", onResume, false);
-                       // document.addEventListener("pause", onPause, false);
-                       loadReactApp(); 
+                        /*
+                        document.addEventListener("resume", onResume, false);
+                        document.addEventListener("pause", onPause, false);
+                        */
+                        console.log('document:',document);
+                        loadReactApp(); 
                     };
                     newScript.src = '/static/lib/plugin_native_interface.js';
                     headTag.appendChild(newScript);
                 }
                 
-                /// Token ID 받는 콜백 함수 정의..
                 var funcGetTokenId = function onResult(_tokenId)
                 {
                     console.log("onResult tokenId: " + _tokenId);
                     tokenId = _tokenId;
-                    alert('tokenId:'+tokenId);
                 }
-                
                 function onDeviceReady()
                 {
                     console.log("onDeviceReady(): ");
-                  
-                        var tempDeviceId = device.uuid;
-                        deviceId = tempDeviceId.replace(/\-/g,'');
-                   
-                        alert('deviceId:'+deviceId);
-                        if(strAgent.match('cordova_mobile') && strAgent.match('android'))
-                        {
-                            pluginPush = new PushPlugin();
-                            pluginPush.getToken(funcGetTokenId);
-                        }else if(strAgent.match('cordova_mobile') && strAgent.match('iphone')){
-                            function success(token){
-                                tokenId = token;
-                            }
-                            function error(error){
-                                //alert(error);
-                            }
-                            FCMPlugin.getToken(success, error);
+                    var tempDeviceId = device.uuid;
+                    deviceId = tempDeviceId.replace(/\-/g,'');
+                    if(strAgent.match('cordova_mobile') && strAgent.match('android'))
+                    {
+                        pluginPush = new PushPlugin();
+                        pluginPush.getToken(funcGetTokenId);
+                    }else if(strAgent.match('cordova_mobile') && strAgent.match('iphone')){
+                        function success(token){
+                            tokenId = token;
                         }
-                  
-
+                        function error(error){
+                            //alert(error);
+                        }
+                        FCMPlugin.getToken(success, error);
+                    }
                 }
-                function loadReactApp(){
+                
+                function loadReactApp()
+                {
                     var headTag2 = document.getElementsByTagName("head")[0];
                     var newScript2 = document.createElement('script');
                     newScript2.type = 'text/javascript';
                     newScript2.onload = function() {
                         console.log("react app: ");
                     };
-                    newScript2.src = '/static/js/main.5ac45b38.js';
+                    newScript2.src = '/static/js/main.f5f97d64.js';
                     headTag2.appendChild(newScript2);
                 }
+                
                 function onPause()
                 {
-                    console.log("-----------------onPause(): ");
-                    //alert('onPause');
-     
+                    console.log("-----------------React APP onPause(): ");
                 }
                 
                 function onResume()
                 {
-                    //showMessage('onResume');
-                    console.log("-----------------onResume(): " );
+                    console.log("-----------------React APP onResume(): " );
                 }
-        </script>
-
-
-
-    </body>
-</html>
+                
+                </script>
+        </body>
+        
+    </html>

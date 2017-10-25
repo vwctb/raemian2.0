@@ -65,7 +65,7 @@ const initialState = Map({
             year:moment().local().format('YYYY'),
             month:moment().local().format('M'),
             day:moment().local().format('D'),
-            memo:" ",
+            memo:'',
             repeat:true,
             alarm:true,
             success:false
@@ -75,7 +75,7 @@ const initialState = Map({
             year:2017,
             month:9,
             day:10,
-            memo:" ",
+            memo:'',
             repeat:false,
             alarm:false
         }),
@@ -172,7 +172,7 @@ export default handleActions({
         type: SET_FSCHEDULES_ADD,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            return state.setIn(['fschedule','write','success'], fromJS(JSON.parse(jsonData).success)).set('activeDate',null);
+            return state.setIn(['fschedule','write','success'], fromJS(JSON.parse(jsonData).success)).set('activeDate',null).setIn(['fschedule','write','memo'],'');
         }
     }),
     ...pender({

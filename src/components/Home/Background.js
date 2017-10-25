@@ -39,6 +39,7 @@ const ImageBackground = styled.img`
     height: 100%;
     position: relative;
     margin: 0 auto;
+    border:0;
 `;
 
 const BGBox = ({desc,phototype,img}) => {

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-//axios.defaults.baseURL = 'http://122.199.242.18:17501';
-
+axios.defaults.baseURL = 'http://122.199.242.18:17501';
 //var plaintext = "사용자 토큰이 잘못 되었습니다.";
 //KEY.encryptedKey(plaintext)
 //var encStr = "hol6c5B6tRG+SdWFFtb99rYtb6W7fsD9tKmeIJ12rFUkC6wNbNTpZfxacjb2rcuZgrkaHi3YR4R3jycj/FVmiw==";
@@ -10,11 +9,22 @@ import axios from 'axios';
 //export const createMemo = ({title, body}) => axios.post('/memo', {title,body});
 export const getInitialFschedules = () => axios.get('http://localhost:3001/fschedules'); 
 export const getInitialNewalarms = () => axios.get('http://localhost:3001/newalarms'); 
-export const getInitalFamilyGroup = (registtoken) => axios.get('/smarthome/v1/familys',{headers:{'Content-Type':'application/json; charest=utf-8','registtoken':registtoken}}).catch(function (error) {
+export const getInitialFamilyGroupAuth = (registtoken) => axios.get('/smarthome/v1/familys',{headers:{'Content-Type':'application/json; charest=utf-8','registtoken':registtoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const getInitialFamilyGroupSetting = (usertoken) => axios.get('/smarthome/v1/familys',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
 
 //setting
+export const getRobbycfs = (usertoken) => axios.get('/smarthome/v1/lobbycfs', {headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+export const setRobbycfs = (value) => axios.post('/smarthome/v1/lobbycfs',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 export const getInitialProfile = (usertoken) => axios.get('/smarthome/v1/profiles',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
@@ -30,11 +40,6 @@ export const getHomeBgs = (usertoken) => axios.get('/smarthome/v1/homebgs',{head
 export const setHomeBgs = (value) => axios.post('/smarthome/v1/homebgs',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
-
-
-
-
-
 
 // auth
 export const getAuth = (value) => axios.post('/smarthome/v1/auths',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
@@ -64,7 +69,6 @@ export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/a
     console.log("channel error",error.response);
 });
 
-
 /*****************************************
                  제어
 ******************************************/
@@ -89,7 +93,6 @@ export const getInitialConcents =  (usertoken) => axios.get('/smarthome/v1/conce
 export const setControlLightOnOff = (value) => axios.post('/smarthome/v1/lights',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
-
 /*****************************************
                   가족톡
 ******************************************/
@@ -142,10 +145,6 @@ export const deleteFmsgs = (value) => axios.delete('/smarthome/v1/fmsgs',{
 }).catch(function (error) {
     console.log("channel error",error.response);
 });
-
-
-
-
 
 /*
 export const getInitialHeatings = (usertoken) => axios.get('/smarthome/v1/heatings',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
