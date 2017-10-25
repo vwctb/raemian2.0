@@ -50,14 +50,14 @@ class SetProfileContainers extends Component {
 
     handleClick = () => {
         //회원가입 this.props.base.toJS();   
-        const { dong,ho,uuid,pushid,phonetype, profile } = this.props.base.toJS();
-        const { icon,img,alias,tagcolor } = profile;
+        const { dong, ho, phonetype, profile } = this.props.base.toJS();
+        const { icon, img, alias, tagcolor } = profile;
         const jsonData = {
             dong:dong,
             ho:ho,
-            uuid:uuid,
+            uuid:window.deviceId,
             phonetype:phonetype,
-            pushid:pushid,
+            pushid:window.tokenId,
             profiles:{
                 icon:Number(icon),
                 img:img,
@@ -186,15 +186,13 @@ class SetProfileContainers extends Component {
                         img = {img}
                         onClickEventIcon = {this.iconClick}
                         handleChangeFile = {this.handleChangeFile}
+                        onClickEvent={this.handleClick}
                     />
-                    
-                </Wrapper>
-              
-                <BtnSingle
+                    <BtnSingle
                     onClickEvent={this.handleClick}
                     name={'다 음'}
-                />
-             
+                     />
+                </Wrapper>
             </Layout>
         )
     };

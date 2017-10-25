@@ -75,23 +75,20 @@ class App extends Component {
 
     componentWillMount() {
         this.initializeUserInfo();
-        document.addEventListener("resume", this.onResume, false);
-        document.addEventListener("pause", this.onPause, false);
-        console.log('document:',document);
+       // document.addEventListener("resume", this.onResume, false);
+       // document.addEventListener("pause", this.onPause, false);
     }
 
     componentDidMount(){
-    
     }
 
     onResume = () => {
         const { AuthActions} = this.props;
-       // alert(r_count++);
     }
 
     onPause = () => {
         const { AuthActions } = this.props;
-        AuthActions.setCPS(true);
+        //AuthActions.setCPS(true);
     }
 
     render() {
@@ -110,18 +107,6 @@ class App extends Component {
                     </Spinner>
                 }
 
-                {
-                    visible &&
-                    <Spinner>
-                            <ClipLoader
-                                color={'#50bbcd'} 
-                                size={500}
-                                loading={true} 
-                                />
-                    </Spinner>
-                }
-
-                
                 <Menu/>
                 <Route exact path="/auth/" component={Auth}/>
                 <Route exact path="/auth/signup" component={Signup}/>
