@@ -11,7 +11,7 @@
             <noscript>You need to enable JavaScript to run this app.</noscript>
             <div id="root"></div>
             <script>
-                var deviceId = "0";
+                var deviceId;
                 var pluginPush = null;
                 var strAgent;
                 var tokenId;
@@ -108,6 +108,7 @@
                     newScript2.type = 'text/javascript';
                     newScript2.onload = function() {
                         console.log("react app: ");
+                        console.log("window: ",window.deviceId);
                     };
                     newScript2.src = '/static/js/main.d51e0b30.js';
                     headTag2.appendChild(newScript2);
