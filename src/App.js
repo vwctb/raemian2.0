@@ -75,23 +75,22 @@ class App extends Component {
 
     componentWillMount() {
         this.initializeUserInfo();
-    }
-
-    componentDidMount(){
         document.addEventListener("resume", this.onResume, false);
         document.addEventListener("pause", this.onPause, false);
         console.log('document:',document);
     }
 
+    componentDidMount(){
+    
+    }
+
     onResume = () => {
         const { AuthActions} = this.props;
-        alert(r_count++);
+       // alert(r_count++);
     }
 
     onPause = () => {
-
-        const { AuthActions} = this.props;
-        alert(p_count++);
+        const { AuthActions } = this.props;
         AuthActions.setCPS(true);
     }
 
@@ -182,7 +181,7 @@ export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
         spinner: state.ui.get('spinner'),
-        visible: state.auth.getIn(['spc','visible'])
+        visible: state.auth.getIn(['cps','visible'])
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch),
