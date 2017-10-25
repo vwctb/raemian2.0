@@ -4,6 +4,9 @@ import * as AuthAPI from 'lib/web-api';
 import * as KEY from 'lib/raemianAES';
 import { Map, List, fromJS } from 'immutable';
 
+
+const SET_UUID = 'auth/SET_UUID';
+const SET_PUSHID = 'auth/SET_PUSHID';
 const CHANGE_INPUT = 'auth/CHANGE_INPUT'; // input 값 변경
 const CHANGE_PROFILE_INPUT = 'auth/CHANGE_PROFILE_INPUT'; // input 값 변경
 const CHANGE_INPUT_LOCKPASS = 'auth/CHANGE_INPUT_LOCKPASS';
@@ -30,6 +33,9 @@ const SET_DELETE_SELECT_FAMILY_ALIAS = 'auth/SET_DELETE_SELECT_FAMILY_ALIAS';
 const FORMAT_FAMILY = 'auth/FORMAT_FAMILY';
 const FORMAT_INPUT = 'auth/FORMAT_INPUT';
 
+
+export const setUUID = createAction(SET_UUID); // { img }
+export const setPUSHID = createAction(SET_PUSHID); // { img }
 export const setProfileUploadFile = createAction(SET_PROFILE_UPLOAD_FILE); // { img }
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const changeProfileInput = createAction(CHANGE_PROFILE_INPUT); //  { form, name, value }
@@ -67,6 +73,7 @@ const SET_HOMEBGS_IMAGE = 'setting/SET_HOMEBGS_IMAGE';
 const GET_ROBBYCFS = 'setting/GET_ROBBYCFS';
 const SET_ROBBYCFS = 'setting/SET_ROBBYCFS';
 const SET_CPS = 'setting/SET_CPS';
+
 
 export const getInitialProfile = createAction(GET_INITIAL_PROFILE,AuthAPI.getInitialProfile); // { usertoken }
 export const setSettingProfile = createAction(SET_SETTING_PROFILE,AuthAPI.setSettingProfile); // { usertoken, }
@@ -108,9 +115,9 @@ const initialState = Map({
                 success:null,
                 registtoken:null
             }),  
-            uuid: 'uuidkey10120202',
+            uuid: null ,
             phonetype: 'android',
-            pushid: 'pushidguest10120202',
+            pushid: null,
             profile:Map({
                 userkey:0,
                 icon:9,
@@ -266,6 +273,8 @@ export default handleActions({
     
 
     [SET_CPS]: (state, action) => state.setIn(['cps', 'visible'], action.payload),
+    [SET_UUID]: (state, action) => state.setIn(['register', 'base','uuid'], action.payload),
+    [SET_PUSHID]: (state, action) => state.setIn(['register', 'base','pushid'], action.payload),
     [CHANGE_INPUT]: (state, action) => {
         const { form, name, value } = action.payload;
         return state.setIn([form, 'base', name], value);

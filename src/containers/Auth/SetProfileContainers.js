@@ -50,14 +50,14 @@ class SetProfileContainers extends Component {
 
     handleClick = () => {
         //회원가입 this.props.base.toJS();   
-        const { dong, ho, phonetype, profile } = this.props.base.toJS();
+        const { dong, uuid, pushid, ho, phonetype, profile } = this.props.base.toJS();
         const { icon, img, alias, tagcolor } = profile;
         const jsonData = {
             dong:dong,
             ho:ho,
-            uuid:window.deviceId,
+            uuid:uuid,
             phonetype:phonetype,
-            pushid:window.tokenId,
+            pushid:pushid,
             profiles:{
                 icon:Number(icon),
                 img:img,
