@@ -215,7 +215,6 @@ class ProfilePhotoAliasContainer extends Component {
                            <BtnFileUpload>
                                 <FileInput
                                     name="myImage"
-                                    accept=".png,.jpg,.jpeg"
                                     placeholder=''
                                     className="inputFileClass"
                                     onChange={handleChangeFile}

@@ -238,7 +238,6 @@ class SettingFamilyContainer extends Component {
                             <FileInputSpace>
                             <FileInput
                                     name="myImage"
-                                    accept=".png,.jpg,.jpeg"
                                     className="inputFileClass"
                                     onChange={this.handleChangeFile}
                                 />

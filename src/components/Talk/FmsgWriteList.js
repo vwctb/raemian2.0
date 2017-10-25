@@ -229,7 +229,6 @@ const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChange
                 <BtnFileUpload>
                     <FileInput
                         name="myImage"
-                        accept=".png,.jpg,.jpeg,.gif,.mp4,.mov"
                         placeholder=''
                         className="inputFileClass"
                         onChange={handleChangeFile}
