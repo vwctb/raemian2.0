@@ -51,6 +51,8 @@
                             newScript.src = '/static/lib/cordova_ios.js';
                             headTag.appendChild(newScript);
                             return;
+                        }else{
+                            loadReactApp();
                         }
                         console.log("... is not phone gap...");
                         bPhoneGap = false;
