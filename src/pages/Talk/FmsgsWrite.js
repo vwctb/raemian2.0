@@ -14,11 +14,16 @@ class FmsgsWrite extends Component {
         UIActions.setPageType({pageType:'/talk/fmsgs'});
         UIActions.setHeaderTitle({title:'새 메시지 작성'});
         UIActions.setSpinnerVisible(true);
+        TalkActions.setInitalFmsgsWrite();
+        
         try {
             await TalkActions.getFmsgsFamilysList(usertoken);
         } catch(e) {
             console.log(e);
         }
+
+        
+        
         UIActions.setSpinnerVisible(false);
         
     }

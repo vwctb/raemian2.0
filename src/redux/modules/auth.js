@@ -74,6 +74,9 @@ const GET_ROBBYCFS = 'setting/GET_ROBBYCFS';
 const SET_ROBBYCFS = 'setting/SET_ROBBYCFS';
 const SET_CPS = 'setting/SET_CPS';
 
+const GET_ALARMS = 'setting/GET_ALARMS';
+const SET_ALARMS = 'setting/SET_ALARMS';
+
 
 export const getInitialProfile = createAction(GET_INITIAL_PROFILE,AuthAPI.getInitialProfile); // { usertoken }
 export const setSettingProfile = createAction(SET_SETTING_PROFILE,AuthAPI.setSettingProfile); // { usertoken, }
@@ -83,6 +86,8 @@ export const setHomeBgsImage = createAction(SET_HOMEBGS_IMAGE); // { img }
 export const setRobbycfs = createAction(SET_ROBBYCFS,AuthAPI.setRobbycfs); // { img }
 export const getRobbycfs = createAction(GET_ROBBYCFS,AuthAPI.getRobbycfs); // { img }
 export const setCPS = createAction(SET_CPS); // { visible }
+export const getAlarms= createAction(GET_ALARMS,AuthAPI.getAlarms); // { visible }
+export const setAlarms = createAction(SET_ALARMS,AuthAPI.setAlarms); // { visible }
 
 const initialState = Map({
     ver:'201700102A',
@@ -211,7 +216,7 @@ const initialState = Map({
             }),
             Map({
                 name: '가족 일정(하루전)',
-                id: 'fschedules',
+                id: 'fschedule',
                 check: false,
                 index: 7
             }),
@@ -228,6 +233,7 @@ const initialState = Map({
                 index: 9
             })
         ]),
+        alarmsListSuccess:null,
         familyList:  List([
             
         ]),
@@ -344,6 +350,77 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             return state.setIn(['register', 'base', 'profile','success'], fromJS(JSON.parse(jsonData).success));
+        }
+    }),
+    ...pender({
+        type: GET_ALARMS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const listData = List([
+                Map({
+                    name: '방범해제',
+                    id: 'guard',
+                    check: JSON.parse(jsonData).guard,
+                    index: 1
+                }),
+                Map({
+                    name: '방문자',
+                    id: 'visitor',
+                    check: JSON.parse(jsonData).visitor,
+                    index: 2
+                }),
+                Map({
+                    name: '공지사항',
+                    id: 'notice',
+                    check: JSON.parse(jsonData).notice,
+                    index: 3
+                }),
+                Map({
+                    name: '택배',
+                    id: 'parcel',
+                    check: JSON.parse(jsonData).parcel,
+                    index: 4
+                }),
+                Map({
+                    name: '주차위치',
+                    id: 'ploc',
+                    check: JSON.parse(jsonData).ploc,
+                    index: 5
+                }),
+                Map({
+                    name: '귀가알림',
+                    id: 'comehome',
+                    check: JSON.parse(jsonData).comehome,
+                    index: 6
+                }),
+                Map({
+                    name: '가족 일정(하루전)',
+                    id: 'fschedules',
+                    check: JSON.parse(jsonData).fschedule,
+                    index: 7
+                }),
+                Map({
+                    name: '가족 대화방',
+                    id: 'ftalk',
+                    check: JSON.parse(jsonData).ftalk,
+                    index: 8
+                }),
+                Map({
+                    name: '가족 메시지',
+                    id: 'fmsg',
+                    check: JSON.parse(jsonData).fmsg,
+                    index: 9
+                })
+            ]);
+            return state.setIn(['setting','alarmsList'], listData);
+        }
+    }),
+    ...pender({
+        type: SET_ALARMS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData).success;
+            return state.setIn(['setting','alarmsListSuccess'], data);
         }
     }),
     ...pender({

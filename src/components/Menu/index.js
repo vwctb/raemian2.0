@@ -58,7 +58,7 @@ class Menu extends Component {
                     await AuthActions.getHomeBgs(usertoken);
                     break;
                 case 3 : // 3. 알림 설정
-                    //await AuthActions.getHomeBgs(usertoken);
+                    await AuthActions.getAlarms(usertoken);
                     break;
                 case 4 : // 4. 프로필 관리
                     await AuthActions.getInitialProfile(usertoken);

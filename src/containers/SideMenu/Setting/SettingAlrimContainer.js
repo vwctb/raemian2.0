@@ -4,12 +4,13 @@ import { SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
 import AuthHeader from 'components/Auth/AuthHeader';
 import {BtnSingle} from 'components/Shared';
 import * as authActions from 'redux/modules/auth';
+import * as uiActions from 'redux/modules/ui';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+import * as KEY from 'lib/raemianAES';
 import CheckBoxList from 'components/Shared/CheckBoxList';
 
 
@@ -43,9 +44,36 @@ class SettingAlrimContainers extends Component {
         router: PropTypes.object
 	}
 
-    handleClick = () => {
+    handleClick = async () => {
+
+        const { AuthActions, UIActions, checkBoxListArray } = this.props;
+        const {usertoken} = this.props.loginUserInfo;
+        const jsonData = {
+            guard:checkBoxListArray.getIn([0,'check']),
+            visitor:checkBoxListArray.getIn([1,'check']),
+            notice:checkBoxListArray.getIn([2,'check']),
+            parcel:checkBoxListArray.getIn([3,'check']),
+            ploc:checkBoxListArray.getIn([4,'check']),
+            comehome:checkBoxListArray.getIn([5,'check']),
+            fschedule:checkBoxListArray.getIn([6,'check']),
+            ftalk:checkBoxListArray.getIn([7,'check']),
+            fmsg:checkBoxListArray.getIn([8,'check'])
+        }
+        console.log('jsonData:',jsonData);
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        try {
+            await AuthActions.setAlarms({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
         const { history } = this.context.router;
-        history.push('/auth/complete');
+        const { success } = this.props;
+        if(success){
+            UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+        }else{
+            alert('실패');
+        }
+
     }
 
     handleClickTagColor= (val) => {
@@ -69,25 +97,11 @@ class SettingAlrimContainers extends Component {
     iconClick = (val) => {
         const { history } = this.context.router;
         const { AuthActions } = this.props;
-         console.log('iconClick click'+val);
         AuthActions.setProfileIcon(val);
-        
-    }
-
-
-    addFamilyClick = () => {
-        console.log('addFamilyClick click');
-    }
-
-    deleteFamilyClick = () => {
-        const { history } = this.context.router;
-        history.push('/auth/deleteFamilyGroup');
     }
 
     render() {
- 
-       const { checkBoxListArray,AuthActions } = this.props;
-        
+       const { checkBoxListArray, AuthActions } = this.props;
         return (
             <Layout>
                 <AuthHeader
@@ -100,13 +114,10 @@ class SettingAlrimContainers extends Component {
                         title = {'이벤트 알림 사용 여부'}
                         useCheckBox = {false}
                     />
-
-
                     <CheckBoxList
                         checkBoxListArray={checkBoxListArray}
                         onCheck={AuthActions.setCheckboxAlrim}
                     />
-                    
                 </Wrapper>
               
                 <BtnSingle
@@ -121,10 +132,13 @@ class SettingAlrimContainers extends Component {
 
 export default connect(
     (state) => ({
-        checkBoxListArray: state.auth.getIn(['setting','alarmsList'])
+        loginUserInfo: state.auth.get('loginUserInfo'),
+        checkBoxListArray: state.auth.getIn(['setting','alarmsList']),
+        success: state.auth.getIn(['setting','alarmsListSuccess'])
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UIActions: bindActionCreators(uiActions, dispatch),
     })
 )(SettingAlrimContainers);
 

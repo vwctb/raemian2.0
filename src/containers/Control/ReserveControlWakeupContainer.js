@@ -3,13 +3,14 @@ import Layout from 'components/Layout';
 import { SubTitleWithIcon } from 'components/Control'
 import {BtnSingle} from 'components/Shared';
 import * as controlActions from 'redux/modules/control';
+import * as uiActions from 'redux/modules/ui';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {ControlCheckBoxList,BtnDoubleCheck} from 'components/Shared';
 import {ReserveTimeContainer,ReserveScheduleContainer} from 'containers/Shared';
-
+import * as KEY from 'lib/raemianAES';
 
 const Wrapper = styled.div`
     position: absolute;
@@ -28,12 +29,34 @@ class ReserveControlWakeupContainer extends Component {
         router: PropTypes.object
 	}
 
-    addFamilyClick = () => {
-        console.log('addFamilyClick click');
-    }
+    handleClick = async () => {
+        const { ControlActions, UIActions, uploadFile, use, goout} = this.props;
+        const { usertoken } = this.props.loginUserInfo;
+        let jsonData;
+        if(use === true){
+            jsonData = goout;
+        }else{
+            jsonData = {
+                use : use
+            }
+        }
+        console.log('jsonData: ',jsonData);
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        UIActions.setSpinnerVisible(true);
+        try {
+            await ControlActions.setSmartReserveGoout({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+        UIActions.setSpinnerVisible(false);
+        const { success } = this.props;
+        if(success) {
+            const { history } = this.context.router;
+            history.push('/control');
+        }else{
+            alert('예약 설정을 실패하였습니다.')
+        }
 
-    useWakeUp = () => {
-        console.log('useWakeUp');
     }
     
     render() {
@@ -93,11 +116,14 @@ class ReserveControlWakeupContainer extends Component {
 
 export default connect(
     (state) => ({
+        loginUserInfo: state.auth.get('loginUserInfo'),
+        success : state.control.getIn(['reserveControl','wakeupSuccess']),
+        wakeup: state.control.getIn(['reserveControl','wakeup']),
         checkBoxListArrayLights: state.control.getIn(['reserveControl','wakeup','lights']),
         checkBoxListArrayDayofWeek: state.control.getIn(['reserveControl','wakeup','dayofweek']),
-        wakeup: state.control.getIn(['reserveControl','wakeup'])
     }),
     (dispatch) => ({
+        UIActions: bindActionCreators(uiActions, dispatch),
         ControlActions: bindActionCreators(controlActions, dispatch)
     })
 )(ReserveControlWakeupContainer);

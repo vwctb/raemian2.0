@@ -27,12 +27,21 @@ const Wrapper = styled.div`
 
 
 class ControlHome extends Component {
-    componentDidMount() {
 
+    async componentDidMount() {
+        const { UIActions, ControlActions, auth} = this.props;
+        const { usertoken } = this.props.loginUserInfo;
 
-
-        const { UIActions } = this.props;
+        ControlActions.initializeReserve();
         UIActions.setPageType({pageType:'main'});
+        try {
+            UIActions.setSpinnerVisible(true);
+            await ControlActions.getSmartReserveGoout(usertoken);
+            await ControlActions.getSmartReserveMorning(usertoken);
+        }catch(e) {
+            console.log(e);
+        }
+        UIActions.setSpinnerVisible(false);
     }
 
    render() {
@@ -51,10 +60,10 @@ class ControlHome extends Component {
 
 export default connect(
     (state) => ({
-
+        loginUserInfo: state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),
-        ControlAction: bindActionCreators(controlActions, dispatch),
+        ControlActions: bindActionCreators(controlActions, dispatch),
     })
 )(ControlHome);

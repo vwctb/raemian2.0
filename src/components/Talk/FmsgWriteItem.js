@@ -22,7 +22,6 @@ class FmsgWriteItemItem extends Component {
         img: PropTypes.string,
         check: PropTypes.bool,
         onClickEvent: PropTypes.func
-
     }
 
     render() {

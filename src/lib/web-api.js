@@ -41,6 +41,17 @@ export const setHomeBgs = (value) => axios.post('/smarthome/v1/homebgs',{data:va
     console.log("channel error",error.response);
 });
 
+export const getAlarms = (usertoken) => axios.get('/smarthome/v1/alarmsets',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setAlarms = (value) => axios.post('/smarthome/v1/alarmsets',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+
+
+
 // auth
 export const getAuth = (value) => axios.post('/smarthome/v1/auths',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -70,7 +81,7 @@ export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/a
 });
 
 /*****************************************
-                 제어
+                 Control
 ******************************************/
 export const setBachOff =  (value) => axios.post('/smarthome/v1/batchoffs',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -93,6 +104,24 @@ export const getInitialConcents =  (usertoken) => axios.get('/smarthome/v1/conce
 export const setControlLightOnOff = (value) => axios.post('/smarthome/v1/lights',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
+
+
+/*[ 스마트예약제어 ]*******************************/
+export const getSmartReserveMorning =  (usertoken) => axios.get('/smarthome/v1/smarts/morning',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setSmartReserveMorning = (value) => axios.post('/smarthome/v1/smarts/morning',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+export const getSmartReserveGoout =  (usertoken) => axios.get('/smarthome/v1/smarts/goout',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setSmartReserveGoout = (value) => axios.post('/smarthome/v1/smarts/goout',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 /*****************************************
                   가족톡
 ******************************************/
@@ -139,6 +168,14 @@ export const sendFmsgs = (value) => axios.post('/smarthome/v1/fmsgs',{data:value
     console.log("channel error",error.response);
 });
    
+   
+export const postFmsgsWriteUploadFile = (value) => axios.post('/smarthome/v1/fmsgs/'+value.type,value.uploadFile,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+   
+
+
+
 export const deleteFmsgs = (value) => axios.delete('/smarthome/v1/fmsgs',{
     data: { data: value.data }, 
     headers:{'usertoken':value.usertoken}

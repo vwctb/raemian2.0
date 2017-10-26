@@ -25,10 +25,10 @@ class FmsgsContainer extends Component {
     
 
     render() {
-        const {listArray,userArray} = this.props;
+        const {listArray,familysArray,userArray} = this.props;
         return (
             <div>
-            <FmsgList listArray={listArray} userArray={userArray} pageType={'listview/fmsgs'} itemClick={this.itemClick}  />
+            <FmsgList listArray={listArray} userArray={userArray} familysArray={familysArray} pageType={'listview/fmsgs'} itemClick={this.itemClick}  />
             
             <BtnSingle
                 name={'전송'}
@@ -42,6 +42,7 @@ class FmsgsContainer extends Component {
 export default connect(
     (state) => ({
         listArray: state.talk.getIn(['fmsgs','list']),
+        familysArray: state.talk.getIn(['fmsgs','familys']),
         userArray: state.talk.getIn(['fmsgs','user']),
         }),
     (dispatch) => ({

@@ -8,7 +8,8 @@ import * as talkActions from 'redux/modules/talk';
 import * as uiAction from 'redux/modules/ui';
 import * as KEY from 'lib/raemianAES';
 import PropTypes from 'prop-types';
-
+let tempFile = null;
+let tempType = null;
 class FmsgsWriteContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -25,30 +26,34 @@ class FmsgsWriteContainer extends Component {
     handleChangeFile = (e) => {
       const { TalkActions} = this.props;
       const name = e.target.files[0].name;
-      const type =  e.target.files[0].type;
-      if(e.target.files[0] && type.split('/')[0] === 'image'){
+      tempType =  e.target.files[0].type;
+      tempFile = e.target.files[0];
+   
+
+      if(e.target.files[0] && tempType.split('/')[0] === 'image'){
         let reader = new FileReader();
         reader.onload = function (e) {
+  
             TalkActions.setFmsgsWriteUploadFile(
                {
                     fileData:e.target.result,
                     fileName:name,
-                    fileType:type
+                    fileType:tempType
                 } 
             )
         }
         reader.readAsDataURL(e.target.files[0]);
       }
 
-      if(e.target.files[0] && type.split('/')[0] === 'video'){
-        var URL = window.URL || window.webkitURL
-          var file = e.target.files[0]
-          var fileURL = URL.createObjectURL(file)
+      if(e.target.files[0] && tempType.split('/')[0] === 'video'){
+        const URL = window.URL || window.webkitURL;
+        const files = e.target.files[0];
+        const fileURL = URL.createObjectURL(files);
           TalkActions.setFmsgsWriteUploadFile(
             {
                  fileData:fileURL,
                  fileName:name,
-                 fileType:type
+                 fileType:tempType
              } 
          )
       }
@@ -61,16 +66,32 @@ class FmsgsWriteContainer extends Component {
     }
 
 
-    HandleClickSendMsg = async ( ) => {
-        const { TalkActions, UIActions } = this.props;
+    HandleClickSendMsg = async () => {
+        const { TalkActions, UIActions, uploadFile } = this.props;
         const { usertoken } = this.props.loginUserInfo;
-        const {msg, receivetime, receiverkey, fileid} = this.props.write.toJS();
+        //const {  } = this.props.uploadFile;
+        const jsonUploadFile = {
+            msg:msg,
+            receivetime:receivetime,
+            receiverkey:receiverkey,
+            fileid:fileid
+        }
 
+        const type = (tempType === 'image' ? 'imageUpload' : 'videoUpload');
+        let formData = new FormData();
+        formData.append("file",tempFile);
+
+        try {
+            await TalkActions.postFmsgsWriteUploadFile({type:type,uploadFile:formData,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+
+        const {msg, receivetime, receiverkey, fileid} = this.props.write.toJS();
         if(receiverkey.size === 0){
             alert('받는 가족을 선택해주세요!'); 
             return;
         }
-
         const jsonData = {
             msg:msg,
             receivetime:receivetime,
@@ -79,7 +100,6 @@ class FmsgsWriteContainer extends Component {
         }
 
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
-
         UIActions.setSpinnerVisible(true);
         try {
             await TalkActions.sendFmsgs({data:data,usertoken:usertoken});

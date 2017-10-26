@@ -15,6 +15,7 @@ class Fmsgs extends Component {
         UIActions.setSpinnerVisible(true);
         try {
             await TalkActions.getFmsgsList(usertoken);
+            await TalkActions.getFmsgsFamilysList(usertoken);
         } catch(e) {
             console.log(e);
         }

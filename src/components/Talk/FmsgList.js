@@ -24,17 +24,18 @@ const ItemListWrapper = styled.div`
     justify-content: space-around;
     flex-flow: row wrap;
 `;
-
-const FmsgList = ({listArray,userArray,pageType,selectedType,itemClick,typeClick}) => {
+let key=0;
+const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemClick,typeClick}) => {
 
     const list = listArray.map(
         item => (
             <FmsgItem
-                key={item.get('seq')}
+                key={key++}
                 seq={item.get('seq')}
                 alias={item.get('alias')}
                 icon={
-                       userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'userkey'])
+                       item.get('fromto') === 'from'  ?  familysArray.getIn([familysArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon']) :
+                       userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon'])
                 }
                 fromto={item.get('fromto')}
                 news={item.get('new')}
@@ -56,7 +57,7 @@ const FmsgList = ({listArray,userArray,pageType,selectedType,itemClick,typeClick
 FmsgList.propTypes = {
     listArray: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
-            alias: PropTypes.arry,
+            alias: PropTypes.array,
             userkey: PropTypes.number,
             icon:PropTypes.number,
             img: PropTypes.string,

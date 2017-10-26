@@ -32,25 +32,28 @@ class FmsgsWriteContainer extends Component {
             const{ history } = this.context.router;
             history.push('/talk/fmsgs');
         }
+    }
 
-
+    HandleClickWrite = () => {
+        const{ history } = this.context.router;
+        history.push('/talk/fmsgs/write');
     }
 
     render() {
-        const {msgViewData} = this.props;
+        const {msgViewData,familysArray} = this.props;
         const {fromto} = this.props.msgViewData.toJS();
 
         return (
             <div>
-                <FmsgViewList msgViewData={msgViewData} pageType={'listview/fmsgs'} />
+                <FmsgViewList msgViewData={msgViewData} familysArray={familysArray} pageType={'listview/fmsgs'} />
                 {fromto === 'from' ? 
                     <BtnDouble
                         name1={'답장'}
                         color1={'50bbcd'}
-                        onClickEvent1={this.HandleClickAddSchedule}
+                        onClickEvent1={this.HandleClickWrite}
                         name2={'삭제'}
                         color2={'ff8062'}
-                        onClickEvent2={this.HandleClickAddSchedule}
+                        onClickEvent2={this.HandleClickDelete}
                         fcolor2={'ffffff'}
                     /> 
                     :
@@ -68,6 +71,7 @@ class FmsgsWriteContainer extends Component {
 export default connect(
     (state) => ({
         msgViewData: state.talk.getIn(['fmsgs','view']),
+        familysArray: state.talk.getIn(['fmsgs','familys']),
         loginUserInfo: state.auth.get('loginUserInfo'),
         deleteSuccess:state.talk.getIn(['fmsgs','deleteSuccess'])
         

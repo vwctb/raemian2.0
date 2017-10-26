@@ -73,7 +73,6 @@ const Body = styled.div`
     align-items:center;
 `;
 
-
 const Title = styled.div`
     color:${props => props.fromto === 'to' ? '#50bbcd' : '#49433c' };
     display:  inline-block;
@@ -99,14 +98,18 @@ const SubTitle = styled.div`
     align-items:center;
 `;
 
-const FmsgList = ({ msgViewData }) => {
+const FmsgList = ({ msgViewData, familysArray, pageType }) => {
     
-   const {msg, icon,fromto, fileData,alias,date, fileType} = msgViewData.toJS();
+   const {msg, icon, fromto, fileData,alias,date, fileType} = msgViewData.toJS();
 
     return (
         <Wrapper>
             <ListWrapper>
-                <FamilyItem icon={icon} size={3}/>
+                <FamilyItem icon={
+                    
+                    fromto ==='from' ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === alias ),'icon']) : icon
+                    
+                    } size={3}/>
                     <Body>
                         <Title fromto={fromto}>{fromto+" '"+alias+"'"}</Title>
                         <SubTitle>{moment(date).format('YYYY년 M월 DD일 A HH시 mm분')}</SubTitle>

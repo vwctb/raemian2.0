@@ -28,7 +28,10 @@ const DELETE_FMSGS = 'talk/fmsgs/DELETE_FMSGS';
 const CHECKBOX_FMSGS_RECEIVETIME = 'talk/fmsgs/write/CHECKBOX_FMSGS_RECEIVETIME';
 const SET_FMSGS_RECEIVERKEY = 'talk/fmsgs/write/SET_FMSGS_RECEIVERKEY';
 const SET_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/SET_FMSGS_WRITE_UPLOADFILE';
+const POST_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/POST_FMSGS_WRITE_UPLOADFILE';
 const CHANGE_INPUT_FMSGS_WRITE = 'talk/fmsgs/write/CHANGE_INPUT_FMSGS_WRITE'; // input 값 변경
+
+const SET_INITIAL_FMSGS_WRITE = 'talk/fmsgs/write/SET_INITIAL_FMSGS_WRITE'; // input 값 변경
 
 
 export const setDate = createAction(SET_DATE);
@@ -43,6 +46,9 @@ export const setFschedulesAdd = createAction(SET_FSCHEDULES_ADD,WebApi.setFsched
 export const checkboxFmsgsWrite = createAction(CHECKBOX_FMSGS_RECEIVETIME);
 export const setFmsgsWriteReceiverkey = createAction(SET_FMSGS_RECEIVERKEY);
 export const setFmsgsWriteUploadFile = createAction(SET_FMSGS_WRITE_UPLOADFILE);
+
+export const postFmsgsWriteUploadFile = createAction(POST_FMSGS_WRITE_UPLOADFILE,WebApi.postFmsgsWriteUploadFile);
+
 export const changeInputFmsgsWrite = createAction(CHANGE_INPUT_FMSGS_WRITE);
 export const getFschedulesList = createAction(GET_FSCHEDULES_LIST,WebApi.getFschedulesList);
 export const getFschedulesDetail = createAction(GET_FSCHEDULES_DETAIL,WebApi.getFschedulesDetail);
@@ -54,6 +60,9 @@ export const getFmsgsDetailView = createAction(GET_FMSGS_DETAIL_VIEW,WebApi.getF
 export const getFmsgsFamilysList = createAction(GET_FMSGS_FAMILYS_LIST,WebApi.getFmsgsFamilysList);
 export const sendFmsgs = createAction(SEND_FMSGS,WebApi.sendFmsgs);
 export const deleteFmsgs = createAction(DELETE_FMSGS,WebApi.deleteFmsgs);
+
+export const setInitalFmsgsWrite = createAction(SET_INITIAL_FMSGS_WRITE);
+
 
 
 const initialState = Map({
@@ -90,7 +99,7 @@ const initialState = Map({
         write: Map({
             msg:'',
             receivetime:1, 
-            receiverkey:List([1]),
+            receiverkey:List(),
             fileid:'',
             success:false
          }), 
@@ -100,10 +109,10 @@ const initialState = Map({
              filePath:null
          }),
          view:Map({
-             seq:1,
-             msg:' ',
-             userkey:1,
-             icon:1,
+             seq:'',
+             msg:'',
+             userkey:'',
+             icon:'',
              img:'',
              date:' ',
              fromto:' ',
@@ -113,6 +122,7 @@ const initialState = Map({
              filePath:''
          }),
          uploadFile:Map({
+            multipartFile:'',
             fileData:'',
             fileName:'',
             fileType:''
@@ -122,6 +132,17 @@ const initialState = Map({
 });
 
 export default handleActions({
+    [SET_INITIAL_FMSGS_WRITE]: (state, action) => {
+        const value = Map({
+            msg:'',
+            receivetime:1, 
+            receiverkey:List(),
+            fileid:'',
+            success:false
+        });
+        return state.setIn(['fmsgs','write'], value);
+    },
+
     [CHANGE_INPUT]: (state, action) => {
         const { form, value } = action.payload;
         return state.setIn(['fschedule',form,'memo'], value);
@@ -135,8 +156,9 @@ export default handleActions({
     },
     [CHECKBOX_FMSGS_RECEIVETIME]: (state, action) => state.setIn(['fmsgs','write','receivetime'],action.payload),
     [SET_FMSGS_WRITE_UPLOADFILE] :  (state, action) => {
-        const { fileName, fileType, fileData } = action.payload;
+        const { fileName, fileType, fileData, multipartFile } = action.payload;
         const result = Map({
+            multipartFile:multipartFile,
             fileData:fileData,
             fileName:fileName,
             fileType:fileType
@@ -233,7 +255,19 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             return state.setIn(['fmsgs','deleteSuccess'], fromJS(JSON.parse(jsonData).success));
         }
+    }),
+    ...pender({
+        type: POST_FMSGS_WRITE_UPLOADFILE,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            console.log('jsonData : ',jsonData);
+            return state.setIn(['fmsgs','msgfileupload'], fromJS(JSON.parse(jsonData)));
+        }
     })
+
+
+
+    
 
 
 

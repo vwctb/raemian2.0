@@ -28,6 +28,12 @@ const RESERVE_CONTROL_WAKEUP_TIMER = 'control/RESERVE_CONTROL_WAKEUP_TIMER';
 const RESERVE_CONTROL_WAKEUP_DAYOFWEEK = 'control/RESERVE_CONTROL_WAKEUP_DAYOFWEEK';
 const SET_CONTROL_BACHOFF = 'control/SET_CONTROL_BACHOFF';
 const SET_CONTROL_LIGHT_ONOFF = 'control/SET_CONTROL_LIGHT_ONOFF';
+const GET_SMART_RESERVE_GOOUT = 'control/GET_SMART_RESERVE_GOOUT';
+const SET_SMART_RESERVE_GOOUT = 'control/SET_SMART_RESERVE_GOOUT';
+const GET_SMART_RESERVE_MORNING = 'control/GET_SMART_RESERVE_MORNING';
+const SET_SMART_RESERVE_MORNING = 'control/SET_SMART_RESERVE_MORNING';
+const INITIALIZE_RESERVE = 'control/INITIALIZE_RESERVE';
+
 
 
 // 액션 생성자
@@ -61,6 +67,16 @@ export const setReserveControlWakeupTimer = createAction(RESERVE_CONTROL_WAKEUP_
 export const setReserveControlWakeupDayofWeek = createAction(RESERVE_CONTROL_WAKEUP_DAYOFWEEK); // num, check
 
 
+
+export const initializeReserve = createAction(INITIALIZE_RESERVE); //
+
+export const getSmartReserveGoout = createAction(GET_SMART_RESERVE_GOOUT,WebAPI.getSmartReserveGoout); //
+export const setSmartReserveGoout = createAction(SET_SMART_RESERVE_GOOUT,WebAPI.setSmartReserveGoout); // 
+export const getSmartReserveMorning = createAction(GET_SMART_RESERVE_MORNING,WebAPI.getSmartReserveMorning); // 
+export const setSmartReserveMorning = createAction(SET_SMART_RESERVE_MORNING,WebAPI.setSmartReserveMorning); //
+
+
+
 const initialState = Map({
     data_heatings: List(),
     data_lights: List(),
@@ -76,8 +92,10 @@ const initialState = Map({
     }),
 
     reserveControl:Map({
+            gooutSuccess:null,
+            wakeupSuccess:null,
             goout: Map({
-                use:true,
+                use:false,
                 lights: List([
                     Map({
                         id: 1,
@@ -145,7 +163,7 @@ const initialState = Map({
                 ]),
             }),
             wakeup: Map({
-                use:true,
+                use:false,
                 hour:4,
                 minute:0,  
                 lights: List([
@@ -179,7 +197,6 @@ const initialState = Map({
                             name:'방3',
                             check:false,
                         })
-
                     ]),
                 dayofweek: List([
                         Map({
@@ -225,7 +242,12 @@ const initialState = Map({
 
 
 export default handleActions({
+    [INITIALIZE_RESERVE]: (state, action) => {
+        const initial = initialState.get('reserveControl');
+        return state.set('reserveControl', initial);
+    },
 
+    
     [CHECKBOX_RESERVE_CONTROL_USE]: (state, action) => {
         const { from, check } = action.payload;
         return state.setIn(['reserveControl',from,'use'], check);
@@ -412,7 +434,43 @@ export default handleActions({
             */
             return;
         }
+    }),
+    ...pender({
+        type: GET_SMART_RESERVE_GOOUT,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log('jsonData:',jsonData);
+            return state.setIn(['reserveControl','goout'],fromJS(data));
+        }
+    }),    
+    ...pender({
+        type: SET_SMART_RESERVE_GOOUT,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log(jsonData);
+            return state.setIn(['reserveControl','gooutSuccess'],JSON.parse(jsonData).success);
+        }
+    }),
+    ...pender({
+        type: GET_SMART_RESERVE_MORNING,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log('jsonData:',jsonData);
+            return state.setIn(['reserveControl','wakeup'],fromJS(data));
+        }
+    }),
+    ...pender({
+        type: SET_SMART_RESERVE_MORNING,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            return state.setIn(['reserveControl','wakeupSuccess'],JSON.parse(jsonData).success);
+        }
     })
-    
+ 
+
 
 }, initialState);
