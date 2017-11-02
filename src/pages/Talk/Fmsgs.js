@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { FmsgsContainer } from 'containers/Talk';
 
 class Fmsgs extends Component {
+
     async componentDidMount() {
         const { UIActions, TalkActions } = this.props;
         const { usertoken } = this.props.loginUserInfo;
@@ -26,6 +27,7 @@ class Fmsgs extends Component {
             <FmsgsContainer/>
         )
     };
+
 };
 
 export default connect(

@@ -10,7 +10,10 @@ class PlocsContainer extends Component {
     render() {
         const {listArray} = this.props;
         return (
+            <div>
             <PlocsList listArray={listArray} pageType={'listview/plocs'} />
+
+            </div>
         )
     };
 };

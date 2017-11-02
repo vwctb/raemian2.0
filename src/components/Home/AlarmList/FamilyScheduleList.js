@@ -78,7 +78,9 @@ const FschedulesList = ({fschedulesArray,onClickEvent, svgIconArrowRight, onOpen
                    dangerouslySetInnerHTML={{__html: svgIconArrowRight}}
                 />
             </TitleBar>
-            {fschedulesArray.size === 0 ? <DefaultList><Icon/> 등록된 일정이 없습니다.</DefaultList>: fschedulesList}
+            {
+               fschedulesArray.index === 0 ? <DefaultList><Icon/>등록된 일정이 없습니다.</DefaultList>: fschedulesList
+            }
         </Wrapper>
     );
 };
@@ -87,8 +89,8 @@ const FschedulesList = ({fschedulesArray,onClickEvent, svgIconArrowRight, onOpen
     fschedulesArray: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
             date: PropTypes.string,
-            body: PropTypes.string,
-            index: PropTypes.number
+            remaining: PropTypes.number,
+            desc: PropTypes.string
         })
     )
 }

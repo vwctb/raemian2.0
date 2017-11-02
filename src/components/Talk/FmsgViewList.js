@@ -98,42 +98,45 @@ const SubTitle = styled.div`
     align-items:center;
 `;
 
-const FmsgList = ({ msgViewData, familysArray, pageType }) => {
-    
-   const {msg, icon, fromto, fileData,alias,date, fileType} = msgViewData.toJS();
-
+const FmsgViewList = ({ msgViewData, familysArray, pageType, userImageData }) => {
+    const {msg, icon, fromto,alias,date, filetype, filePath } = msgViewData.toJS();
+    console.log(msgViewData.toJS());
     return (
         <Wrapper>
             <ListWrapper>
-                <FamilyItem icon={
-                    
-                    fromto ==='from' ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === alias ),'icon']) : icon
-                    
-                    } size={3}/>
+                <FamilyItem 
+                    icon={
+                        fromto ==='from' ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === alias ),'icon']) : icon
+                    } 
+                    size={3}
+                    imgData = { userImageData }
+                />
+                {
+                    alias !== undefined &&
                     <Body>
+                   
                         <Title fromto={fromto}>{fromto+" '"+alias+"'"}</Title>
-                        <SubTitle>{moment(date).format('YYYY년 M월 DD일 A HH시 mm분')}</SubTitle>
+                     
+                        <SubTitle>{moment(date).format('YYYY년 M월 DD일 A HH시 mm분').replace('AM','오전').replace('PM','오후')}</SubTitle>
+                
                     </Body>
+                }
             </ListWrapper>
-            
             {
-
-                fileType !== undefined &&
-                fileType.split('/')[0] === 'image' &&
+                filetype === '1' &&
                 <ImageFile
-                    src = {fileData}
+                    src = {'http://122.199.242.18:17501'+filePath}
                 />
             }
             {
-                fileType !== undefined &&
-                fileType.split('/')[0] === 'video' &&
+                filetype === '2' &&
                 <VideoFile
-                    src = {fileData}
+                     src = {'http://122.199.242.18:17501'+filePath}
                     controls 
                 />
             }
             <StyledTextarea 
-                readonly
+                readOnly
                 value={msg}
                 minRows={12} 
                 maxRows={14} 
@@ -143,11 +146,11 @@ const FmsgList = ({ msgViewData, familysArray, pageType }) => {
     );
 };
 
-FmsgList.propTypes = {
+FmsgViewList.propTypes = {
    
     checkBoxEvent:PropTypes.func,
     receiverkeyEvnet:PropTypes.func,
     controlType: PropTypes.string
 }
 
-export default FmsgList;
+export default FmsgViewList;

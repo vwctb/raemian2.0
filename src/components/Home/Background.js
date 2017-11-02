@@ -42,15 +42,22 @@ const ImageBackground = styled.img`
     border:0;
 `;
 
-const BGBox = ({desc,phototype,img}) => {
+const BGBox = ({homebgs}) => {
+    if(homebgs === undefined){
+        homebgs = {
+            desc :'',
+            phototype : 1,
+            img : ''
+        }
+    }
     return (
         <Wrapper>
-            <TitleBar>{desc}</TitleBar>
+            <TitleBar>{homebgs.desc}</TitleBar>
             {
-                phototype === 1 ?
+                homebgs.phototype === 1 ?
                 <Background/>
                 :
-                <ImageBackground src = {img}/>
+                <ImageBackground src = {homebgs.img}/>
             }
            
 

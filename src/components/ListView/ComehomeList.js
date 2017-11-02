@@ -41,6 +41,7 @@ const ComehomeList = ({listArray,pageType,selectedType,itemClick,typeClick}) => 
                 key={index++}
                 alias={item.get('alias')}
                 icon={item.get('icon')}
+                img={item.get('img')}
                 company={item.get('company')}
                 status={item.get('status')}
                 date = {parseData(item.get('insertdate'))}

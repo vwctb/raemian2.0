@@ -30,8 +30,13 @@ class FmsgsWriteContainer extends Component {
         const {deleteSuccess} = this.props;
         if(deleteSuccess){
             const{ history } = this.context.router;
+            const {TalkActions} = this.props;
+
+            TalkActions.setInitalFmsgsView();
             history.push('/talk/fmsgs');
         }
+
+
     }
 
     HandleClickWrite = () => {
@@ -40,13 +45,18 @@ class FmsgsWriteContainer extends Component {
     }
 
     render() {
-        const {msgViewData,familysArray} = this.props;
+        const {msgViewData,familysArray,userImageData} = this.props;
         const {fromto} = this.props.msgViewData.toJS();
-
         return (
             <div>
-                <FmsgViewList msgViewData={msgViewData} familysArray={familysArray} pageType={'listview/fmsgs'} />
-                {fromto === 'from' ? 
+                <FmsgViewList 
+                    msgViewData={msgViewData} 
+                    familysArray={familysArray} 
+                    userImageData={userImageData}  
+                    pageType={'listview/fmsgs'} 
+                />
+                {
+                    fromto === 'from' ? 
                     <BtnDouble
                         name1={'답장'}
                         color1={'50bbcd'}
@@ -71,10 +81,10 @@ class FmsgsWriteContainer extends Component {
 export default connect(
     (state) => ({
         msgViewData: state.talk.getIn(['fmsgs','view']),
+        userImageData: state.talk.getIn(['fmsgs','user',0,'img']),
         familysArray: state.talk.getIn(['fmsgs','familys']),
         loginUserInfo: state.auth.get('loginUserInfo'),
         deleteSuccess:state.talk.getIn(['fmsgs','deleteSuccess'])
-        
     }),
     (dispatch) => ({
         TalkActions: bindActionCreators(talkActions, dispatch),

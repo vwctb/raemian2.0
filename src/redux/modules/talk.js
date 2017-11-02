@@ -31,8 +31,10 @@ const SET_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/SET_FMSGS_WRITE_UPLOADFILE'
 const POST_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/POST_FMSGS_WRITE_UPLOADFILE';
 const CHANGE_INPUT_FMSGS_WRITE = 'talk/fmsgs/write/CHANGE_INPUT_FMSGS_WRITE'; // input 값 변경
 
-const SET_INITIAL_FMSGS_WRITE = 'talk/fmsgs/write/SET_INITIAL_FMSGS_WRITE'; // input 값 변경
+const SET_INITIAL_FMSGS_WRITE = 'talk/fmsgs/write/SET_INITIAL_FMSGS_WRITE'; // input 초기화
+const SET_INITIAL_FMSGS_VIEW = 'talk/fmsgs/view/SET_INITIAL_FMSGS_VIEW'; // input 초기화
 
+const SET_FMSGS_WRITE_FILEID =  'talk/fmsgs/write/SET_FMSGS_WRITE_FILEID'; // file_id
 
 export const setDate = createAction(SET_DATE);
 export const setActiveDate = createAction(SET_ACTIVE_DATE);
@@ -42,13 +44,10 @@ export const setAddDay = createAction(SET_ADD_DAY);
 export const changeInput = createAction(CHANGE_INPUT);
 export const checkboxAddReapt = createAction(CHECKBOX_ADD_REPEAT);
 export const setFschedulesAdd = createAction(SET_FSCHEDULES_ADD,WebApi.setFschedulesAdd);
-
 export const checkboxFmsgsWrite = createAction(CHECKBOX_FMSGS_RECEIVETIME);
 export const setFmsgsWriteReceiverkey = createAction(SET_FMSGS_RECEIVERKEY);
 export const setFmsgsWriteUploadFile = createAction(SET_FMSGS_WRITE_UPLOADFILE);
-
 export const postFmsgsWriteUploadFile = createAction(POST_FMSGS_WRITE_UPLOADFILE,WebApi.postFmsgsWriteUploadFile);
-
 export const changeInputFmsgsWrite = createAction(CHANGE_INPUT_FMSGS_WRITE);
 export const getFschedulesList = createAction(GET_FSCHEDULES_LIST,WebApi.getFschedulesList);
 export const getFschedulesDetail = createAction(GET_FSCHEDULES_DETAIL,WebApi.getFschedulesDetail);
@@ -62,6 +61,10 @@ export const sendFmsgs = createAction(SEND_FMSGS,WebApi.sendFmsgs);
 export const deleteFmsgs = createAction(DELETE_FMSGS,WebApi.deleteFmsgs);
 
 export const setInitalFmsgsWrite = createAction(SET_INITIAL_FMSGS_WRITE);
+export const setInitalFmsgsView= createAction(SET_INITIAL_FMSGS_VIEW);
+
+
+export const setFmsgsWriteFileId = createAction(SET_FMSGS_WRITE_FILEID);
 
 
 
@@ -102,24 +105,14 @@ const initialState = Map({
             receiverkey:List(),
             fileid:'',
             success:false
-         }), 
+         }),
          msgfileupload:Map({
              success:true,
              fileid:null,
              filePath:null
          }),
          view:Map({
-             seq:'',
-             msg:'',
-             userkey:'',
-             icon:'',
-             img:'',
-             date:' ',
-             fromto:' ',
-             alias:[' '],
-             fileflag:false,
-             filetype:1,
-             filePath:''
+           
          }),
          uploadFile:Map({
             multipartFile:'',
@@ -132,6 +125,7 @@ const initialState = Map({
 });
 
 export default handleActions({
+    [SET_FMSGS_WRITE_FILEID] : (state, action) => state.setIn(['fmsgs','write','fileid'], action.payload),
     [SET_INITIAL_FMSGS_WRITE]: (state, action) => {
         const value = Map({
             msg:'',
@@ -143,6 +137,7 @@ export default handleActions({
         return state.setIn(['fmsgs','write'], value);
     },
 
+    [SET_INITIAL_FMSGS_VIEW] : (state, action) => state.setIn(['fmsgs','view'], Map({})),
     [CHANGE_INPUT]: (state, action) => {
         const { form, value } = action.payload;
         return state.setIn(['fschedule',form,'memo'], value);
@@ -222,7 +217,7 @@ export default handleActions({
         type: GET_FMSGS_LIST,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            console.log(jsonData);
+            //console.log(jsonData);
             return state.setIn(['fmsgs','list'], fromJS(JSON.parse(jsonData).list)).setIn(['fmsgs','user'], fromJS(JSON.parse(jsonData).user));
         }
     }),
@@ -230,7 +225,7 @@ export default handleActions({
         type: GET_FMSGS_FAMILYS_LIST,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            console.log(jsonData);
+            //console.log(jsonData);
             return state.setIn(['fmsgs','familys'], fromJS(JSON.parse(jsonData).list));
         }
     }),
@@ -238,7 +233,7 @@ export default handleActions({
         type: GET_FMSGS_DETAIL_VIEW,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            console.log('jsonData',jsonData);
+            //console.log('jsonData',jsonData);
             return state.setIn(['fmsgs','view'], fromJS(JSON.parse(jsonData)));
         }
     }),
@@ -260,7 +255,6 @@ export default handleActions({
         type: POST_FMSGS_WRITE_UPLOADFILE,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            console.log('jsonData : ',jsonData);
             return state.setIn(['fmsgs','msgfileupload'], fromJS(JSON.parse(jsonData)));
         }
     })

@@ -7,65 +7,25 @@ import { Home, Control, ControlLight, ControlHeating,ControlHeatingItem, Control
          FSchedules,FSchedulesAdd,FSchedulesUpdate,Fmsgs,FmsgsWrite,FmsgsView
         } from 'pages';
 
-import storage from 'lib/storage';
-import Menu from 'components/Menu'
+import Menu from 'components/Menu';
+import ScreenLock from 'components/ScreenLock';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authActions from 'redux/modules/auth';
 import * as uiActions from 'redux/modules/ui';
+import * as talkActions from 'redux/modules/talk';
+import * as homeActions from 'redux/modules/home';
 import * as KEY from 'lib/raemianAES';
 import PropTypes from 'prop-types';
 import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
-import configureStore from 'redux/configureStore';
-import socket from 'lib/socket';
-let r_count=0;
-let p_count=0;
+import storage from 'lib/storage';
+
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
     }
-     
-    async initializeUserInfo(){
-        const { history } = this.context.router;
-        const strAgent = navigator.userAgent.toLowerCase();
-        //alert('uuid2:'+window.device.uuid);
-        //alert('uuid3:'+window.deviceId);
-        if(!history.location.pathname.match('auth')){
-            const { AuthActions, UIActions } = this.props;
-            
-            UIActions.setSpinnerVisible(true);
-            
-            const dummy = new Date().getTime();
-           // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
-           const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
-           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202'
-           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
-           AuthActions.setUUID(uuid);
-           AuthActions.setPUSHID(pushid);
 
-            try {
-                await AuthActions.postLogin({'data':data});
-            } catch(e) {
-                  console.log('login error: ',e);
-            }
-            const {usertoken, result} = this.props.loginUserInfo;    
-            console.log('loginUserInfo: ',this.props.loginUserInfo);
-            if(result !== 'true') {   
-                try {
-                    await AuthActions.getHomeBgs(usertoken);
-                } catch(e) {
-                    console.log(e);
-                }
-            }  
-            if(result === 'fail'){
-                history.push('/auth');
-            }
-
-            UIActions.setSpinnerVisible(false);
-            
-        }
-    }
 
     componentWillReceiveProps(){
         const { history } = this.context.router;
@@ -77,26 +37,70 @@ class App extends Component {
         }
     }
 
-    componentWillMount() {
-        this.initializeUserInfo();
+    async componentWillMount() {
+        const { history } = this.context.router;
+        //const strAgent = navigator.userAgent.toLowerCase();
+        //alert('uuid2:'+window.device.uuid);
+        //alert('uuid3:'+window.deviceId);
+        if(!history.location.pathname.match('auth')){
+            const { AuthActions, UIActions} = this.props;
+            
+            UIActions.setSpinnerVisible(true);
+            
+            const dummy = new Date().getTime();
+           // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
+           const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202'
+           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
+           AuthActions.setUUID(uuid);
+           AuthActions.setPUSHID(pushid);
+            try {
+                await AuthActions.postLogin({'data':data});
+            } catch(e) {
+                  console.log('login error: ',e);
+            }
+            const {loginUserInfo} = this.props
+            const {result} = loginUserInfo;    
+            //console.log('loginUserInfo: ',loginUserInfo);
+   
+            if(result === 'fail'){
+                history.push('/auth');
+            }
+
+            UIActions.setSpinnerVisible(false);
+            
+        }
        // document.addEventListener("resume", this.onResume, false);
        // document.addEventListener("pause", this.onPause, false);
     }
 
     componentDidMount(){
+        const { history } = this.context.router;
+        const { HomeActions } = this.props;
+        if(!history.location.pathname.match('auth')){
+            if(storage.get('screenLockUse')){
+                HomeActions.setLockVisible(true);
+            }
+        }
     }
 
     onResume = () => {
-        const { AuthActions} = this.props;
+       // const { AuthActions} = this.props;
     }
 
     onPause = () => {
-        const { AuthActions } = this.props;
-        //AuthActions.setCPS(true);
+        const { history } = this.context.router;        
+        const { HomeActions } = this.props;
+        if(!history.location.pathname.match('auth')){
+            if(storage.get('screenLockUse')){
+                HomeActions.setLockVisible(true);
+            }
+        }
+       
     }
 
     render() {
-        const {spinner,visible} = this.props;
+        const {spinner , visible} = this.props;
 
         return (
             <div>
@@ -110,6 +114,11 @@ class App extends Component {
                                 />
                     </Spinner>
                 }
+                {
+                    visible &&
+                    <ScreenLock/>
+                }
+
 
                 <Menu/>
                 <Route exact path="/auth/" component={Auth}/>
@@ -169,11 +178,16 @@ class App extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
+        fschedulesList: state.talk.getIn(['fschedule','list']),
+        date: state.talk.get('date'),
         spinner: state.ui.get('spinner'),
-        visible: state.auth.getIn(['cps','visible'])
+        screenLockUse: state.auth.getIn(['setting','lockPass','use']),
+        visible: state.home.getIn(['screenLock','visible'])
     }),
     (dispatch) => ({
+        HomeActions:bindActionCreators(homeActions, dispatch),
         AuthActions: bindActionCreators(authActions, dispatch),
+        TalkActions: bindActionCreators(talkActions, dispatch),
         UIActions: bindActionCreators(uiActions, dispatch),
     })
    

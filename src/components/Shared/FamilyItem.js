@@ -17,6 +17,7 @@ const ImgArray =
     6 : Image.Family_Face6,
     9 : Image.Family_Face9
 }
+
 const ColorArray =
 {
     'red' : '#d8373c',
@@ -81,27 +82,16 @@ const Icon = styled.div`
 `;
 
 class FamilyItem extends Component {
-    static propTypes = {
-        tagcolor : PropTypes.string,
-        icon: PropTypes.number,
-        size: PropTypes.number,
-        imgData: PropTypes.string,
-        news:PropTypes.bool,
-        check:PropTypes.bool,
-        onCheckEvent: PropTypes.func
-    }
+    
     render() {
         const {icon,imgData,tagcolor,check,onCheckEvent,size,news} = this.props;
-        console.log('imgData:',imgData);
         return (
-           // 
            <Wrapper
              onClick={onCheckEvent}
            >
                 {
                     check && <CheckIcon dangerouslySetInnerHTML ={{__html : SvgIcon.getInitialSvgIcon('checkSmall')}} />
                 }
-
                 {
                    <FamilyImage
                         icon = {icon}
@@ -115,10 +105,6 @@ class FamilyItem extends Component {
                     {tagcolor && <TagColor tagcolor = {tagcolor} size = {size/4}/>}
                     </FamilyImage>
                 }
-
-              
-
-                
             </Wrapper>
 
         )

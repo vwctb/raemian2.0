@@ -25,26 +25,31 @@ const ItemListWrapper = styled.div`
     flex-flow: row wrap;
 `;
 let key=0;
-const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemClick,typeClick}) => {
+const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemClick,typeClick}) => {    
+    let list=''; 
+    if(listArray.size > 0){
+        list = listArray.map(
+            item => (
+                <FmsgItem
+                    key={key++}
+                    seq={item.get('seq')}
+                    alias={item.get('alias')}
+                    icon={
+                           item.get('fromto') === 'from'  ?  familysArray.getIn([familysArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon']) :
+                           userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon'])
+                    }
+                    img={item.get('fromto') === 'to' && userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'img'])}
+                    fromto={item.get('fromto')}
+                    news={item.get('new')}
+                    msg={item.get('msg')}
+                    date = {moment(item.get('date')).format('YYYY년 M월 D일')}
+                    itemClick= {itemClick}
+               />
+            )
+        );
+    } 
+    
 
-    const list = listArray.map(
-        item => (
-            <FmsgItem
-                key={key++}
-                seq={item.get('seq')}
-                alias={item.get('alias')}
-                icon={
-                       item.get('fromto') === 'from'  ?  familysArray.getIn([familysArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon']) :
-                       userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon'])
-                }
-                fromto={item.get('fromto')}
-                news={item.get('new')}
-                msg={item.get('msg')}
-                date = {moment(item.get('date')).format('YYYY년 M월 D일')}
-                itemClick= {itemClick}
-           />
-        )
-    );
     return (
         <Wrapper>
             <ItemListWrapper>
@@ -57,7 +62,7 @@ const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemCl
 FmsgList.propTypes = {
     listArray: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
-            alias: PropTypes.array,
+            alias: PropTypes.object,
             userkey: PropTypes.number,
             icon:PropTypes.number,
             img: PropTypes.string,

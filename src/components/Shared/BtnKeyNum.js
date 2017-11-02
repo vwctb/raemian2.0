@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 
 const Wrapper = styled.div`
-    width:4rem;
-    height:4rem;
-    border-radius: 4rem;
+    width:${props => props.type === 'screenLock' ? '3rem' : '4rem'};
+    height:${props => props.type === 'screenLock' ? '3rem' : '4rem'};
+    border-radius:${props => props.type === 'screenLock' ? '3rem' : '4rem'};
     text-align:center;
-    line-height:4rem;
-    margin:0.5rem;
+    line-height:${props => props.type === 'screenLock' ? '3rem' : '4rem'};
+    margin:${props => props.type === 'screenLock' ? '0rem 1rem 0rem 1rem' : '0.5rem'};
     font-size:1.6rem;
     cursor:pointer;
     &:active, &:focus {
@@ -19,15 +19,20 @@ const Wrapper = styled.div`
 
 `;
 
+Wrapper.propTypes={
+    type:PropTypes.string
+}
 class BtnKeyNum extends Component {
     static propTypes = {
         onClickEvent: PropTypes.func,
+        type: PropTypes.string,
         value:PropTypes.string
     }
     render() {
-        const { value, onClickEvent} = this.props;
+        const { value, onClickEvent ,type} = this.props;
         return (
         <Wrapper
+            type = {type}
             onClick = {onClickEvent}
         >
             {value}

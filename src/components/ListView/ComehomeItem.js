@@ -61,7 +61,7 @@ class ComehomeItem extends Component {
 
         return (
             <Wapper>
-                <FamilyItem icon={icon} size={3}/>
+                <FamilyItem icon={icon} imgData={img} size={3}/>
                 <Body>
                     <Title>{"'"+alias+"'님이 집에 도착하였습니다."}</Title>
                     <SubTitle>{date}</SubTitle>

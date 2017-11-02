@@ -8,10 +8,9 @@ import { FlocsContainer } from 'containers/ListView';
 class ListViewFlocs extends Component {
     async componentDidMount() {
         const { UIActions, ListViewActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo;        
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'가족위치'});
-
-        const {usertoken} = this.props.loginUserInfo;
         try {
             UIActions.setSpinnerVisible(true);
             await ListViewActions.getInitialFlocs(usertoken);

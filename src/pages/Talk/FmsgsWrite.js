@@ -21,9 +21,6 @@ class FmsgsWrite extends Component {
         } catch(e) {
             console.log(e);
         }
-
-        
-        
         UIActions.setSpinnerVisible(false);
         
     }

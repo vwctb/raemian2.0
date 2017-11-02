@@ -14,7 +14,7 @@ class Home extends Component {
         const { HomeActions } = this.props;
         // 초기 메모 로딩
         try {
-            await Promise.all([HomeActions.getInitialFschedules(),HomeActions.getInitialNewalarms()]);
+           // await Promise.all([HomeActions.getInitialFschedules(),HomeActions.getInitialNewalarms()]);
            // this.getRecentMemo();
         } catch(e) {
             console.log(e);

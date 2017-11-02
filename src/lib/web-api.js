@@ -7,8 +7,6 @@ axios.defaults.baseURL = 'http://122.199.242.18:17501';
 //KEY.decryptedKey(encStr);
 
 //export const createMemo = ({title, body}) => axios.post('/memo', {title,body});
-export const getInitialFschedules = () => axios.get('http://localhost:3001/fschedules'); 
-export const getInitialNewalarms = () => axios.get('http://localhost:3001/newalarms'); 
 export const getInitialFamilyGroupAuth = (registtoken) => axios.get('/smarthome/v1/familys',{headers:{'Content-Type':'application/json; charest=utf-8','registtoken':registtoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
@@ -49,13 +47,27 @@ export const setAlarms = (value) => axios.post('/smarthome/v1/alarmsets',{data:v
     console.log("channel error",error.response);
 });
 
+export const putCPS = (value) => axios.put('/smarthome/v1/cps',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const postCPS = (value) => axios.post('/smarthome/v1/cps',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 
+
+// home auth
+export const getAuthForScreenLock = (value) => axios.post('/smarthome/v1/auths',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 // auth
 export const getAuth = (value) => axios.post('/smarthome/v1/auths',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
     console.log("channel error",error.response);
 });
+
+
 
 export const regists = (value) => axios.post('/smarthome/v1/regists',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -167,9 +179,8 @@ export const getFmsgsDetailView = (seq,usertoken) => axios.get(`/smarthome/v1/fm
 export const sendFmsgs = (value) => axios.post('/smarthome/v1/fmsgs',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
-   
-   
-export const postFmsgsWriteUploadFile = (value) => axios.post('/smarthome/v1/fmsgs/'+value.type,value.uploadFile,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+
+export const postFmsgsWriteUploadFile = (value) => axios.post('/smarthome/v1/fmsgs/'+value.type,value.uploadFile,{headers:{'Content-Type':'multipart/form-data','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
    

@@ -13,12 +13,12 @@ class FmsgsContainer extends Component {
         router: PropTypes.object
     }
 
-
     HandleClickWriteMsg = () => {
         const{ history } = this.context.router;
         history.push('/talk/fmsgs/write');
     }
-    itemClick = (seq) =>{
+
+    itemClick = (seq) => {
         const{ history } = this.context.router;
         history.push('/talk/fmsgs/view/'+seq);
     }
@@ -26,6 +26,7 @@ class FmsgsContainer extends Component {
 
     render() {
         const {listArray,familysArray,userArray} = this.props;
+        
         return (
             <div>
             <FmsgList listArray={listArray} userArray={userArray} familysArray={familysArray} pageType={'listview/fmsgs'} itemClick={this.itemClick}  />

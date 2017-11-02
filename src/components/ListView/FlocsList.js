@@ -30,7 +30,7 @@ const FlocsList = ({listArray,pageType,selectedType,itemClick,typeClick}) => {
                 key={index++}
                 alias={item.get('alias')}
                 icon={item.get('icon')}
-                img={item.get('img')}
+                imgData={item.get('img')}
                 location={item.get('location')}
                 tagcolor={item.get('tagcolor')}
            />

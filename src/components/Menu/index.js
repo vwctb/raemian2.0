@@ -6,15 +6,14 @@ import { connect } from 'react-redux';
 import * as homeActions from 'redux/modules/home';
 import * as uiActions from 'redux/modules/ui';
 import * as authActions from 'redux/modules/auth';
+import * as talkActions from 'redux/modules/talk';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 class Menu extends Component {
-
     static contextTypes = {
         router: PropTypes.object
 	}
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +21,7 @@ class Menu extends Component {
         }
         this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     }
-    
+
     onSetSidebarOpen = (open) => {
         this.setState({sidebarOpen: open});
     }
@@ -37,9 +36,13 @@ class Menu extends Component {
         this.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
     }
     onClickBackPage = () => {
-        const { pageType } = this.props;
+        const { pageType,TalkActions } = this.props;
         const{ history } = this.context.router;
         history.push(pageType);
+        if(pageType === '/talk/fmsgs'){
+            TalkActions.setInitalFmsgsView();
+        }
+
     }
 
     changeSideMenuView = async (sideView) => {
@@ -142,7 +145,8 @@ export default connect(
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),
         AuthActions: bindActionCreators(authActions, dispatch),
-        HomeActions: bindActionCreators(homeActions, dispatch)
+        HomeActions: bindActionCreators(homeActions, dispatch),
+        TalkActions: bindActionCreators(talkActions, dispatch),
     })
 )(Menu);
 

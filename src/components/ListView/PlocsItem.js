@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FamilyItem } from'components/Shared'
 import * as Image from 'img';
 import * as SvgIcon from 'lib/icon_svg'
+import moment from 'moment';
 const ImgArray =
 {
     1: Image.Family_Face1,
@@ -75,18 +76,18 @@ class PlocsItem extends Component {
 
     render() {
         const {location,date,tagcolor} = this.props;
-
         return (
             <Wapper>
                 <Body>
                     <CarItem tagcolor={tagcolor} dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('iconCar')}}/>
                     <Title>{location}</Title>
                 </Body>
-                <LocationON>{
-                        date.split(',')[0].replace('년 ','. ').replace('월 ','. ').replace('일',' ')+
-                        date.split(',')[1].replace('시 ',':').replace('분','')
+                <LocationON>
+                    {
+                        date &&
+                        moment(date).format('YYYY.M.D A HH:mm').replace('AM','오전').replace('PM','오후')
                     }
-                    </LocationON> 
+                </LocationON> 
              
             </Wapper>
         )

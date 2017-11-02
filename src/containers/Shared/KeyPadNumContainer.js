@@ -7,8 +7,13 @@ import {BtnKeyNum} from 'components/Shared'
 const Wrapper = styled.div`
     position:fixed;
     bottom:4rem;
-    top:6.5rem;
+    padding:${props => props.type === 'screenLock' && '0 1.5rem 0 1.5rem' };
+    top:${props => props.type === 'screenLock' ? '7rem' : '6.5rem' };
 `;
+
+Wrapper.propTypes={
+    type:PropTypes.string
+}
 
 const BtnNumberSpace = styled.div`
     width:100%;
@@ -37,14 +42,18 @@ const InputStyle = styled.input`
     outline: none;
     background: none;
     border: 0;
-    color:#ff8366;
+    color:${props => props.type === 'screenLock' ? '#ffffff' : '#ff8366'};
     border-radius: 0px;
     line-height: 2.5rem;
-    font-size: 1.8rem;
+    font-size:${props => props.type === 'screenLock' ? '2rem' : '1.8rem'};
     padding-left: 1.2rem;
     padding-right: 0.5rem;
-   
+    margin-bottom:${props => props.type === 'screenLock' && '1rem'};
 `;
+
+InputStyle.propTypes={
+    type:PropTypes.string
+}
 
 const BtnEmpty = styled.div`
     width:4rem;
@@ -57,6 +66,7 @@ const BtnEmpty = styled.div`
     cursor:pointer;
 `;
 
+
 const Notice =styled.div`
     width:100%;
     height:4rem;
@@ -67,8 +77,6 @@ const Notice =styled.div`
 `;
 
 
-
-let pass = '';
 class KeyPadNumContainers extends Component {
     static propTypes = {
         onClickEvent: PropTypes.func,
@@ -77,30 +85,34 @@ class KeyPadNumContainers extends Component {
         value:PropTypes.string,
         passInput:PropTypes.string,
         notice:PropTypes.string,
+        type:PropTypes.string
     }
     render() {
-        const { onClickEvent,onClickEventDelete,passInput,notice } = this.props;
+        const { onClickEvent,onClickEventDelete,passInput,notice,type } = this.props;
         return (
            // active ? <CheckBoxOn onClick={onClickEvent}/> : <CheckBoxOff onClick={onClickEvent}/>
-        <Wrapper>
+        <Wrapper type={type}>
 
-            
             <BtnNumberSpace>
                     <Notice>{notice}</Notice>
                     <InputStyle
                         value={passInput}
                         onChange={()=>{}}
+                        type={type}
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'1'}
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'2'}
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'3'}
                     />
                     <BtnKeyNum
@@ -109,22 +121,27 @@ class KeyPadNumContainers extends Component {
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'5'}
                     />
                      <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'6'}
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'7'}
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'8'}
                     />
                     <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'9'}
                     />
                     <BtnEmpty
@@ -132,10 +149,12 @@ class KeyPadNumContainers extends Component {
                     />
                      <BtnKeyNum
                         onClickEvent ={onClickEvent}
+                        type={type}
                         value = {'0'}
                     />
                      <BtnKeyNum
                         onClickEvent ={onClickEventDelete}
+                        type={type}
                         value = {'←'}
                     />
             </BtnNumberSpace>

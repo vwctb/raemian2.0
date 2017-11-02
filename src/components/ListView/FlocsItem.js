@@ -56,12 +56,12 @@ class FlocsItem extends Component {
     }
 
     render() {
-        const {alias,location,icon,img,tagcolor} = this.props;
+        const {alias,location,icon,imgData,tagcolor} = this.props;
 
         return (
             <Wapper>
                 <Body>
-                    <FamilyItem icon={icon} size={3} tagcolor={tagcolor}/>
+                    <FamilyItem icon={icon} imgData ={imgData} size={3} tagcolor={tagcolor}/>
                     <Title>{alias}</Title>
                 </Body>
                { location !== '서비스 지역내 없음' ? <LocationON>{location}</LocationON> :  <LocationOFF>{location}</LocationOFF>  }

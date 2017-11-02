@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-
+import moment from 'moment';
 // 정사각형을 만들어줍니다. (padding-top 은 값을 % 로 설정하였을 때 부모 엘리먼트의 width 의 비율로 적용됩니다.)
 const List = styled.div`
     width:100%;
@@ -44,30 +44,32 @@ class FamilyScheduleItem extends Component {
     static propTypes = {
         fschedules: ImmutablePropTypes.mapContains({
             date: PropTypes.string,
-            body: PropTypes.string,
-            index: PropTypes.number
+            remaining: PropTypes.number,
+            desc: PropTypes.string
         }),
         onOpen: PropTypes.func
     }
-
+    
     handleClick = () => {
         const { fschedules, onOpen } = this.props;
         //onOpen(memo);
     }
 
     render() {
-        
-        const { date, body } = this.props.fschedules.toJS();
-
-
+        const { date, remaining, desc } = this.props.fschedules.toJS();
         const { handleClick } = this;
         return (
+            <div>
+            {
+           
             <List>
                 <Contents>
-                    { date && <Date>D-8</Date>}
-                    <Body>{body}</Body>
+                    <Date>{remaining === 0 ? 'D-Day' : 'D-'+remaining}</Date>
+                    <Body>{  moment(date).format('M월 D일')+', '+desc}</Body>
                 </Contents>
             </List>
+            }
+            </div>
         )
     }
 }

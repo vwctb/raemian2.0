@@ -58,29 +58,28 @@ const IconNext = styled.div`
     font-size: 0px; /* inline-block 위아래 사이에 생기는 여백을 제거합니다 */
 `;
 
-class FmsgItemItem extends Component {
+class FmsgItem extends Component {
 
     static propTypes = {
         icon:PropTypes.number,
-        alias: PropTypes.array,
+        alias: PropTypes.object,
         img: PropTypes.string,
         insertdate: PropTypes.string,
         new: PropTypes.bool,
-        key:PropTypes.number,
         seq:PropTypes.number,
         itemClick: PropTypes.func
     }
 
     render() {
-        const {key,seq,alias,date,fromto,icon,msg,img,news,itemClick} = this.props;
-        console.log('icon',icon);
-
+        const {seq,alias,date,fromto,icon,msg,img,news,itemClick} = this.props;
         return (
             <Wapper onClick={()=>itemClick(seq)}>
-                <FamilyItem icon={icon} size={3} news={news}/>
+
+                <FamilyItem icon={icon} imgData={img} size={3} news={news}/>
+
                 <Body>
                     <Title fromto={fromto}>{msg}</Title>
-                    <SubTitle>{date+", "+fromto+" "+alias}</SubTitle>
+                    <SubTitle>{date+", "+fromto+" "+alias.toJS()}</SubTitle>
                 </Body>
 
                 <IconNext dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('arrowRight')}} />
@@ -90,4 +89,4 @@ class FmsgItemItem extends Component {
     }
 } 
 
-export default FmsgItemItem; 
+export default FmsgItem; 

@@ -37,15 +37,6 @@ class ReserveControlGooutContainer extends Component {
         router: PropTypes.object
 	}
 
-    addFamilyClick = () => {
-        console.log('addFamilyClick click');
-    }
-
-
-    useWakeUp = () => {
-        console.log('useWakeUp');
-    }
-
     handleClick = async () => {
         const { ControlActions, UIActions, uploadFile, use, goout} = this.props;
         const { usertoken } = this.props.loginUserInfo;

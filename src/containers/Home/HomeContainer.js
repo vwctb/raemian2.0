@@ -23,7 +23,6 @@ const Wrapper = styled.div`
     background: #f7f6ef;
     color: #49433c;
     box-shadow: 0 -3px 6px rgba(0,0,0,0.10);
-
     /* 폰트 */
     font-size: 1.3rem;
 `;
@@ -36,6 +35,7 @@ class HomeContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
+
     handleClickFamilySchedule =()=>{
         const { history } = this.context.router;
         history.push('/talk/fschedules');
@@ -55,33 +55,30 @@ class HomeContainer extends Component {
         const { history } = this.context.router;
         history.push('/listview/visitors');
     }
-
-
-
+    
     render() {
-        let { fschedulesArray, newalarms, uiActions } = this.props;
-        const { desc, phototype, img } = this.props.homebgs.toJS();
-        if(fschedulesArray === undefined) fschedulesArray = List([]);
-        if(newalarms === undefined) newalarms = Map({});
-
+        let { loginUserInfo } = this.props;
+        let fschedules, newalarms; 
+            fschedules = loginUserInfo.fschedules;
+            newalarms = loginUserInfo.newalarms;
+        if(loginUserInfo.newalarms === undefined) newalarms = Map({});
+        if(loginUserInfo.fschedules === undefined) fschedules = List();
         return (
             <Wrapper>
                 <BG
-                    desc={desc === null ? "행복한 래미안 하우스" : desc}
-                    phototype={phototype}
-                    img={img}
+                    homebgs = {loginUserInfo.homebgs}
                 />
                 <ListContainer>
                     <FamilyScheduleList
                         onClickEvent={this.handleClickFamilySchedule}
-                        fschedulesArray={fschedulesArray}
+                        fschedulesArray={fromJS(fschedules)}
                         svgIconArrowRight = {SvgIcon.getInitialSvgIcon('arrowRight')}
                     />
                     <NewAlarmList
                         onClickEventParcels={this.handleClickParcels}
                         onClickEventNotices={this.handleClickNotices}
                         onClickEventVisitors={this.handleClickVisitors}
-                        newalarms={newalarms}
+                        newalarms={fromJS(newalarms)}
                     />
                 </ListContainer>
             </Wrapper>
@@ -92,13 +89,11 @@ class HomeContainer extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
-        fschedulesArray: state.auth.getIn(['loginUserInfo','fschedules']),
-        newalarms: state.auth.getIn(['loginUserInfo','newalarms']),
-        homebgs: state.auth.getIn(['setting','homebgs'])
+        homebgs: state.auth.getIn(['setting','homebgs']),
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch),
-        UIActions: bindActionCreators(uiActions, dispatch)
+        UIActions: bindActionCreators(uiActions, dispatch),
     })
    
 )(HomeContainer);

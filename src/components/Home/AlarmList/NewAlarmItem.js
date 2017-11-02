@@ -25,6 +25,16 @@ const IconArray =
         'message':Image.Icon_Message
     }
 
+const ImgArray =
+{
+    1: Image.Family_Face1,
+    2: Image.Family_Face2,
+    3 : Image.Family_Face3,
+    4 : Image.Family_Face4,
+    5 : Image.Family_Face5,
+    6 : Image.Family_Face6,
+    9 : Image.Family_Face9
+}
 
 // 정사각형을 만들어줍니다. (padding-top 은 값을 % 로 설정하였을 때 부모 엘리먼트의 width 의 비율로 적용됩니다.)
 const List = styled.div`
@@ -60,6 +70,23 @@ const Icon = styled.div`
     background-size: 100%;
 `;
 
+const IconImg = styled.div`
+    width:1.4rem;
+    height:1.4rem;
+    border-radius: 1.4rem;
+    background-image: url(${props => props.icon === 1 ? ImgArray[props.icon] : props.img});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    float:left;
+    text-align:left;
+`;
+
+IconImg.propTypes = {
+    img : PropTypes.string,
+    icon: PropTypes.number
+}
+
 const ColorText = styled.span`
     color:#50bbcd;
 `;
@@ -85,9 +112,9 @@ class NewAlarmItem extends Component {
     }
 
 
-    setContent = (item,value,onClickEvent)=>{
+    setContent = (item,value,onClickEvent,comehome,img,icon)=>{
 
-        let result ='';
+        let result ='',resultDiv;
 
         switch(item){
             case 'parcel':
@@ -99,14 +126,22 @@ class NewAlarmItem extends Component {
             case 'visitor':
                 result = (value === 0 || value === undefined) ? <Text>새로운 방문자가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
                 break;
-            case '':
-                result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
-                break;
             case 'parcel':
                 result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
                 break;
+            case 'homecome':
+                result = (comehome !== '' || comehome !== undefined) && <Text><ColorText>{comehome+'님이'}</ColorText> 있습니다.</Text>
+                break;
         }
-        return <List onClick={onClickEvent}><Contents><Icon icon={item} />{result} </Contents><IconNext dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('arrowRight')}} /></List>;
+
+        if(item !== 'homecome'){
+            resultDiv = <List onClick={onClickEvent}><Contents><Icon icon={item} />{result} </Contents><IconNext dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('arrowRight')}} /></List>;
+        }else{
+            resultDiv = <List onClick={onClickEvent}><Contents><IconImg img={img} icon={icon} />{result} </Contents><IconNext dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('arrowRight')}} /></List>;
+        }
+        
+
+        return resultDiv
     }
 
     render() {

@@ -8,10 +8,9 @@ import { PlocsContainer } from 'containers/ListView';
 class ListViewPlocs extends Component {
     async componentDidMount() {
         const { UIActions, ListViewActions } = this.props;
-        UIActions.setPageType({pageType:'/listview'});
-        UIActions.setHeaderTitle({title:'가족위치'});
-
         const {usertoken} = this.props.loginUserInfo;
+        UIActions.setPageType({pageType:'/listview'});
+        UIActions.setHeaderTitle({title:'주차위치'});
         try {
             UIActions.setSpinnerVisible(true);
             await ListViewActions.getInitialPlocs(usertoken);

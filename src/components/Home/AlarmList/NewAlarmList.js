@@ -39,6 +39,17 @@ const NewAlarmList = ({newalarms, onClickEventParcels, onClickEventNotices, onCl
                 <Title>새로운 알림</Title>
                 <IconNext/>
             </TitleBar>
+
+            {
+                newalarms.get('homecom') &&
+                <NewAlarmItem
+                    onClickEvent= {onClickEventVisitors}
+                    item = {'homecom'}
+                    comehome = {newalarms.get('homecom')}
+                    icon = {newalarms.get('homecomIcon')}
+                    img = {newalarms.get('homecomImg')}
+                />
+            }
             <NewAlarmItem
                 onClickEvent= {onClickEventParcels}
                 item = {'parcel'}

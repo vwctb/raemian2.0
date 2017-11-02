@@ -57,7 +57,7 @@ export const setFormatFamily = createAction(FORMAT_FAMILY,AuthAPI.setFormatFamil
 export const changeFormatInput = createAction(FORMAT_INPUT);
 export const setInputDongHo = createAction(INPUT_DONGHO); // index, check
 export const setError = createAction(SET_ERROR); // { form, message }
-export const postAuthConfirm = createAction(POST_AUTH_CONFIRM,AuthAPI.getAuth); // { form, message }
+export const postAuthConfirm = createAction(POST_AUTH_CONFIRM,AuthAPI.getAuth); //
 export const postLogin = createAction(POST_LOGIN,AuthAPI.login); // { form, message }
 export const postRegists = createAction(POST_REGISTS,AuthAPI.regists); // { form, message }
 export const setProfile = createAction(SET_PROFILE); // { userkey }
@@ -72,7 +72,7 @@ const SET_HOMEBGS = 'setting/SET_HOMEBGS';
 const SET_HOMEBGS_IMAGE = 'setting/SET_HOMEBGS_IMAGE';
 const GET_ROBBYCFS = 'setting/GET_ROBBYCFS';
 const SET_ROBBYCFS = 'setting/SET_ROBBYCFS';
-const SET_CPS = 'setting/SET_CPS';
+const PUT_CPS = 'setting/PUT_CPS';
 
 const GET_ALARMS = 'setting/GET_ALARMS';
 const SET_ALARMS = 'setting/SET_ALARMS';
@@ -85,18 +85,12 @@ export const setHomeBgs = createAction(SET_HOMEBGS,AuthAPI.setHomeBgs); // { use
 export const setHomeBgsImage = createAction(SET_HOMEBGS_IMAGE); // { img }
 export const setRobbycfs = createAction(SET_ROBBYCFS,AuthAPI.setRobbycfs); // { img }
 export const getRobbycfs = createAction(GET_ROBBYCFS,AuthAPI.getRobbycfs); // { img }
-export const setCPS = createAction(SET_CPS); // { visible }
+export const putCPS = createAction(PUT_CPS,AuthAPI.putCPS); // { visible }
 export const getAlarms= createAction(GET_ALARMS,AuthAPI.getAlarms); // { visible }
 export const setAlarms = createAction(SET_ALARMS,AuthAPI.setAlarms); // { visible }
 
 const initialState = Map({
     ver:'201700102A',
-    cps:Map({
-        pass:'',
-        success:false,
-        use:true,
-        visible:false
-    }),
     loginUserInfo:Map({
         fschedules:List([]),
         result:"fail",
@@ -107,6 +101,11 @@ const initialState = Map({
             homecome: "",
             homecomeIcon: 0,
             notice: 0
+        }),
+        homebgs:Map({
+            img:'',
+            desc:'',
+            phototype:''
         }),
         usertoken:'',
     }),
@@ -127,7 +126,7 @@ const initialState = Map({
                 userkey:0,
                 icon:9,
                 img:'',
-                alias:'회원애칭',
+                alias:'',
                 tagcolor:null,
                 joindate:'',
                 success:false
@@ -275,10 +274,6 @@ const initialState = Map({
 });
 
 export default handleActions({
-
-    
-
-    [SET_CPS]: (state, action) => state.setIn(['cps', 'visible'], action.payload),
     [SET_UUID]: (state, action) => state.setIn(['register', 'base','uuid'], action.payload),
     [SET_PUSHID]: (state, action) => state.setIn(['register', 'base','pushid'], action.payload),
     [CHANGE_INPUT]: (state, action) => {
@@ -504,7 +499,16 @@ export default handleActions({
             const data = JSON.parse(jsonData).success;
             return state.setIn(['register','success'], data);
         }
+    }),
+    ...pender({
+        type: PUT_CPS,
+        onSuccess: (state, action) =>{
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData).success;
+            return state.setIn(['setting','lockPass','success'], data);
+        }
     })
+
 
     
 

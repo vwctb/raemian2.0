@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PlocsItem from './PlocsItem'
-import moment from 'moment';
+
 
 const Wrapper = styled.div`
      position:absolute;
@@ -23,7 +23,7 @@ const ItemListWrapper = styled.div`
     flex-flow: row wrap;
 `;
 
-const PlocsList = ({listArray,pageType,selectedType,itemClick,typeClick}) => {
+const PlocsList = ({listArray}) => {
     let index=0;
     const list = listArray.map(
         item => (
@@ -31,14 +31,14 @@ const PlocsList = ({listArray,pageType,selectedType,itemClick,typeClick}) => {
                 key={index++}
                 location={item.get('location')}
                 tagcolor={item.get('tagcolor')}
-                date={moment(item.get('insertdate').split(' ')[0]).format('YYYY년 M월 D일')}
+                date={item.get('insertdate')}
            />
         )
     );
     return (
         <Wrapper>
             <ItemListWrapper>
-                {list}
+            { list }
             </ItemListWrapper>
         </Wrapper>
     );
@@ -51,8 +51,7 @@ PlocsList.propTypes = {
             insertdate: PropTypes.string,
             tagcolor: PropTypes.string
         })
-    ),
-    controlType: PropTypes.string
+    )
 }
 
 export default PlocsList;

@@ -193,10 +193,7 @@ class FSchedulesContainer extends Component {
    return modeData.toJS();
 
   }
-
-
-
-    render() {
+render() {
         const { date, listArray, activeDate }= this.props;
         const schedule = listArray.map(
             dateList => (
@@ -222,8 +219,8 @@ class FSchedulesContainer extends Component {
         return (
             <Wrapper>
               <BtnTopSpace>
-              <Button
-                    onClick={this.HandleClickPreMonth}
+                <Button
+                        onClick={this.HandleClickPreMonth}
                 >
                     <IconNext
                         dangerouslySetInnerHTML ={{__html : SvgIcon.getInitialSvgIcon('arrowLeft')}}

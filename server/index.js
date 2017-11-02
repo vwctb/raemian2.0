@@ -12,6 +12,6 @@ app.use(ctx => {
 });
 
 app.use(logger());
-app.listen(80, () => {
-  console.log('raemian server is listening to port 80');
+app.listen(4003, () => {
+  console.log('raemian server is listening to port 4003');
 });
