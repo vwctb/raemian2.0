@@ -71,7 +71,7 @@ class App extends Component {
             
         }
        // document.addEventListener("resume", this.onResume, false);
-       // document.addEventListener("pause", this.onPause, false);
+        document.addEventListener("pause", this.onPause, false);
     }
 
     componentDidMount(){
