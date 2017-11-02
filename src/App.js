@@ -70,8 +70,8 @@ class App extends Component {
             UIActions.setSpinnerVisible(false);
             
         }
-       // document.addEventListener("resume", this.onResume, false);
-        document.addEventListener("pause", this.onPause, false);
+         document.addEventListener("resume", this.onResume, false);
+        //document.addEventListener("pause", this.onPause, false);
     }
 
     componentDidMount(){
@@ -85,10 +85,6 @@ class App extends Component {
     }
 
     onResume = () => {
-       // const { AuthActions} = this.props;
-    }
-
-    onPause = () => {
         const { history } = this.context.router;        
         const { HomeActions } = this.props;
         if(!history.location.pathname.match('auth')){
@@ -96,7 +92,9 @@ class App extends Component {
                 HomeActions.setLockVisible(true);
             }
         }
-       
+    }
+
+    onPause = () => {
     }
 
     render() {
