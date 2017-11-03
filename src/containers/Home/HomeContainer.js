@@ -61,8 +61,8 @@ class HomeContainer extends Component {
         let fschedules, newalarms; 
             fschedules = loginUserInfo.fschedules;
             newalarms = loginUserInfo.newalarms;
-        if(loginUserInfo.newalarms === undefined) newalarms = Map({});
-        if(loginUserInfo.fschedules === undefined) fschedules = List();
+        if(newalarms === undefined) newalarms = Map({});
+        if(fschedules === undefined) fschedules = List();
         return (
             <Wrapper>
                 <BG
@@ -89,7 +89,6 @@ class HomeContainer extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
-        homebgs: state.auth.getIn(['setting','homebgs']),
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch),

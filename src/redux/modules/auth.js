@@ -70,6 +70,8 @@ const SET_SETTING_PROFILE = 'setting/SET_SETTING_PROFILE';
 const GET_HOMEBGS = 'setting/GET_HOMEBGS';
 const SET_HOMEBGS = 'setting/SET_HOMEBGS';
 const SET_HOMEBGS_IMAGE = 'setting/SET_HOMEBGS_IMAGE';
+const SET_HOME_HOMEBGS = 'home/SET_HOME_HOMEBGS';
+
 const GET_ROBBYCFS = 'setting/GET_ROBBYCFS';
 const SET_ROBBYCFS = 'setting/SET_ROBBYCFS';
 const PUT_CPS = 'setting/PUT_CPS';
@@ -77,12 +79,13 @@ const PUT_CPS = 'setting/PUT_CPS';
 const GET_ALARMS = 'setting/GET_ALARMS';
 const SET_ALARMS = 'setting/SET_ALARMS';
 
-
 export const getInitialProfile = createAction(GET_INITIAL_PROFILE,AuthAPI.getInitialProfile); // { usertoken }
 export const setSettingProfile = createAction(SET_SETTING_PROFILE,AuthAPI.setSettingProfile); // { usertoken, }
 export const getHomeBgs = createAction(GET_HOMEBGS,AuthAPI.getHomeBgs); // { usertoken }
 export const setHomeBgs = createAction(SET_HOMEBGS,AuthAPI.setHomeBgs); // { usertoken, data:desc,phototype,img }
 export const setHomeBgsImage = createAction(SET_HOMEBGS_IMAGE); // { img }
+export const setHomeHomeBgsImage = createAction(SET_HOME_HOMEBGS); // { img }
+
 export const setRobbycfs = createAction(SET_ROBBYCFS,AuthAPI.setRobbycfs); // { img }
 export const getRobbycfs = createAction(GET_ROBBYCFS,AuthAPI.getRobbycfs); // { img }
 export const putCPS = createAction(PUT_CPS,AuthAPI.putCPS); // { visible }
@@ -103,9 +106,10 @@ const initialState = Map({
             notice: 0
         }),
         homebgs:Map({
-            img:'',
-            desc:'',
-            phototype:''
+            desc:null,
+            phototype:null,
+            img:null,
+            success:false
         }),
         usertoken:'',
     }),
@@ -175,7 +179,13 @@ const initialState = Map({
             alias:'회원애칭',
             tagcolor:null,
             joindate:''
-        }),
+         }),
+         homebgs:Map({
+            desc:null,
+            phototype:null,
+            img:null,
+            success:false
+         }),
          alarmsList: List([
             Map({
                 name: '방범해제',
@@ -249,12 +259,6 @@ const initialState = Map({
             status:false,
             success:false
         }),
-        homebgs:Map({
-            desc:null,
-            phototype:null,
-            img:null,
-            success:false
-        }),
         lockPass:Map({
             notice:'새로운 비밀번호 4자리를 입력해주세요!',
             use:false,
@@ -299,6 +303,7 @@ export default handleActions({
     [CHECKBOX_USEPASSLOCK]: (state, action) => state.setIn(['setting','lockPass','use'],action.payload),
     [CHECKBOX_USELOBBYCFS]: (state, action) => state.setIn(['setting','lobbycfs','status'],action.payload),
     [CHECKBOX_HOMEBG_TYPE]: (state, action) => state.setIn(['setting','homebgs','phototype'],action.payload),
+    [SET_HOME_HOMEBGS]: (state, action) => state.setIn(['loginUserInfo','homebgs'],action.payload),
     [CHECKBOX_ALRIM]: (state, action) => {
         const { index, check } = action.payload;
         const i = index-1; 

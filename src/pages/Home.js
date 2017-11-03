@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import HomeContainer from 'containers/Home/HomeContainer';
 import * as uiActions from 'redux/modules/ui';
+import * as authActions from 'redux/modules/auth';
+import * as KEY from 'lib/raemianAES';
 
 //import GibberishAES from 'aes';
 class Home extends Component {
@@ -20,7 +22,7 @@ class Home extends Component {
             console.log(e);
         }
     }
-     
+
     render() {
         const {UIActions} = this.props;
         return (
@@ -28,6 +30,7 @@ class Home extends Component {
                <HomeContainer/>
                <Footer
                  selectedPage = "home"
+                 handleClick = {this.handleClick}
                />
             </Layout>
         );
@@ -40,6 +43,7 @@ export default connect(
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),
+        AuthActions: bindActionCreators(authActions, dispatch),
         HomeActions: bindActionCreators(homeActions, dispatch)
     })
 )(Home);

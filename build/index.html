@@ -84,7 +84,6 @@
             function onDeviceReady()
             {
                 console.log("onDeviceReady(): ");
-                alert('onDeviceReady()');
                 var tempDeviceId = device.uuid;
                 deviceId = tempDeviceId.replace(/\-/g,'');
                 if(strAgent.match('cordova_mobile') && strAgent.match('android'))
@@ -102,9 +101,6 @@
                 }
             }
            
-
-
-
             function loadReactApp()
             {
                 var headTag2 = document.getElementsByTagName("head")[0];
@@ -114,7 +110,7 @@
                     console.log("react app: ");
                     console.log("window: ",window.deviceId);
                 };
-                newScript2.src = '/static/js/main.32932b3a.js';
+                newScript2.src = '/static/js/main.5154667d.js';
                 headTag2.appendChild(newScript2);
             }
 

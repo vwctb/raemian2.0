@@ -61,14 +61,15 @@ const BtnBack = styled.div`
     fill:#49433c;
 `;
 
-const Header = ({sideOpen, pageType, sideBack, title}) => {
+const Header = ({sideOpen, pageType, logoClick, sideBack, title}) => {
     return (
         <Wrapper>
-            {(pageType === 'main') ?  <Logo to='/'/> : <BtnBack onClick={sideBack} dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('back') + ' 이전' }}></BtnBack>}
+            {(pageType === 'main') ?  <Logo to='/' onClick={logoClick}/> : <BtnBack onClick={sideBack} dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('back') + ' 이전' }}></BtnBack>}
             {(pageType !== 'main') &&  <Title>{title}</Title>}
             <BtnToggle
                 onClick={sideOpen}
                 dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('toggle')}}
+              
             />
         </Wrapper>
     );

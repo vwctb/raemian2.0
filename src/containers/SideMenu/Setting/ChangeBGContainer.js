@@ -149,9 +149,11 @@ class SettingFamilyContainer extends Component {
         router: PropTypes.object
     }
     handleClick  = async () =>{
-        const { AuthActions,UIActions } = this.props;
+        const { AuthActions, UIActions } = this.props;
         const { desc, phototype, img } = this.props.homebgs.toJS();
-        const { usertoken, result } = this.props.loginUserInfo;
+        const { usertoken, result } = this.props.loginUserInfo.toJS();
+
+
         const jsonData = {
             img:img,
             desc:desc,
@@ -170,6 +172,8 @@ class SettingFamilyContainer extends Component {
             console.log('success:',success);
             if(success){
                 UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+                AuthActions.SET_HOME_HOMEBGS(jsonData);
+
             }else{
                 alert('에러');
             }
@@ -213,7 +217,7 @@ class SettingFamilyContainer extends Component {
     }
 
     render() {
-        const {desc,phototype,img } = this.props.homebgs.toJS();
+        const {desc, phototype, img } = this.props.homebgs.toJS();
         const $CheckIcon = <CheckIcon dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('checkSmall')}} />;
         return (
             <Layout>
@@ -286,9 +290,9 @@ class SettingFamilyContainer extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
+        homebgs:state.auth.getIn(['setting','homebgs']),
         profile: state.auth.getIn(['register','base','profile']),
-        base: state.auth.getIn(['register','base']),
-        homebgs: state.auth.getIn(['setting','homebgs'])
+        base: state.auth.getIn(['register','base'])
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch),

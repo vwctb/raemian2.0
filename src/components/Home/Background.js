@@ -37,6 +37,7 @@ const TitleBar = styled.div`
 const ImageBackground = styled.img`
     width: 100%;
     height: 100%;
+    object-fit: cover;
     position: relative;
     margin: 0 auto;
     border:0;
@@ -45,11 +46,16 @@ const ImageBackground = styled.img`
 const BGBox = ({homebgs}) => {
     if(homebgs === undefined){
         homebgs = {
-            desc :'',
+            desc :'행복한 레미안 하우스',
             phototype : 1,
             img : ''
         }
     }
+    if(homebgs.desc === null || homebgs.desc === ''){
+        homebgs.desc = '행복한 레미안 하우스';
+        homebgs.phototype = 1;
+    }
+
     return (
         <Wrapper>
             <TitleBar>{homebgs.desc}</TitleBar>

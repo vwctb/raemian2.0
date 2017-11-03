@@ -36,12 +36,12 @@ const iconStyle = (avtive) => ({
     justifyContent: 'center',
 });
 
-
-const Footer = ({selectedPage}) => (
+const Footer = ({selectedPage,handleClick}) => (
         <Wrapper>
             <Link to = "/"
                   style = {iconStyle("home" === selectedPage)}
                   dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('home')}}
+                 
                 />
             <Link to = "/control"
                   style = {iconStyle("control" === selectedPage)}

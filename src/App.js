@@ -21,6 +21,7 @@ import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
 import storage from 'lib/storage';
 
+let isFirstLoad = true;
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
@@ -38,19 +39,18 @@ class App extends Component {
     }
 
     async componentWillMount() {
+        console.log('componentWillMount');
         const { history } = this.context.router;
         //const strAgent = navigator.userAgent.toLowerCase();
         //alert('uuid2:'+window.device.uuid);
         //alert('uuid3:'+window.deviceId);
         if(!history.location.pathname.match('auth')){
             const { AuthActions, UIActions} = this.props;
-            
             UIActions.setSpinnerVisible(true);
-            
             const dummy = new Date().getTime();
            // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
            const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
-           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202'
+           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
            const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
            AuthActions.setUUID(uuid);
            AuthActions.setPUSHID(pushid);
@@ -70,11 +70,13 @@ class App extends Component {
             UIActions.setSpinnerVisible(false);
             
         }
-         document.addEventListener("resume", this.onResume, false);
+        //document.addEventListener("resume", this.onResume, false);
+        document.addEventListener("deviceready", this.onResume, false);
         //document.addEventListener("pause", this.onPause, false);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
+        console.log('componentDidMount');
         const { history } = this.context.router;
         const { HomeActions } = this.props;
         if(!history.location.pathname.match('auth')){
@@ -116,7 +118,6 @@ class App extends Component {
                     visible &&
                     <ScreenLock/>
                 }
-
 
                 <Menu/>
                 <Route exact path="/auth/" component={Auth}/>

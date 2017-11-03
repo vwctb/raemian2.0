@@ -9,6 +9,7 @@ import * as authActions from 'redux/modules/auth';
 import * as talkActions from 'redux/modules/talk';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import * as KEY from 'lib/raemianAES';
 
 class Menu extends Component {
     static contextTypes = {
@@ -43,11 +44,37 @@ class Menu extends Component {
             TalkActions.setInitalFmsgsView();
         }
 
+
+    }
+
+    logoClick = async () => {
+   
+            const { AuthActions, UIActions} = this.props;
+            
+           // UIActions.setSpinnerVisible(true);
+            
+            const dummy = new Date().getTime();
+           // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
+           const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202'
+           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
+           AuthActions.setUUID(uuid);
+           AuthActions.setPUSHID(pushid);
+            try {
+                await AuthActions.postLogin({'data':data});
+            } catch(e) {
+                  console.log('login error: ',e);
+            }
+            const {loginUserInfo} = this.props
+        
+           // UIActions.setSpinnerVisible(false);
+            
+        
     }
 
     changeSideMenuView = async (sideView) => {
         const { UIActions, AuthActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         
         UIActions.changeSideMenuView(sideView);
         //console.log('sideView:',sideView.sideViewIndex);
@@ -128,6 +155,7 @@ class Menu extends Component {
                             pageType = {pageType}
                             title = {title}
                             sideBack= {this.onClickBackPage}
+                            logoClick = {this.logoClick}
                     />
                 </div>
         )
