@@ -74,7 +74,7 @@ class Menu extends Component {
 
     changeSideMenuView = async (sideView) => {
         const { UIActions, AuthActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo.toJS();
+        const {usertoken} = this.props.loginUserInfo;
         
         UIActions.changeSideMenuView(sideView);
         //console.log('sideView:',sideView.sideViewIndex);
