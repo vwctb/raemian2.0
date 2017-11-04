@@ -12,7 +12,7 @@ class ListViewVisitorContent extends Component {
         UIActions.setHeaderTitle({title:' 방문자'});
         ListViewActions.setContent('');
         
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         try {
             UIActions.setSpinnerVisible(true);
             await ListViewActions.getVisitorContent(match.params.index,usertoken);

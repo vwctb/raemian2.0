@@ -51,7 +51,7 @@ class FSchedulesAddContainer extends Component {
         console.log('addFscheduleClick click');
         const { year, month, day, memo, repeat, alarm } = this.props.write.toJS();
         const { UIActions, TalkActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo; 
+        const { usertoken } = this.props.loginUserInfo.toJS(); 
 
         const jsonData = {
             year:Number(year),

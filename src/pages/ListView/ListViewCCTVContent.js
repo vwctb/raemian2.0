@@ -11,7 +11,7 @@ class ListViewCCTVContent extends Component {
         UIActions.setPageType({pageType:'/listview/cctvs'});
         UIActions.setHeaderTitle({title:' CCTV'});
         ListViewActions.setContent('');
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         try {
             UIActions.setSpinnerVisible(true);
             await ListViewActions.getCCTVContent(match.params.index,usertoken);

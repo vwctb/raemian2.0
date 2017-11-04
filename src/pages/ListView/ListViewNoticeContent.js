@@ -11,7 +11,7 @@ class ListViewNoticeContent extends Component {
         UIActions.setPageType({pageType:'/listview/notices'});
         UIActions.setHeaderTitle({title:' 공지사항'});
         ListViewActions.setContent('');
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         try {
             UIActions.setSpinnerVisible(true);
             await ListViewActions.getNoticeContent(match.params.index,usertoken);

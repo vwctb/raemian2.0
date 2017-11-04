@@ -121,7 +121,7 @@ class NewAlarmItem extends Component {
                 result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
                 break;
             case 'notice':
-                result = (value === 0 || value === undefined) ? <Text>새로운 공지사항이 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
+                result = (value === 0 || value === undefined) ? <Text>새로운 공지사항이 없습니다.</Text> : <Text>새로운 공지사항이 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
                 break;
             case 'visitor':
                 result = (value === 0 || value === undefined) ? <Text>새로운 방문자가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>

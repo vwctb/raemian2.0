@@ -14,7 +14,7 @@ class FmsgsWriteContainer extends Component {
 	}
     HandleClickDelete = async () => {
         const { seq } = this.props.msgViewData.toJS();
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         const {TalkActions,UIActions} = this.props;
         const jsonData = {
             seq:seq

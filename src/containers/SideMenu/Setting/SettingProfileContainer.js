@@ -44,7 +44,7 @@ class SettingProfileContainer extends Component {
      /*
     async componentDidMount() {
         const { UIActions, AuthActions} = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         console.log('usertoken:',usertoken);
        
         try {
@@ -61,7 +61,7 @@ class SettingProfileContainer extends Component {
         const { AuthActions,UIActions } = this.props;
         const { profile } = this.props.base.toJS();
         const { icon, img, alias, tagcolor } = profile;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         const jsonData = {
             icon:Number(icon),
             img:img,

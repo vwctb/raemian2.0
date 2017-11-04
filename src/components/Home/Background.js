@@ -44,6 +44,7 @@ const ImageBackground = styled.img`
 `;
 
 const BGBox = ({homebgs}) => {
+    let { desc, phototype,img } = homebgs.toJS()
     if(homebgs === undefined){
         homebgs = {
             desc :'행복한 레미안 하우스',
@@ -51,19 +52,19 @@ const BGBox = ({homebgs}) => {
             img : ''
         }
     }
-    if(homebgs.desc === null || homebgs.desc === ''){
-        homebgs.desc = '행복한 레미안 하우스';
-        homebgs.phototype = 1;
+    if(desc === null || desc === ''){
+        desc = '행복한 레미안 하우스';
+        phototype = 1;
     }
 
     return (
         <Wrapper>
-            <TitleBar>{homebgs.desc}</TitleBar>
+            <TitleBar>{desc}</TitleBar>
             {
-                homebgs.phototype === 1 ?
+                phototype === 1 ?
                 <Background/>
                 :
-                <ImageBackground src = {homebgs.img}/>
+                <ImageBackground src = {img}/>
             }
            
 

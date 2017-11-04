@@ -38,7 +38,7 @@ const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemCl
                            item.get('fromto') === 'from'  ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === item.getIn(['alias',0])),'icon']) :
                            userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon'])
                     }
-                    img={item.get('fromto') === 'to' && userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'img'])}
+                    img={item.get('fromto') === 'to' ? userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'img']) : ''}
                     fromto={item.get('fromto')}
                     news={item.get('new')}
                     msg={item.get('msg')}

@@ -31,7 +31,7 @@ class ReserveControlWakeupContainer extends Component {
 
     handleClick = async () => {
         const { ControlActions, UIActions, uploadFile, use, goout} = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         let jsonData;
         if(use === true){
             jsonData = goout;

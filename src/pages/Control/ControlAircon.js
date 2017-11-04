@@ -7,7 +7,7 @@ import { AirconsContainer } from 'containers/Control';
 
 class ControlAircon extends Component {
     async componentDidMount() {
-        const { UIActions, ControlActions, auth,loginUserInfo} = this.props;
+        const { UIActions, ControlActions, auth, loginUserInfo} = this.props;
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'에어컨'});
         try {

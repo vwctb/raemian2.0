@@ -47,7 +47,7 @@ class SettingAlrimContainers extends Component {
     handleClick = async () => {
 
         const { AuthActions, UIActions, checkBoxListArray } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         const jsonData = {
             guard:checkBoxListArray.getIn([0,'check']),
             visitor:checkBoxListArray.getIn([1,'check']),

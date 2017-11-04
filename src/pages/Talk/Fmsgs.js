@@ -9,7 +9,7 @@ class Fmsgs extends Component {
 
     async componentDidMount() {
         const { UIActions, TalkActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/talk'});
         UIActions.setHeaderTitle({title:'가족메시지'});
 

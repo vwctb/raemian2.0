@@ -9,7 +9,7 @@ import { NoticesContainer } from 'containers/ListView';
 class ListViewNotices extends Component {
     async componentDidMount() {
         const { UIActions, ListViewActions, data_selected_type} = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'공지사항'});
        // console.log(data_selected_type);

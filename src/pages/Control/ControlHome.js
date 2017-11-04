@@ -30,7 +30,7 @@ class ControlHome extends Component {
 
     async componentDidMount() {
         const { UIActions, ControlActions, auth} = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
 
         ControlActions.initializeReserve();
         UIActions.setPageType({pageType:'main'});

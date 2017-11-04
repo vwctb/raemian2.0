@@ -144,7 +144,7 @@ class FSchedulesContainer extends Component {
         UIActions.setSpinnerVisible(true);
         console.log(date);
         try {
-            const {usertoken} = this.props.loginUserInfo;
+            const {usertoken} = this.props.loginUserInfo.toJS();
             const year = moment(date).local().format('YYYY');
             const month = moment(date).local().format('M');       
             console.log('usertoken',usertoken);

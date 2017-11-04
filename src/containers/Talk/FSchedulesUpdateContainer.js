@@ -69,7 +69,7 @@ class FSchedulesAddContainer extends Component {
         }
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
         const { TalkActions, UIActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
         try {
             await TalkActions.getFschedulesUpdate({data:data,usertoken:usertoken});
@@ -91,7 +91,7 @@ class FSchedulesAddContainer extends Component {
         }
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
         const { TalkActions, UIActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
         console.log('data:',data);
         try {

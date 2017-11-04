@@ -8,7 +8,7 @@ import { PlocsContainer } from 'containers/ListView';
 class ListViewPlocs extends Component {
     async componentDidMount() {
         const { UIActions, ListViewActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'주차위치'});
         try {

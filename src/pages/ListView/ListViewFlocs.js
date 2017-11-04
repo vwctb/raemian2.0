@@ -8,7 +8,7 @@ import { FlocsContainer } from 'containers/ListView';
 class ListViewFlocs extends Component {
     async componentDidMount() {
         const { UIActions, ListViewActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;        
+        const {usertoken} = this.props.loginUserInfo.toJS();        
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'가족위치'});
         try {

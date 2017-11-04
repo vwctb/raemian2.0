@@ -16,3 +16,5 @@ export { default as FamliyItemSmall } from './FamliyItemSmall';
 export { default as FamilyItem } from './FamilyItem';
 export { default as ControlCheckBoxList } from './ControlCheckBoxList';
 export { default as Spinner } from './Spinner';
+export { default as Terms } from './Terms';
+export { default as Privacy } from './Privacy';

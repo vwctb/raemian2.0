@@ -9,7 +9,7 @@ import { FmsgsViewContainer } from 'containers/Talk';
 class FmsgsView extends Component {
     async componentDidMount() {
         const { UIActions,TalkActions,match } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/talk/fmsgs'});
         UIActions.setHeaderTitle({title:'가족메시지'});
         UIActions.setSpinnerVisible(true);

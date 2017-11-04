@@ -65,7 +65,7 @@ class Menu extends Component {
             } catch(e) {
                   console.log('login error: ',e);
             }
-            const {loginUserInfo} = this.props
+           // const {loginUserInfo} = this.props
         
            // UIActions.setSpinnerVisible(false);
             
@@ -74,7 +74,7 @@ class Menu extends Component {
 
     changeSideMenuView = async (sideView) => {
         const { UIActions, AuthActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         
         UIActions.changeSideMenuView(sideView);
         //console.log('sideView:',sideView.sideViewIndex);

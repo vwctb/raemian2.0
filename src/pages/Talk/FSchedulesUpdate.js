@@ -12,7 +12,7 @@ class FSchedulesUpdate extends Component {
         UIActions.setHeaderTitle({title:'일정 관리'});
 
         console.log('seq:',match.params.seq);
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         try {
             UIActions.setSpinnerVisible(true);
             await TalkActions.getFschedulesDetail(match.params.seq,usertoken);

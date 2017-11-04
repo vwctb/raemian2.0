@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Layout from 'components/Layout';
-import {BtnSingle,BtnSingleModal,Modal,Dimmed} from 'components/Shared';
+import {BtnSingle,Modal,Dimmed,Terms,Privacy} from 'components/Shared';
 import { SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
 import AuthHeader from 'components/Auth/AuthHeader';
 import * as uiActions from 'redux/modules/ui';
@@ -30,8 +30,10 @@ const MainNotice = styled.div`
     height:25rem;
     text-align:left;
     padding: 1rem;
+    font-size:0.8rem;
     line-height: 1.6rem;
     color:#49433c;
+    overflow:auto;
 `;
 
 const SubNotice = styled.div`
@@ -127,9 +129,12 @@ class AuthContainers extends Component {
              
 
                 <Modal visible={visible} onHide={this.onHide} title={modalTitle}>
-                    <MainNotice>
-                        내용
-                    </MainNotice>
+                    {
+                        modalTitle === '이용약관' ?
+                        <Terms/>
+                        :
+                        <Privacy/>
+                    }
                    
                 </Modal>
                  <Dimmed visible={visible}/>

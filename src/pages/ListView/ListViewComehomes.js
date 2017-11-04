@@ -10,7 +10,7 @@ class ListViewComehome extends Component {
         const { UIActions, ListViewActions} = this.props;
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'귀가알림'});
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         try {
             UIActions.setSpinnerVisible(true);
             await ListViewActions.getInitialComehomes(usertoken);

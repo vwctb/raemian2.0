@@ -60,7 +60,7 @@ class App extends Component {
                   console.log('login error: ',e);
             }
             const {loginUserInfo} = this.props
-            const {result} = loginUserInfo;    
+            const {result} = loginUserInfo.toJS();    
             //console.log('loginUserInfo: ',loginUserInfo);
    
             if(result === 'fail'){

@@ -103,7 +103,7 @@ class LightContainer extends Component {
        // const tempdata =  KEY.decryptedKey('AwrYTnfb01cgoMWsgIHpuAun1E8jG9/acnw6jOCX4NSee8GhE5nzdBeP0sMWd6iCpAgg4SVJBDqfwshpGndRoQ==');
        // console.log('tempdata:',tempdata);
         const { ControlActions, UIActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
         //console.log('usertoken:',usertoken);
        // console.log('data:',data);
@@ -117,7 +117,7 @@ class LightContainer extends Component {
 
     handleClickBachOnOff = async (value)=>{
         const { ControlActions, UIActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         const jsonData = {
             status:value
         }
@@ -150,7 +150,7 @@ class LightContainer extends Component {
         }
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
         const { ControlActions, UIActions } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
 
         try {

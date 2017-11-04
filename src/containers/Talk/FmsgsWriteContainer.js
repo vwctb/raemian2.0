@@ -57,7 +57,7 @@ class FmsgsWriteContainer extends Component {
          )
       }
 
-      const { usertoken } = this.props.loginUserInfo;
+      const { usertoken } = this.props.loginUserInfo.toJS();
       const type = (tempType.split('/')[0] === 'image' ? 'imageUpload' : 'videoUpload');
 
       let formData = new FormData();
@@ -85,7 +85,7 @@ class FmsgsWriteContainer extends Component {
 
     HandleClickSendMsg = async () => {
         const { TalkActions, UIActions, uploadFile } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         //const {  } = this.props.uploadFile;
 
         const { msg, receivetime, receiverkey, fileid } = this.props.write.toJS();

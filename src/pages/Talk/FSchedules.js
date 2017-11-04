@@ -13,7 +13,7 @@ class FSchedules extends Component {
         UIActions.setHeaderTitle({title:'가족일정'});
         console.log('date:',date);
         try {
-            const {usertoken} = this.props.loginUserInfo;
+            const {usertoken} = this.props.loginUserInfo.toJS();
             const year = moment(date).local().format('YYYY');
             const month = moment(date).local().format('M');       
             console.log('usertoken',usertoken);

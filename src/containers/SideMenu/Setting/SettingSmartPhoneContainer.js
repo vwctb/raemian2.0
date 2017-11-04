@@ -30,7 +30,7 @@ const Notice = styled.div`
 class SettingSmartPhoneContainer extends Component {
     handleUpdate = async() => {
         const { AuthActions, UIActions, status } = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         const jsonData = {
             status: status ? 'on' : 'off'
         }

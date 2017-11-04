@@ -26,7 +26,7 @@ class PWLockContainer extends Component {
 
     handleUpdate = async () => {
         const { AuthActions,UIActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         const { use, pass } = this.props.lockPass.toJS();
        
         const newPass = KEY.encryptedKey(JSON.stringify(pass));

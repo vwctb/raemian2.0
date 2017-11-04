@@ -8,8 +8,8 @@ import { CCTVContainer } from 'containers/ListView';
 
 class ListViewCCTV extends Component {
     async componentDidMount() {
-        const { UIActions, ListViewActions, auth,loginUserInfo} = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { UIActions, ListViewActions, auth} = this.props;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'CCTV'});
         try {

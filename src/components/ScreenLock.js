@@ -115,7 +115,7 @@ class ScreenLock extends Component {
     onClickEvent = async (e) =>{
         //console.log(e.target.innerHTML);
         const { HomeActions, UIActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         const { pass } = this.props.screenLock.toJS();
         const { success } = this.props.authConfirm.toJS();
         let value = '○○○○';
@@ -203,7 +203,7 @@ class ScreenLock extends Component {
     handleClickNext = async () => {
         const { HomeActions, UIActions, visible } = this.props;
         const { pass } = this.props.authConfirm.toJS();
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         //history.push('auth/signup');
         // 검증작업 진행
         const passCheck = this.validate['pass'](pass);
@@ -223,7 +223,7 @@ class ScreenLock extends Component {
 
     handleClickSetLockScreenPass = async () => {
         const { AuthActions,UIActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo;
+        const { usertoken } = this.props.loginUserInfo.toJS();
         const { pass } = this.props.screenLock.toJS();
         const newPass = KEY.encryptedKey(JSON.stringify(pass));
 

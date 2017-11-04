@@ -159,6 +159,7 @@ class SettingFamilyContainer extends Component {
             desc:desc,
             phototype:phototype,
         }
+        console.log('this.props.homebgs : ',this.props.homebgs)
         console.log('jsonData:',jsonData);
         console.log('usertoken:',usertoken);
         if(result !== 'true') {   
@@ -172,7 +173,7 @@ class SettingFamilyContainer extends Component {
             console.log('success:',success);
             if(success){
                 UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
-                AuthActions.SET_HOME_HOMEBGS(jsonData);
+                AuthActions.setHomeHomeBgsImage(jsonData);
 
             }else{
                 alert('에러');

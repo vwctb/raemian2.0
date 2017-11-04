@@ -10,7 +10,7 @@ class ControlHeating extends Component {
         const { UIActions, ControlActions } = this.props;
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'조 명'});
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
         try {
             //await ControlActions.getInitialHeatings({usertoken:loginUserInfo.usertoken});
@@ -23,7 +23,7 @@ class ControlHeating extends Component {
     }
 
     render() {
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
          return (
             <LightContainer usertoken={usertoken}/>
         )

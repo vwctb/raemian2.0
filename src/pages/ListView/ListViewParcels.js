@@ -8,7 +8,7 @@ import { ParcelsContainer } from 'containers/ListView';
 class ListViewVisitors extends Component {
     async componentDidMount() {
         const { UIActions, ListViewActions, auth} = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/listview'});
         UIActions.setHeaderTitle({title:'택배'});
         try {

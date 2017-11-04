@@ -59,26 +59,26 @@ class HomeContainer extends Component {
     render() {
         let { loginUserInfo } = this.props;
         let fschedules, newalarms; 
-            fschedules = loginUserInfo.fschedules;
-            newalarms = loginUserInfo.newalarms;
+            fschedules = loginUserInfo.get('fschedules');
+            newalarms = loginUserInfo.get('newalarms');
         if(newalarms === undefined) newalarms = Map({});
         if(fschedules === undefined) fschedules = List();
         return (
             <Wrapper>
                 <BG
-                    homebgs = {loginUserInfo.homebgs}
+                    homebgs = {loginUserInfo.get('homebgs')}
                 />
                 <ListContainer>
                     <FamilyScheduleList
                         onClickEvent={this.handleClickFamilySchedule}
-                        fschedulesArray={fromJS(fschedules)}
+                        fschedulesArray={fschedules}
                         svgIconArrowRight = {SvgIcon.getInitialSvgIcon('arrowRight')}
                     />
                     <NewAlarmList
                         onClickEventParcels={this.handleClickParcels}
                         onClickEventNotices={this.handleClickNotices}
                         onClickEventVisitors={this.handleClickVisitors}
-                        newalarms={fromJS(newalarms)}
+                        newalarms={newalarms}
                     />
                 </ListContainer>
             </Wrapper>

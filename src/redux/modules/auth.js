@@ -303,7 +303,7 @@ export default handleActions({
     [CHECKBOX_USEPASSLOCK]: (state, action) => state.setIn(['setting','lockPass','use'],action.payload),
     [CHECKBOX_USELOBBYCFS]: (state, action) => state.setIn(['setting','lobbycfs','status'],action.payload),
     [CHECKBOX_HOMEBG_TYPE]: (state, action) => state.setIn(['setting','homebgs','phototype'],action.payload),
-    [SET_HOME_HOMEBGS]: (state, action) => state.setIn(['loginUserInfo','homebgs'],action.payload),
+    [SET_HOME_HOMEBGS]: (state, action) => state.setIn(['loginUserInfo','homebgs'],fromJS(action.payload)),
     [CHECKBOX_ALRIM]: (state, action) => {
         const { index, check } = action.payload;
         const i = index-1; 
@@ -494,7 +494,7 @@ export default handleActions({
         onSuccess: (state, action) =>{
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
-            return state.set('loginUserInfo', data);
+            return state.set('loginUserInfo', fromJS(data));
         }
     }),
     ...pender({
