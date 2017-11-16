@@ -85,13 +85,13 @@ export const login = (value) => axios.post('/smarthome/v1/login',value,{headers:
 });
 
 export const deleteFamily  = (value) => axios.delete(`/smarthome/v1/familys/${value.userkey}`,{
-    data: { data: value.jsonData },
-    headers:{
-        'registtoken':value.registtoken,
-    }
+    headers:value.headers
 }).catch(function (error) {
     console.log("channel error",error.response);
 });
+
+
+
 
 export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/all',{
     data: { data: value }, 

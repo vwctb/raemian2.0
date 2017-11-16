@@ -54,6 +54,7 @@ const SubNotice = styled.div`
 let modalSW=true;
 let title = '';
 let modalContent = '';
+let deleteUserkey = '';
 class FamilyContainers extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -84,16 +85,21 @@ class FamilyContainers extends Component {
         history.push('/auth/setFamilyGroup');
     }
 
-    deleteFamilyClick = (val) => {
-        const { UIActions,visible } = this.props;
+    deleteFamilyClick = (val,alias)  => {
+       const { UIActions,AuthActions,visible } = this.props;
         const { history } = this.context.router;
         console.log('deleteFamily click'+val);
+
+        AuthActions.setDeleteSelectFamily(val);
+        AuthActions.setDeleteSelectFamilyAlias(alias);
+        deleteUserkey = val;
         title = '삭제 경고!';
         modalContent= 'delete';
 
         if(!modalSW) return; //반복 모달 호출현상 방지
         UIActions.setModalVisible(!visible);
         modalSW = false;
+
     }
 
     onHide = () =>{
@@ -107,14 +113,17 @@ class FamilyContainers extends Component {
     onDelete = async () => {
         const { AuthActions } = this.props;
         const { userkey } = this.props.familyListDelete.toJS();
-        const { authConfirm, uuid } = this.props.base.toJS();
+        const { usertoken } = this.props.loginUserInfo.toJS();
+        const {  uuid } = this.props.base.toJS();
         const jsonData = {
             uuid:uuid
         }
         const data = {
             userkey:userkey,
             jsonData:KEY.encryptedKey(JSON.stringify(jsonData)),
-            registtoken:authConfirm.registtoken
+            headers:{
+                'usertoken':usertoken,
+            }
         }
         console.log('data:',data);
         try {
@@ -125,10 +134,10 @@ class FamilyContainers extends Component {
 
         const { success } = this.props.familyListDelete.toJS();
         if(success){
-            const { history } = this.context.router;
             const {  UIActions, visible } = this.props;
             UIActions.setModalVisible(!visible);
-            history.push('/auth/setFamilyGroup');
+            UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+
             setTimeout(() => {
                 modalSW = true;
             },500);
@@ -167,6 +176,7 @@ class FamilyContainers extends Component {
 
     render() {
         const { pageType, familyListArray,profile,visible } = this.props;
+        const { alias } = this.props.familyListDelete.toJS();
         const { pass } = this.props.base.toJS();
         return (
             <Layout>
@@ -232,7 +242,7 @@ class FamilyContainers extends Component {
                 :
                 <div>
                     <MainNotice>
-                        '멋진 아빠'님의<br/>
+                        '{alias}'님의<br/>
                         모든 기록과 데이터도 같이 삭제됩니다.<br/>
                         <br/>
                         <OrangeText>
@@ -265,6 +275,7 @@ class FamilyContainers extends Component {
 export default connect(
     (state) => ({
         visible: state.ui.getIn(['modal','visible']),
+        loginUserInfo: state.auth.get('loginUserInfo'),
         familyListArray: state.auth.getIn(['setting','familyList']),
         familyListDelete: state.auth.getIn(['setting','familyListDelete']),
         familyListFormat: state.auth.getIn(['setting','familyListFormat']),

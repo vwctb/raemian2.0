@@ -136,7 +136,9 @@ class FamilyContainers extends Component {
         const data = {
             userkey:userkey,
             jsonData:KEY.encryptedKey(JSON.stringify(jsonData)),
-            registtoken:authConfirm.registtoken
+            headers:{
+                'registtoken':authConfirm.registtoken,
+            }
         }
         console.log('data:',data);
 

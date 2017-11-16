@@ -235,7 +235,6 @@ class SettingProfileContainer extends Component {
                     </div>
                 </Modal>
                 <Dimmed visible={visible}/>
-
             </Layout>
 
         )
