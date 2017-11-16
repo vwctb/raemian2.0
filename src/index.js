@@ -10,8 +10,6 @@ import configureStore from 'redux/configureStore';
 
 const store = configureStore();
 
-const para = document.location.href.split(":")[1];
-
 const socketURI = 'ws://122.199.242.18:4805';
      // socket.initialize(store, socketURI);
 const render = Component => {

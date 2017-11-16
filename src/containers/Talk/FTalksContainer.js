@@ -25,7 +25,7 @@ class FTalksContainer extends Component {
     }
 
     load = async (_lasttime) => {
-        console.log('_lasttime :',_lasttime);
+        //console.log('_lasttime :',_lasttime);
         sendLastTime = _lasttime;
         const { UIActions, TalkActions } = this.props;
         const { usertoken } = this.props.loginUserInfo.toJS();
@@ -35,9 +35,6 @@ class FTalksContainer extends Component {
             await TalkActions.getFTalksList({lasttime:_lasttime,usertoken:usertoken});
             if(_lasttime === null){
                 window.myRef.scrollTop = window.myRef.scrollHeight;
-                setTimeout(function() {
-                    window.myRef.scrollTop = window.myRef.scrollHeight+1000;
-                }, 300);
             }else{
                 window.myRef.scrollTop = window.myRef.scrollHeight - beforeScrollTop;
             }

@@ -55,7 +55,6 @@ class App extends Component {
             //console.log('loginUserInfo: ',loginUserInfo);
    
             if(result === 'fail'){
-                return;
                 history.push('/auth');
             }            
             UIActions.setSpinnerVisible(false);

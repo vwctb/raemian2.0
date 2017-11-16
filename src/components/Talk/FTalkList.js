@@ -27,7 +27,6 @@ let key=0;
 const FTalkList = ({listArray,userArray,itemClick,typeClick,handleFocus,focus}) => {    
     let list=''; 
     if(listArray.size > 0){
-        console.log('listArray:',listArray);
         list = listArray.map(
             item => (
                 <FTalkItem

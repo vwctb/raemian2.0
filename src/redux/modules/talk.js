@@ -334,7 +334,6 @@ export default handleActions({
         type: GET_FTALKS_LIST,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            console.log('state:',state.toJS());
             return state.updateIn(['ftalks','list'],list => list.concat(fromJS(JSON.parse(jsonData).list)))
             .setIn(['ftalks','user'],fromJS(JSON.parse(jsonData).user))
             .setIn(['ftalks','lasttime'],JSON.parse(jsonData).lasttime);
