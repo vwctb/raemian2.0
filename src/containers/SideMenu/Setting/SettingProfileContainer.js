@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import Layout from 'components/Layout';
 import { SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
-import AuthHeader from 'components/Auth/AuthHeader';
 import {BtnSingle} from 'components/Shared';
 import * as authActions from 'redux/modules/auth';
 import * as uiActions from 'redux/modules/ui';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import {FamilyListContainer,OnePassTagContainer,ProfilePhotoAliasContainer} from 'containers/Shared'
-import { Link } from 'react-router-dom';
+import {OnePassTagContainer,ProfilePhotoAliasContainer} from 'containers/Shared'
 import PropTypes from 'prop-types';
 import * as KEY from 'lib/raemianAES';
+import {BtnDoubleModal, Modal, Dimmed, InputWithLabelModal} from 'components/Shared';
 
 const Wrapper = styled.div`
     position: absolute;
@@ -37,6 +36,20 @@ const OnePassNotice = styled.div`
 `;
 
 
+const MainNotice = styled.div`
+    width: 100%;
+    text-align:center;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    line-height: 1.6rem;
+    color:#49433c;
+`;
+
+const OrangeText = styled.span`
+    color:#ff7e5f;
+`;
+
+let tempTagColor=null;
+let modalSW=true;
 class SettingProfileContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -98,10 +111,46 @@ class SettingProfileContainer extends Component {
         }
     }
 
+    handleClickTagColor= async (val) => {
+        tempTagColor = val;
+        const { AuthActions,UIActions,visible } = this.props;
+        const { usertoken } = this.props.loginUserInfo.toJS();
+        try {
+            await AuthActions.checkTagColor(
+                {
+                    tagcolor:val,
+                    headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}
+                }
+            );
+          } catch(e) {
+              console.log(e);
+          }
+        const { checkTagColor } = this.props;
+        if(!checkTagColor){
+            AuthActions.setProfileTagColor(val);
+        }else{
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
+        }
+        
+    }
 
-    handleClickTagColor= (val) => {
-        const { AuthActions } = this.props;
-        AuthActions.setProfileTagColor(val);
+    onHide = () =>{
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+    }
+
+    onSetTagColor = () => {
+        const { AuthActions,visible,UIActions } = this.props;
+        AuthActions.setProfileTagColor(tempTagColor);
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
     }
 
     backClickEvent = () => {
@@ -122,7 +171,6 @@ class SettingProfileContainer extends Component {
         const { AuthActions } = this.props;
          console.log('iconClick click'+val);
         AuthActions.setProfileIcon(val);
-        
     }
 
     addFamilyClick = () => {
@@ -130,7 +178,7 @@ class SettingProfileContainer extends Component {
     }
 
     render() {
- 
+        const {visible} = this.props;
         const {tagcolor,icon,alias,img} = this.props.profile.toJS();
         
         return (
@@ -146,7 +194,6 @@ class SettingProfileContainer extends Component {
                         img={img}
                         onClickEventIcon = {this.iconClick}
                         handleChangeFile = {this.handleChangeFile}
-
                     />
 
                     <SubTitle
@@ -167,7 +214,30 @@ class SettingProfileContainer extends Component {
                     onClickEvent={this.handleClick}
                     name={'적 용'}
                 />
+
+                <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
+                    <div>
+                        <MainNotice>
+                            선택하신 색상은 다른 가족과<br/>
+                            이미 연동되어 있습니다.<br/>
+                            <br/>
+                            <OrangeText>
+                                무시하고 연동하겠습니까?
+                            </OrangeText>
+                        </MainNotice>
+                        
+                        <BtnDoubleModal
+                            onClickEvent1={this.onSetTagColor}
+                            onClickEvent2={this.onHide}
+                            name1={'확인'}
+                            name2={'취소'}
+                        />
+                    </div>
+                </Modal>
+                <Dimmed visible={visible}/>
+
             </Layout>
+
         )
     };
 };
@@ -178,7 +248,9 @@ export default connect(
         loginUserInfo: state.auth.get('loginUserInfo'),
         profile: state.auth.getIn(['register','base','profile']),
         base: state.auth.getIn(['register','base']),
+        checkTagColor: state.auth.get('checkTagColor'),
         success: state.auth.getIn(['register','base','profile','success']),
+        visible: state.ui.getIn(['modal','visible'])
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch),

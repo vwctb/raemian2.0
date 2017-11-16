@@ -3,6 +3,8 @@ import Layout from 'components/Layout';
 import { SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
 import AuthHeader from 'components/Auth/AuthHeader';
 import * as authActions from 'redux/modules/auth';
+import * as uiActions from 'redux/modules/ui';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
@@ -33,15 +35,16 @@ class FamilyContainers extends Component {
     }
     
     async componentDidMount() {
-        const { AuthActions } = this.props;
+        const { UIActions, AuthActions } = this.props;
         const { authConfirm } = this.props.base.toJS();
-
        // console.log(authConfirm.registtoken);
-    try {
+        try {
+            UIActions.setSpinnerVisible(true);
             await AuthActions.getInitialFamilyGroupAuth(authConfirm.registtoken);
         } catch(e) {
             console.log(e);
         }
+        UIActions.setSpinnerVisible(false);
     }
 
     handleClick = () => {
@@ -121,7 +124,8 @@ export default connect(
         base: state.auth.getIn(['register','base'])
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UIActions: bindActionCreators(uiActions, dispatch)
     })
 )(FamilyContainers);
 

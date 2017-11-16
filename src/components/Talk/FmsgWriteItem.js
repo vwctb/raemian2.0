@@ -8,6 +8,7 @@ import * as SvgIcon from 'lib/icon_svg'
 
 const Wapper = styled.div`
     margin-top: 1.5rem;
+    margin: 0.1rem;
     text-decoration: none;
     &:active {
         filter: brightness(80%);
@@ -25,13 +26,13 @@ class FmsgWriteItemItem extends Component {
     }
 
     render() {
-        const {check,icon,onClickEvent,userkey} = this.props;
+        const {check,icon,img,onClickEvent,userkey} = this.props;
 
         return (
             <Wapper
                 onClick={()=>onClickEvent(userkey)}
             >
-                <FamilyItem icon={icon} size={3} check={check} />
+                <FamilyItem icon={icon} size={3} imgData={img} check={check} />
             </Wapper>
         )
     }

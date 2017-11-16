@@ -23,7 +23,7 @@ const Body = styled.div`
     color:white;
     text-align: left;
     padding-left: 1rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     float: left;
 `;
 const Btn = styled.div`

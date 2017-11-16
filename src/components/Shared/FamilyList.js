@@ -7,10 +7,12 @@ import * as SvgIcon from 'lib/icon_svg'
 
 const Wrapper = styled.div`
     top: 6.5rem;
+    height:${(window.innerHeight - 168)+'px'};
     padding: 1.5rem;
     background:#3e454b;
     position: fixed;
     text-align: center;
+    overflow:auto;
     display: flex;
     flex-wrap:wrap;
     align-items: flex-start;

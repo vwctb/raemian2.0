@@ -4,7 +4,9 @@ import * as AuthAPI from 'lib/web-api';
 import * as KEY from 'lib/raemianAES';
 import { Map, List, fromJS } from 'immutable';
 
+const INITIAL = 'talk/INITIAL';
 
+const GET_MAIN = 'home/GET_MAIN'; // 홈화면 가족일정 새로운알림 로드
 const SET_UUID = 'auth/SET_UUID';
 const SET_PUSHID = 'auth/SET_PUSHID';
 const CHANGE_INPUT = 'auth/CHANGE_INPUT'; // input 값 변경
@@ -33,7 +35,11 @@ const SET_DELETE_SELECT_FAMILY_ALIAS = 'auth/SET_DELETE_SELECT_FAMILY_ALIAS';
 const FORMAT_FAMILY = 'auth/FORMAT_FAMILY';
 const FORMAT_INPUT = 'auth/FORMAT_INPUT';
 
+const CHECK_TAG_COLOR = 'auth/CHECK_TAG_COLOR';
 
+export const initial = createAction(INITIAL);
+export const checkTagColor = createAction(CHECK_TAG_COLOR,AuthAPI.checkTagColor); //{ tagcolor }
+export const getMain = createAction(GET_MAIN,AuthAPI.getMain); //{usertoken}
 export const setUUID = createAction(SET_UUID); // { img }
 export const setPUSHID = createAction(SET_PUSHID); // { img }
 export const setProfileUploadFile = createAction(SET_PROFILE_UPLOAD_FILE); // { img }
@@ -94,6 +100,7 @@ export const setAlarms = createAction(SET_ALARMS,AuthAPI.setAlarms); // { visibl
 
 const initialState = Map({
     ver:'201700102A',
+    checkTagColor:false,
     loginUserInfo:Map({
         fschedules:List([]),
         result:"fail",
@@ -134,7 +141,6 @@ const initialState = Map({
                 tagcolor:null,
                 joindate:'',
                 success:false
-
             }),
             lockings:Map({
                 notice:'새로운 비밀번호 4자리를 입력해주세요!',
@@ -278,6 +284,11 @@ const initialState = Map({
 });
 
 export default handleActions({
+    [INITIAL] : (state, action) => {
+        const initialForm = initialState.get(action.payload);
+        return state.set(action.payload, initialForm);
+    },
+
     [SET_UUID]: (state, action) => state.setIn(['register', 'base','uuid'], action.payload),
     [SET_PUSHID]: (state, action) => state.setIn(['register', 'base','pushid'], action.payload),
     [CHANGE_INPUT]: (state, action) => {
@@ -325,9 +336,18 @@ export default handleActions({
     [SET_PROFILE_UPLOAD_FILE]: (state, action) =>  state.setIn(['register','base','profile','img'],action.payload),
     [SET_PROFILE_ICON]:(state, action)=>state.setIn(['register','base','profile','icon'],action.payload),
     [SET_PROFILE_TAGCOLOR]: (state, action)=>state.setIn(['register','base','profile','tagcolor'],action.payload),
+
     [SET_DELETE_SELECT_FAMILY]: (state, action)=>state.setIn(['setting','familyListDelete','userkey'],action.payload),
     [SET_DELETE_SELECT_FAMILY_ALIAS]: (state, action)=>state.setIn(['setting','familyListDelete','alias'],action.payload),
     [SET_HOMEBGS_IMAGE]: (state, action) => state.setIn(['setting','homebgs','img'], action.payload),
+     ...pender({
+        type: GET_MAIN,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            console.log('jsonData',JSON.parse(jsonData).fschedules);
+            return state.setIn(['loginUserInfo','newalarms'], fromJS(JSON.parse(jsonData).newalarms)).setIn(['loginUserInfo','fschedules'], fromJS(JSON.parse(jsonData).fschedules));
+        }
+    }),
     // 초기 리스트 로딩
     ...pender({
         type: GET_INITIAL_FAMILYGROUP,
@@ -512,8 +532,15 @@ export default handleActions({
             const data = JSON.parse(jsonData).success;
             return state.setIn(['setting','lockPass','success'], data);
         }
+    }),
+    ...pender({
+        type: CHECK_TAG_COLOR,
+        onSuccess: (state, action) =>{
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData).flag;
+            return state.set('checkTagColor', data);
+        }
     })
-
 
     
 

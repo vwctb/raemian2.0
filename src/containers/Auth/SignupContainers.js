@@ -71,6 +71,13 @@ const SubNotice = styled.div`
     text-align:center;
     color:#757371;
 `;
+
+const BtnWrapper = styled.div`
+width: 100%;
+height:100%;
+
+`;
+
 let modalSW=true;
 class SignupContainers extends Component {
     static contextTypes = {
@@ -204,11 +211,12 @@ class SignupContainers extends Component {
                     onChange={this.handleChange}
                 />
                 </InputWrapper>
+          
                 <BtnSingle
                     onClickEvent={this.handleClick}
                     name={'다 음'}
                 />
-                
+            
                 <Modal visible={visible} onHide={this.onHide} title={'입주민 인증'}>
                     {
                         authConfirm.success === null && 

@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import HomeContainer from 'containers/Home/HomeContainer';
 import * as uiActions from 'redux/modules/ui';
 import * as authActions from 'redux/modules/auth';
-import * as KEY from 'lib/raemianAES';
+//import * as KEY from 'lib/raemianAES';
 
 //import GibberishAES from 'aes';
 class Home extends Component {
@@ -39,6 +39,7 @@ class Home extends Component {
 
 export default connect(
     (state) => ({
+        loginUserInfo: state.auth.get('loginUserInfo'),
         slideOpen: state.ui.getIn(['slideMenu','slideOpen'])
     }),
     (dispatch) => ({

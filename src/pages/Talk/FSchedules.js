@@ -8,22 +8,27 @@ import moment from 'moment';
 
 class FSchedules extends Component {
     async componentDidMount() {
-        const { UIActions,TalkActions, date} = this.props;
+        const { UIActions,TalkActions} = this.props;
         UIActions.setPageType({pageType:'/talk'});
         UIActions.setHeaderTitle({title:'가족일정'});
-        console.log('date:',date);
+ 
         try {
             const {usertoken} = this.props.loginUserInfo.toJS();
+            await TalkActions.initial('date');
+            await TalkActions.initial('activeDate');
+            const { date } = this.props;
+            
             const year = moment(date).local().format('YYYY');
             const month = moment(date).local().format('M');       
-            console.log('usertoken',usertoken);
-            console.log(year);
-            console.log(month);
+            //console.log('usertoken',usertoken);
+            //console.log(year);
+            //console.log(month);
             await TalkActions.getFschedulesList({year:year,month:month,usertoken:usertoken});
         } catch(e) {
             console.log(e);
         }
     }
+    
     render() {
          return (
             <FSchedulesContainer/>

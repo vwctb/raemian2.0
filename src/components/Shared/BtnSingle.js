@@ -11,8 +11,7 @@ const Button = styled.div`
     color:#ffffff;
     text-align:center;
     position: fixed;
-    bottom:0;
-
+    top:${(window.innerHeight-64)+'px'};
     &:active {
         filter: brightness(80%);
     }

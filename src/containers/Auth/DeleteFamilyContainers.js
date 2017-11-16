@@ -27,7 +27,6 @@ const Wrapper = styled.div`
     /* 폰트 */
     font-size: 1rem;
     overflow-y: auto;
-
 `;
 
 const OrangeText = styled.span`
@@ -217,10 +216,7 @@ class FamilyContainers extends Component {
                     title={'모든 가족 정보를 초기화하시겠습니까?'}
                     btnTitle={'초기화'}
                 />
-
-
                 <Modal visible={visible} onHide={this.onHide} title={title}>
-                    
                     {
                     modalContent === 'init' ? 
                     <div>
@@ -282,10 +278,7 @@ class FamilyContainers extends Component {
                             name2={'취소'}
                         />
                     </div>
-
-
                     }
-
                 </Modal>
                 <Dimmed visible={visible}/>
 

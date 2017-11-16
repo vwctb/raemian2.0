@@ -49,6 +49,7 @@ const FamilyImage = styled.div`
     display:flex;
     justify-content:flex-end;
     align-items:flex-end;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.4);
     filter:${props => props.check === false && 'grayscale(100%)'};
 `;
 

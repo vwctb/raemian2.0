@@ -34,8 +34,6 @@ const Wrapper = styled.div`
 const OrangeText = styled.span`
     color:#ff7e5f;
 `;
-
-
 const MainNotice = styled.div`
     width: 100%;
     text-align:center;

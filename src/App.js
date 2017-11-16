@@ -4,7 +4,7 @@ import { Home, Control, ControlLight, ControlHeating,ControlHeatingItem, Control
          ControlConcent, ControlAircon,ControlAirconItem, ControlGuard, ListView,Talk, Auth, Signup, SetFamilyGroup, 
          SetProfile, SetAlrim, DeleteFamilyGroup,Test,Complete,ReserveControlGoout,ReserveControlWakeup,
          ListViewVisitors,ListViewVisitorContent,ListViewCCTV,ListViewCCTVContent,ListViewNotices,ListViewNoticeContent,ListViewComehomes,ListViewFlocs,ListViewPlocs,ListViewParcels,
-         FSchedules,FSchedulesAdd,FSchedulesUpdate,Fmsgs,FmsgsWrite,FmsgsView
+         FSchedules,FSchedulesAdd,FSchedulesUpdate,Fmsgs,FmsgsWrite,FmsgsView,FTalks
         } from 'pages';
 
 import Menu from 'components/Menu';
@@ -21,25 +21,16 @@ import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
 import storage from 'lib/storage';
 
+
+
 let isFirstLoad = true;
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
     }
 
-
-    componentWillReceiveProps(){
-        const { history } = this.context.router;
-        //console.log(this);
-        if(history.location.pathname.match('control')){
-           // socket.initialize(store, socketURI,'usertoken',this.props.UIAction);
-        }else{
-           // socket.disconnect();
-        }
-    }
-
     async componentWillMount() {
-        console.log('componentWillMount');
+        //console.log('componentWillMount');
         const { history } = this.context.router;
         //const strAgent = navigator.userAgent.toLowerCase();
         //alert('uuid2:'+window.device.uuid);
@@ -60,13 +51,13 @@ class App extends Component {
                   console.log('login error: ',e);
             }
             const {loginUserInfo} = this.props
-            const {result} = loginUserInfo.toJS();    
+            const {result,usertoken} = loginUserInfo.toJS();    
             //console.log('loginUserInfo: ',loginUserInfo);
    
             if(result === 'fail'){
+                return;
                 history.push('/auth');
-            }
-
+            }            
             UIActions.setSpinnerVisible(false);
             
         }
@@ -76,8 +67,10 @@ class App extends Component {
     }
 
     async componentDidMount(){
-        console.log('componentDidMount');
+
         const { history } = this.context.router;
+        console.log('componentDidMount');
+ 
         const { HomeActions } = this.props;
         if(!history.location.pathname.match('auth')){
             if(storage.get('screenLockUse')){
@@ -167,6 +160,8 @@ class App extends Component {
                 <Route exact path="/talk/fmsgs" component={Fmsgs}/>
                 <Route exact path="/talk/fmsgs/write" component={FmsgsWrite}/>
                 <Route exact path="/talk/fmsgs/view/:seq" component={FmsgsView}/>
+                <Route exact path="/talk/chat_room" component={FTalks}/>
+                
                 <Route exact path="/test/" component={Test}/>
             </div>
         );

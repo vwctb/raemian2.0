@@ -5,14 +5,19 @@ import moment from 'moment';
 import * as WebApi from 'lib/web-api';
 import * as KEY from 'lib/raemianAES';
 
+
+const INITIAL = 'talk/INITIAL';
 const SET_DATE = 'talk/fschedule/SET_DATE';
 const SET_ACTIVE_DATE = 'talk/fschedule/SET_ACTIVE_DATE';
 const SET_ADD_YEAR = 'talk/fschedule/add/SET_ADD_YEAR';
 const SET_ADD_MONTH = 'talk/fschedule/add/SET_ADD_MONTH';
 const SET_ADD_DAY = 'talk/fschedule/add/SET_ADD_DAY';
 const CHANGE_INPUT = 'talk/fschedule/CHANGE_INPUT'; // input 값 변경
-const CHECKBOX_ADD_REPEAT = 'talk/fschedule/add/CHECKBOX_ADD_REPEAT'; // 매년반복
 
+
+
+
+const CHECKBOX_ADD_REPEAT = 'talk/fschedule/add/CHECKBOX_ADD_REPEAT'; // 매년반복
 const GET_FSCHEDULES_LIST = 'talk/fschedule/GET_FSCHEDULES_LIST'; // 가족일정 조회
 const GET_FSCHEDULES_DETAIL= 'talk/fschedule/GET_FSCHEDULES_DETAIL'; // 가족일정 상세조회
 const SET_FSCHEDULES_ADD = 'talk/fschedule/SET_FSCHEDULES_ADD'; // 가족일정 등록
@@ -21,7 +26,6 @@ const DELETE_FSCHEDULES= 'talk/fschedule/DELETE_FSCHEDULES'; // 가족일정 상
 
 const GET_FMSGS_LIST = 'talk/fmsgs/GET_FMSGS_LIST'; // 가족메시지 조회
 const GET_FMSGS_DETAIL_VIEW = 'talk/fmsgs/GET_FMSGS_DETAIL_VIEW'; // 가족메시지 상세 조회
-
 const GET_FMSGS_FAMILYS_LIST = 'talk/fmsgs/GET_FMSGS_FAMILYS_LIST'; // 가족메시지 조회
 const SEND_FMSGS = 'talk/fmsgs/SEND_FMSGS';
 const DELETE_FMSGS = 'talk/fmsgs/DELETE_FMSGS';
@@ -30,11 +34,24 @@ const SET_FMSGS_RECEIVERKEY = 'talk/fmsgs/write/SET_FMSGS_RECEIVERKEY';
 const SET_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/SET_FMSGS_WRITE_UPLOADFILE';
 const POST_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/POST_FMSGS_WRITE_UPLOADFILE';
 const CHANGE_INPUT_FMSGS_WRITE = 'talk/fmsgs/write/CHANGE_INPUT_FMSGS_WRITE'; // input 값 변경
-
 const SET_INITIAL_FMSGS_WRITE = 'talk/fmsgs/write/SET_INITIAL_FMSGS_WRITE'; // input 초기화
 const SET_INITIAL_FMSGS_VIEW = 'talk/fmsgs/view/SET_INITIAL_FMSGS_VIEW'; // input 초기화
-
 const SET_FMSGS_WRITE_FILEID =  'talk/fmsgs/write/SET_FMSGS_WRITE_FILEID'; // file_id
+
+const GET_FTALKS_LIST = 'talk/ftalks/GET_FTALKS_LIST'; //usertoken
+const GET_FTALKS_IMAGE = 'talk/ftalks/GET_FTALKS_IMAGE'; //usertoken
+const GET_FTALKS_IMAGE_THUMB = 'talk/ftalks/GET_FTALKS_IMAGE_THUMB'; //usertoken
+const GET_FTALKS_VIDEO = 'talk/ftalks/GET_FTALKS_VIDEO'; //usertoken
+
+const POST_FTALKS_SEND_MESSAGE = 'talk/ftalks/POST_FTALKS_SEND_MESSAGE'; //usertoken
+const POST_FTALKS_UPLOAD_FILE = 'talk/ftalks/POST_FTALKS_UPLOAD_FILE'; //usertoken
+
+const CHANGE_INPUT_FTALK_WRITE = 'talk/ftalks/CHANGE_INPUT_FTALK_WRITE'; 
+
+const SET_FTALKS_INPUT_FOCUS = 'talks/ftalks/SET_FTALKS_INPUT_FOCUS'; //true,false
+const RECEIVE_FTALKS_NEW_MSG = 'talks/ftalks/RECEIVE_FTALKS_NEW_MSG';
+
+export const initial= createAction(INITIAL);
 
 export const setDate = createAction(SET_DATE);
 export const setActiveDate = createAction(SET_ACTIVE_DATE);
@@ -59,18 +76,39 @@ export const getFmsgsDetailView = createAction(GET_FMSGS_DETAIL_VIEW,WebApi.getF
 export const getFmsgsFamilysList = createAction(GET_FMSGS_FAMILYS_LIST,WebApi.getFmsgsFamilysList);
 export const sendFmsgs = createAction(SEND_FMSGS,WebApi.sendFmsgs);
 export const deleteFmsgs = createAction(DELETE_FMSGS,WebApi.deleteFmsgs);
-
 export const setInitalFmsgsWrite = createAction(SET_INITIAL_FMSGS_WRITE);
 export const setInitalFmsgsView= createAction(SET_INITIAL_FMSGS_VIEW);
-
-
 export const setFmsgsWriteFileId = createAction(SET_FMSGS_WRITE_FILEID);
+
+export const setFtalksInputFocus = createAction(SET_FTALKS_INPUT_FOCUS);
+export const getFTalksList = createAction(GET_FTALKS_LIST,WebApi.getFTalksList);
+export const changeInputFtalkWrite = createAction(CHANGE_INPUT_FTALK_WRITE);
+export const postFtalksSendMessage = createAction(POST_FTALKS_SEND_MESSAGE,WebApi.postFtalksSendMessage);
+export const postFtalksUploadFile = createAction(POST_FTALKS_UPLOAD_FILE,WebApi.postFtalksUploadFile);
+export const receiveFtalksNewMsg = createAction(RECEIVE_FTALKS_NEW_MSG);
 
 
 
 const initialState = Map({
     date:moment(),
     activeDate:null,
+    ftalks:Map({
+        lasttime: Map({}),
+        list: List(),
+        user: Map({}),
+    }),
+    ftalksSendMsg:Map({
+        focus:false,
+        msg:'',
+        uploadFile:Map({
+            multipartFile:'',
+            fileData:'',
+            fileName:'',
+            fileType:''
+        }),
+        successSendMsg:false,
+        successUploadFile:false
+    }),
     fschedule: Map({
         list: List([]),
         write: Map({
@@ -125,6 +163,12 @@ const initialState = Map({
 });
 
 export default handleActions({
+    [INITIAL] : (state, action) => {
+        const initialForm = initialState.get(action.payload);
+        return state.set(action.payload, initialForm);
+    },
+
+    [SET_FTALKS_INPUT_FOCUS] : (state, action) => state.setIn(['ftalksSendMsg','focus'], action.payload),
     [SET_FMSGS_WRITE_FILEID] : (state, action) => state.setIn(['fmsgs','write','fileid'], action.payload),
     [SET_INITIAL_FMSGS_WRITE]: (state, action) => {
         const value = Map({
@@ -143,6 +187,7 @@ export default handleActions({
         return state.setIn(['fschedule',form,'memo'], value);
     },
     [CHANGE_INPUT_FMSGS_WRITE]: (state, action) =>  state.setIn(['fmsgs','write','msg'], action.payload),
+    [CHANGE_INPUT_FTALK_WRITE]: (state, action) =>  state.setIn(['ftalksSendMsg','msg'], action.payload),
     [SET_FMSGS_RECEIVERKEY]: (state, action) => {
         let key = state.getIn(['fmsgs','write','receiverkey']).toJS();
         const index = key.indexOf(action.payload);
@@ -178,6 +223,33 @@ export default handleActions({
         const { form, data } = action.payload;
         return state.setIn(['fschedule',form,'day'],data);
     },
+    [RECEIVE_FTALKS_NEW_MSG]:(state, action) => {
+        // 전달받은 포스트를 데이터의 앞부분에 넣어줍니다.
+        const {value,userToken} = action.payload;
+        const jsonData ={
+            msg:value.message,
+            date:value.insertDate,
+            own:(userToken === value.userToken) ? true : false,
+            alias:value.userAlias,
+            userIcon:value.userIcon,
+            userImg:value.userImg,
+            filePath:value.filePath,
+            thumbPath:value.thumbPath,
+            fileFlag:(value.thumbPath.length > 1) ? true : false,
+            fileType:value.fileType,
+            timemilis:0
+        }
+        console.log()
+        return state.updateIn(['ftalks','list'], data=>data.unshift(fromJS(jsonData)));
+    },
+
+    ...pender({
+        type: POST_FTALKS_SEND_MESSAGE,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            return state.setIn(['ftalksSendMsg','successSendMsg'], fromJS(JSON.parse(jsonData).success)).setIn(['ftalksSendMsg','msg'],'');
+        }
+    }),
     ...pender({
         type: GET_FSCHEDULES_LIST,
         onSuccess: (state, action) => {
@@ -257,13 +329,30 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             return state.setIn(['fmsgs','msgfileupload'], fromJS(JSON.parse(jsonData)));
         }
+    }),
+    ...pender({
+        type: GET_FTALKS_LIST,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            console.log('state:',state.toJS());
+            return state.updateIn(['ftalks','list'],list => list.concat(fromJS(JSON.parse(jsonData).list)))
+            .setIn(['ftalks','user'],fromJS(JSON.parse(jsonData).user))
+            .setIn(['ftalks','lasttime'],JSON.parse(jsonData).lasttime);
+        }
+    }),
+    ...pender({
+        type: POST_FTALKS_UPLOAD_FILE,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            return state.setIn(['ftalksSendMsg','successUploadFile'], fromJS(JSON.parse(jsonData).success));
+        }
     })
 
 
 
     
 
-
+    
 
     
 

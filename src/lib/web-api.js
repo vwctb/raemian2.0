@@ -7,6 +7,11 @@ axios.defaults.baseURL = 'http://122.199.242.18:17501';
 //KEY.decryptedKey(encStr);
 
 //export const createMemo = ({title, body}) => axios.post('/memo', {title,body});
+
+export const getMain = (usertoken) => axios.get('/smarthome/v1/main',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 export const getInitialFamilyGroupAuth = (registtoken) => axios.get('/smarthome/v1/familys',{headers:{'Content-Type':'application/json; charest=utf-8','registtoken':registtoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
@@ -55,7 +60,9 @@ export const postCPS = (value) => axios.post('/smarthome/v1/cps',{data:value.dat
     console.log("channel error",error.response);
 });
 
-
+export const checkTagColor = (value) => axios.get('/smarthome/v1/tags?tagcolor='+value.tagcolor,{headers:value.headers}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 // home auth
 export const getAuthForScreenLock = (value) => axios.post('/smarthome/v1/auths',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
@@ -163,6 +170,17 @@ export const getFschedulesUpdate = (value) => axios.put('/smarthome/v1/fschedule
 });
 
 
+
+/*[ 가족톡 대화방 ]*** */
+export const postFtalksSendMessage = (value) => axios.post('/smarthome/v1/ftalks',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const postFtalksUploadFile= (value) => axios.post('/smarthome/v1/ftalks/'+value.type,value.uploadFile,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+
 /*[ 가족메시지 ]*******************************/
 export const getFmsgsList = (usertoken) => axios.get('/smarthome/v1/fmsgs',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -183,8 +201,6 @@ export const sendFmsgs = (value) => axios.post('/smarthome/v1/fmsgs',{data:value
 export const postFmsgsWriteUploadFile = (value) => axios.post('/smarthome/v1/fmsgs/'+value.type,value.uploadFile,{headers:{'Content-Type':'multipart/form-data','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
-   
-
 
 
 export const deleteFmsgs = (value) => axios.delete('/smarthome/v1/fmsgs',{
@@ -193,6 +209,11 @@ export const deleteFmsgs = (value) => axios.delete('/smarthome/v1/fmsgs',{
 }).catch(function (error) {
     console.log("channel error",error.response);
 });
+
+export const getFTalksList = (value) => axios.get('/smarthome/v1/ftalks'+(value.lasttime != null ? "?lasttime="+value.lasttime : ""),{headers:{'Content-Type':'multipart/form-data','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 
 /*
 export const getInitialHeatings = (usertoken) => axios.get('/smarthome/v1/heatings',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {

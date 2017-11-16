@@ -16,6 +16,8 @@ const CHANGE_INPUT = 'home/CHANGE_INPUT'; // input 값 변경
 
 
 // 액션 생성자
+
+
 export const setInitialFschedules = createAction(SET_INITIAL_FSCHEDULES);
 export const setInitialNewalarms = createAction(SET_INITIAL_NEWALARMS);
 export const changeInputLockPass = createAction(CHANGE_INPUT_LOCKPASS); //  { pass }

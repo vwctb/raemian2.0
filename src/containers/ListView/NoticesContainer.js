@@ -12,9 +12,9 @@ class VisitorsContainer extends Component {
         ListViewActions.setContent(data);
     }
 
-    setSelectedType=async(data)=>{
+    setSelectedType = async(data)=>{
         const { ListViewActions,UIActions } = this.props;
-        const { usertoken } = this.props.loginUserInfo; 
+        const { usertoken } = this.props.loginUserInfo.toJS();
         const type = data.check === true ? 'all' : 'ones';
         console.log('type:',type);
         try {

@@ -26,6 +26,7 @@ export { default as ListViewParcels } from './ListView/ListViewParcels';
 
 export { default as Talk } from './Talk/TalkHome';
 export { default as FSchedules } from './Talk/FSchedules';
+export { default as FTalks } from './Talk/FTalks';
 export { default as FSchedulesAdd } from './Talk/FSchedulesAdd';
 export { default as FSchedulesUpdate } from './Talk/FSchedulesUpdate';
 export { default as Fmsgs } from './Talk/Fmsgs';

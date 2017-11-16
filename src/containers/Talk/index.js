@@ -6,3 +6,5 @@ export { default as TalkHomeContainer } from './TalkHomeContainer';
 export { default as FmsgsContainer } from './FmsgsContainer';
 export { default as FmsgsWriteContainer } from './FmsgsWriteContainer';
 export { default as FmsgsViewContainer } from './FmsgsViewContainer';
+export { default as FTalksContainer } from './FTalksContainer';
+

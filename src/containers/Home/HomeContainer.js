@@ -35,7 +35,12 @@ class HomeContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
-
+    componentDidMount(){
+        const { AuthActions} = this.props;
+        const { usertoken } = this.props.loginUserInfo.toJS();
+        if(usertoken === '') return;
+        AuthActions.getMain(usertoken);
+    }
     handleClickFamilySchedule =()=>{
         const { history } = this.context.router;
         history.push('/talk/fschedules');

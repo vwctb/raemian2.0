@@ -22,10 +22,11 @@ const Wrapper = styled.div`
 const ItemListWrapper = styled.div`
     width:12rem;
     float:right;
+    padding:0.5rem;
     margin-right: 0.5rem;
     display: flex;
     align-content: center;
-    justify-content:space-around;
+    justify-content:space-between;
     align-items:center;
     flex-flow: row wrap;
 `;
@@ -100,11 +101,6 @@ const Name = styled.div`
     text-overflow: ellipsis;
 `;
 
-const Input = styled.input`
-    width:100%;
-    color:#50bbcd;
-    margin-top:0.3rem;
-`;
 
 const StyledTextarea = styled(Textarea)`
     width: 100%;
@@ -154,6 +150,7 @@ const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChange
     const {msg,receivetime,fileid} = write.toJS();
     let key = receiverkey.toJS();
     let fnames=[];
+    console.log(listArray);
     const list = listArray.map(
         item => (
             <FmsgWriteItem
@@ -242,7 +239,6 @@ const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChange
                 />
             }
             {
-
                 fileType.split('/')[0] === 'video' &&
                 <VideoFile
                     src = {fileData}
