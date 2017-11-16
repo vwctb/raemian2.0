@@ -40,7 +40,7 @@ export default (function socketHelper() {
                         payload:{value:value,userToken:userToken}
                     });
 
-                    window.myRef.scrollTop = window.myRef.scrollHeight;
+                    window.myRef.scrollTop = window.myRef.scrollHeight+10000;
             }else if(type === 'control'){
 
                 if(value.device === 'light'){
@@ -64,7 +64,7 @@ export default (function socketHelper() {
                 type:'talks/ftalks/RECEIVE_FTALKS_NEW_MSG',
                 payload:{value:value,userToken:userToken}
             });
-            window.myRef.scrollTop = window.myRef.scrollHeight;
+            window.myRef.scrollTop = window.myRef.scrollHeight+10000;
         });
 
 
