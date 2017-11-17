@@ -29,8 +29,8 @@ const Wrapper = styled.div`
 const OnePassNotice = styled.div`
     width: 100%;
     text-align:center;
-    color:white;
-    opacity: 0.6;
+    color: #b5b6b8;
+    background: #3e454b;
     font-size: 0.6rem;
     line-height:1.2rem;
     padding:2rem 0 1rem 0rem;

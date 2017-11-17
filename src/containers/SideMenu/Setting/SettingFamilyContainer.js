@@ -112,7 +112,7 @@ class FamilyContainers extends Component {
 
     onDelete = async () => {
         const { AuthActions } = this.props;
-        const { userkey } = this.props.familyListDelete.toJS();
+        const { userkey, alias } = this.props.familyListDelete.toJS();
         const { usertoken } = this.props.loginUserInfo.toJS();
         const {  uuid } = this.props.base.toJS();
         const jsonData = {
@@ -134,12 +134,13 @@ class FamilyContainers extends Component {
 
         const { success } = this.props.familyListDelete.toJS();
         if(success){
-            const {  UIActions, visible } = this.props;
+            const { UIActions, visible } = this.props;
             UIActions.setModalVisible(!visible);
             UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
-
+            window.location.reload(true);
             setTimeout(() => {
                 modalSW = true;
+
             },500);
         }
     }

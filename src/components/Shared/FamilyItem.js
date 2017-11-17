@@ -95,7 +95,7 @@ class FamilyItem extends Component {
                 }
                 {
                    <FamilyImage
-                        icon = {icon}
+                        icon = {icon === null ? 9 : icon}
                         imgData = {imgData}
                         size = {size}
                         check = {check}

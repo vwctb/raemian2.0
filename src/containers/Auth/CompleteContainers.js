@@ -137,28 +137,10 @@ class SignupContainers extends Component {
 
     handleClick = async () => {
         const { history } = this.context.router;
-        const { AuthActions, UIActions} = this.props;
-        UIActions.setSpinnerVisible(true);
-        const dummy = new Date().getTime();
-        const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
-        const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
-        const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
-        AuthActions.setUUID(uuid);
-        AuthActions.setPUSHID(pushid);
-        try {
-            await AuthActions.postLogin({'data':data});
-        } catch(e) {
-                console.log('login error: ',e);
-        }
-        const {loginUserInfo} = this.props
-        const {result,usertoken} = loginUserInfo.toJS();    
-        history.push('/');           
-        UIActions.setSpinnerVisible(false);
+        history.push('/');
+        window.location.reload(true);
     }
-
-
-
-
+    
     render() {
         const { pageType, checkBoxListArray} = this.props;
         const { dong, ho } = this.props.base.toJS();
@@ -189,8 +171,6 @@ class SignupContainers extends Component {
                     {'원패스 태그 연동'}
 
                 </ColorTag>
-
-
 
                 <BtnSingle
                     onClickEvent={this.handleClick}

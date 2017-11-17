@@ -178,6 +178,12 @@ class ProfilePhotoAliasContainer extends Component {
         if(value.length > 6)return;
         AuthActions.changeProfileInput(value);
     }
+    handleKeyPressEvent=(e)=>{
+        if(e.key === 'Enter'){
+           
+        }
+        alert(e.key);
+    }
 
     render() {
         const { onClickEventIcon, icon, alias, img, userkey, handleChangeFile } = this.props;
@@ -194,6 +200,7 @@ class ProfilePhotoAliasContainer extends Component {
                             <Input 
                                 onChange = {this.handleChange}
                                 value = {alias}
+                                onKeyPress={this.handleKeyPressEvent}
                             />
                             <InputIcon/>
                             <InputNotice>{'(애칭 : 6자 이내)'}</InputNotice>
