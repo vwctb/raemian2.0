@@ -7,6 +7,7 @@ import { BtnDouble } from 'components/Shared';
 import * as uiActions from 'redux/modules/ui';
 import * as controlActions from 'redux/modules/control';
 import PropTypes from 'prop-types';
+import * as KEY from 'lib/raemianAES';
 
 const Wrapper = styled.div`
     /* 레이아웃 */
@@ -93,9 +94,26 @@ class ConcentContainer extends Component {
         console.log('click2');
     }
 
-    handleControlClick = (data)=>{
-        const { ControlActions } = this.props;
-        let { id , status, name } = data.toJS();
+    handleControlAll = async (status)=>{
+        const jsonData = {
+            id:'all',
+            status:status
+        }
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const { ControlActions, UIActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo.toJS();
+        UIActions.setSpinnerVisible(true);
+        try {
+            await ControlActions.setControlConcentOnOff({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+
+    handleControlClick = async (value)=>{
+
+        let { id , status } = value.toJS();
         if(status === 'on') {
             status = 'off';
         }else if(status ==='off'){
@@ -105,17 +123,26 @@ class ConcentContainer extends Component {
             alert('error');
             return;
         }
+        const jsonData = {
+            id:id,
+            status:status
+        }
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const { ControlActions, UIActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo.toJS();
+        UIActions.setSpinnerVisible(true);
 
-        ControlActions.updateConcentsCondition({
-            id,
-            control: {status,name}
-        });
+        try {
+            await ControlActions.setControlConcentOnOff({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+        //UIActions.setSpinnerVisible(false);
     }
 
 
     render() {
-        const { controlItemListArray,UIActions,batchoff,ControlActions} = this.props;
-        const { onClickEvent1,onClickEvent2 } = this;
+        const { controlItemListArray,UIActions,ControlActions} = this.props;
         return (
             <Wrapper>
                     <ControlItemList
@@ -125,10 +152,10 @@ class ConcentContainer extends Component {
                     />
                     <BtnDouble
                         name1={'전체켜기'}
-                        onClickEvent1={()=>ControlActions.setControlLightAllOnOff('on')}
+                        onClickEvent1={()=>this.handleControlAll('on')}
                         color1={'50bbcd'} 
                         name2={'전체끄기'}
-                        onClickEvent2={()=>ControlActions.setControlLightAllOnOff('off')}
+                        onClickEvent2={()=>this.handleControlAll('off')}
                         color2={'cccbca'} 
                     />
                        
@@ -141,7 +168,7 @@ class ConcentContainer extends Component {
 export default connect(
     (state) => ({
         controlItemListArray: state.control.get('data_concents'),
-        batchoff: state.control.get('batchoff')
+        loginUserInfo:state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({
          UIActions: bindActionCreators(uiActions, dispatch),

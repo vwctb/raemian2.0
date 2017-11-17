@@ -8,7 +8,7 @@ import { HeatingContainer } from 'containers/Control';
 class ControlHeating extends Component {
     async componentDidMount() {
         const { UIActions, ControlActions, auth} = this.props;
-        const {usertoken} = this.props.loginUserInfo;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'난 방'});
         try {

@@ -4,6 +4,7 @@ import { pender } from 'redux-pender';
 import * as WebAPI from 'lib/web-api';
 import * as KEY from 'lib/raemianAES';
 // 액션 타입
+const INITIAL = 'control/INITIAL';
 const SET_CONTROL_SPINNER_VISIBLE = 'control/spinner/SET_CONTROL_SPINNER_VISIBLE';
 
 const GET_INITIAL_HEATINGS= 'control/GET_INITIAL_HEATINGS';
@@ -12,6 +13,8 @@ const GET_INITIAL_LIGHTS= 'control/GET_INITIAL_LIGHTS';
 const GET_INITIAL_CONCENTS = 'control/GET_INITIAL_CONCENTS';
 const GET_INITIAL_BATCH = 'control/GET_INITIAL_BATCH';
 const RECEIVE_NEW_LIGHT='control/RECEIVE_NEW_LIGHT';
+const RECEIVE_NEW_CONCENT='control/RECEIVE_NEW_CONCENT';
+
 
 const UPDATE_HEATING_CONDITION= 'control/heating/UPDATE_HEATING_CONDITION';
 const UPDATE_AIRCONS_CONDITION= 'control/heating/UPDATE_AIRCONS_CONDITION';
@@ -28,6 +31,7 @@ const RESERVE_CONTROL_WAKEUP_TIMER = 'control/RESERVE_CONTROL_WAKEUP_TIMER';
 const RESERVE_CONTROL_WAKEUP_DAYOFWEEK = 'control/RESERVE_CONTROL_WAKEUP_DAYOFWEEK';
 const SET_CONTROL_BACHOFF = 'control/SET_CONTROL_BACHOFF';
 const SET_CONTROL_LIGHT_ONOFF = 'control/SET_CONTROL_LIGHT_ONOFF';
+const SET_CONTROL_CONCENT_ONOFF = 'control/SET_CONTROL_CONCENT_ONOFF';
 const GET_SMART_RESERVE_GOOUT = 'control/GET_SMART_RESERVE_GOOUT';
 const SET_SMART_RESERVE_GOOUT = 'control/SET_SMART_RESERVE_GOOUT';
 const GET_SMART_RESERVE_MORNING = 'control/GET_SMART_RESERVE_MORNING';
@@ -37,6 +41,8 @@ const INITIALIZE_RESERVE = 'control/INITIALIZE_RESERVE';
 
 
 // 액션 생성자
+export const initial= createAction(INITIAL);
+
 export const setSpinnerVisible = createAction(SET_CONTROL_SPINNER_VISIBLE);
 
 export const getInitialHeatings = createAction(GET_INITIAL_HEATINGS, WebAPI.getInitialHeatings);
@@ -45,8 +51,8 @@ export const getInitialLights = createAction(GET_INITIAL_LIGHTS, WebAPI.getIniti
 export const getInitialConcents = createAction(GET_INITIAL_CONCENTS, WebAPI.getInitialConcents);
 export const getInitialBatch = createAction(GET_INITIAL_BATCH, WebAPI.getInitialBatch);
 
-
 export const receiveNewLight = createAction(RECEIVE_NEW_LIGHT);
+export const receiveNewConcent = createAction(RECEIVE_NEW_CONCENT);
 
 export const updateHeatingCondition = createAction(UPDATE_HEATING_CONDITION, WebAPI.updateHeatingCondition);
 export const updateAirconsCondition = createAction(UPDATE_AIRCONS_CONDITION, WebAPI.updateAirconsCondition);
@@ -61,6 +67,9 @@ export const setCheckboxReserveControlUse = createAction(CHECKBOX_RESERVE_CONTRO
 export const setCheckboxReserveControl = createAction(CHECKBOX_RESERVE_CONTROL); // index, check
 export const setBachOff = createAction(SET_CONTROL_BACHOFF,WebAPI.setBachOff); //true false
 export const setControlLightOnOff = createAction(SET_CONTROL_LIGHT_ONOFF,WebAPI.setControlLightOnOff); 
+export const setControlConcentOnOff = createAction(SET_CONTROL_CONCENT_ONOFF,WebAPI.setControlConcentOnOff); 
+
+
 
 
 export const setReserveControlWakeupTimer = createAction(RESERVE_CONTROL_WAKEUP_TIMER); // form, time
@@ -242,6 +251,12 @@ const initialState = Map({
 
 
 export default handleActions({
+
+    [INITIAL] : (state, action) => {
+        const initialForm = initialState.get(action.payload);
+        return state.set(action.payload, initialForm);
+    },
+
     [INITIALIZE_RESERVE]: (state, action) => {
         const initial = initialState.get('reserveControl');
         return state.set('reserveControl', initial);
@@ -271,6 +286,11 @@ export default handleActions({
     [RECEIVE_NEW_LIGHT]: (state, action) => {
         return state.set('data_lights', fromJS(action.payload));
     },
+    [RECEIVE_NEW_CONCENT]: (state, action) => {
+        return state.set('data_concents', fromJS(action.payload));
+    },
+
+
     [SET_CONTROL_SPINNER_VISIBLE]: (state, action) => {
         return state.set('spinner', action.payload);
     },
@@ -382,6 +402,7 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
+            console.log('jsonData',jsonData);
             return state.set('data_concents',fromJS(data.items));
        }
     }),

@@ -26,11 +26,11 @@ export default (function socketHelper() {
         _socket.on('connect',()=>{
             _socket.emit('join',{userToken: userToken});
         });
-        //console.log("_socket : ",_socket);
+        console.log("_socket : ",_socket);
 
         _socket.on('message',(_data)=>{
             const value =  parseJSON(KEY.decryptedKey(_data.data));
-            // console.log("value data : ",value);
+             console.log("value data : ",value);
             // if(!value || !value.type) return; // 파싱 실패했거나, type 값이 없으면 무시
 
             if(type === 'ftalks'){
@@ -43,19 +43,32 @@ export default (function socketHelper() {
                 window.myRef.scrollTop = window.myRef.scrollHeight;
             }else if(type === 'control'){
 
-            if(value.device === 'light'){
-                _store.dispatch({
-                    type:'control/RECEIVE_NEW_LIGHT',
-                    payload:value.items
-                });
+                if(value.device === 'light'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_LIGHT',
+                        payload:value.items
+                    });
+                }
+
+                if(value.device === 'concent'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_CONCENT',
+                        payload:value.items
+                    });
+                }
+
+
                 _store.dispatch({
                     type:'ui/spinner/SET_SPINNER_VISIBLE',
                     payload:false
                 });
-            }
+                
 
             }
         });
+
+
+
         _socket.on('fileEventListener',(_data)=>{
             const value =  parseJSON(KEY.decryptedKey(_data.data));
             //console.log("value data : ",value);
@@ -82,7 +95,7 @@ export default (function socketHelper() {
             if(_socket){
                 if(_socket.disconnected) return;
                 _socket.connected && _socket.disconnect();
-                //console.log("_socket : ",_socket);
+                console.log("_socket : ",_socket);
             }
            
         }

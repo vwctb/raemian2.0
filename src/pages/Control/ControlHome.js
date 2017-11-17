@@ -7,6 +7,7 @@ import * as controlActions from 'redux/modules/control';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+
 const Wrapper = styled.div`
     /* 레이아웃 */
     display: flex;
@@ -42,6 +43,10 @@ class ControlHome extends Component {
             console.log(e);
         }
         UIActions.setSpinnerVisible(false);
+    }
+
+    componentWillUnmount(){
+     
     }
 
    render() {

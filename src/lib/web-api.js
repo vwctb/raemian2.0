@@ -123,6 +123,9 @@ export const getInitialConcents =  (usertoken) => axios.get('/smarthome/v1/conce
 export const setControlLightOnOff = (value) => axios.post('/smarthome/v1/lights',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
+export const setControlConcentOnOff = (value) => axios.post('/smarthome/v1/concents',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 
 /*[ 스마트예약제어 ]*******************************/

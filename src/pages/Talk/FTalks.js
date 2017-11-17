@@ -11,7 +11,7 @@ class FTalks extends Component {
     async componentDidMount() {
         const { UIActions } = this.props;
         const { usertoken } = this.props.loginUserInfo.toJS();
-        socket.initialize(window.store, window.socketURI, usertoken, 'ftalks');
+        socket.initialize(window.store, window.socketURITalk, usertoken, 'ftalks');
         UIActions.setPageType({pageType:'/talk'});
         UIActions.setHeaderTitle({title:'가족대화방'});
 

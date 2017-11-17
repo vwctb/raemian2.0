@@ -182,7 +182,6 @@ class ProfilePhotoAliasContainer extends Component {
         if(e.key === 'Enter'){
            
         }
-        alert(e.key);
     }
 
     render() {

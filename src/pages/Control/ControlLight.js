@@ -4,8 +4,9 @@ import * as controlActions from 'redux/modules/control';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LightContainer } from 'containers/Control';
+import socket from 'lib/socket';
 
-class ControlHeating extends Component {
+class ControlLight extends Component {
     async componentDidMount() {
         const { UIActions, ControlActions } = this.props;
         UIActions.setPageType({pageType:'/control'});
@@ -20,6 +21,15 @@ class ControlHeating extends Component {
             console.log(e);
         }
         UIActions.setSpinnerVisible(false);
+        socket.initialize(window.store, window.socketURIControl, usertoken, 'control');
+        
+
+    }
+
+    componentWillUnmount(){
+        const { ControlActions } = this.props;
+        ControlActions.initial('data_lights');
+        socket.disconnect();
     }
 
     render() {
@@ -39,5 +49,5 @@ export default connect(
         ControlActions : bindActionCreators(controlActions, dispatch),
         
     })
-)(ControlHeating);
+)(ControlLight);
 

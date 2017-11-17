@@ -10,12 +10,13 @@ import configureStore from 'redux/configureStore';
 
 const store = configureStore();
 
-const socketURI = 'ws://122.199.242.18:4805';
+const socketURITalk = 'ws://122.199.242.18:4805';
+const socketURIControl = 'ws://122.199.242.18:4804';
      // socket.initialize(store, socketURI);
 const render = Component => {
     window.store = store;
-    window.socketURI = socketURI;
-
+    window.socketURITalk = socketURITalk;
+    window.socketURIControl = socketURIControl;
     ReactDOM.render(
         <AppContainer>
             <Component store={window.store}/>

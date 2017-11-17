@@ -82,17 +82,6 @@ const Title = styled.div`
 
 class LightContainer extends Component {
 
-    handleUpdate = (allon) => {
-        const { ControlActions } = this.props;
-    }
-
-    onClickEvent1 = () => {
-        console.log('click1');
-    }
-
-    onClickEvent2 = () => {
-        console.log('click2');
-    }
 
     handleControlAll = async (status)=>{
         const jsonData = {
@@ -100,13 +89,9 @@ class LightContainer extends Component {
             status:status
         }
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
-       // const tempdata =  KEY.decryptedKey('AwrYTnfb01cgoMWsgIHpuAun1E8jG9/acnw6jOCX4NSee8GhE5nzdBeP0sMWd6iCpAgg4SVJBDqfwshpGndRoQ==');
-       // console.log('tempdata:',tempdata);
         const { ControlActions, UIActions } = this.props;
         const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
-        //console.log('usertoken:',usertoken);
-       // console.log('data:',data);
         try {
             await ControlActions.setControlLightOnOff({data:data,usertoken:usertoken});
         } catch(e) {
@@ -161,10 +146,8 @@ class LightContainer extends Component {
         //UIActions.setSpinnerVisible(false);
     }
 
-
     render() {
-        const { controlItemListArray,UIActions,batchoff,ControlActions} = this.props;
-        const { onClickEvent1,onClickEvent2 } = this;
+        const { controlItemListArray,batchoff} = this.props;
         return (
             <Wrapper>
                     <ControlItemList
