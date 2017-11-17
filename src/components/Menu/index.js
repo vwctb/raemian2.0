@@ -35,11 +35,15 @@ class Menu extends Component {
     clickEventSlideClose = () => {
         this.setState({sidebarOpen: false});
         this.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+
+        
     }
+
     onClickBackPage = () => {
         const { pageType,TalkActions } = this.props;
         const{ history } = this.context.router;
         history.push(pageType);
+
         if(pageType === '/talk/fmsgs'){
             TalkActions.setInitalFmsgsView();
         }
@@ -83,6 +87,13 @@ class Menu extends Component {
         UIActions.setSpinnerVisible(false);
 
     }
+    settingInitial = () => {
+        const { AuthActions} = this.props;
+        AuthActions.initial('setting');
+        AuthActions.initial('register');
+        //AuthActions.setProfileUploadFile('');
+      
+    }
 
     render() {
         const { pageType, title,sideView } = this.props;
@@ -108,6 +119,7 @@ class Menu extends Component {
                     sideViewIndex={sideViewIndex}
                     changeSideMenuView = {this.changeSideMenuView}
                     sideViewTitle={sideViewTitle}
+                    settingInitial={this.settingInitial}
                 />
             </div>
         ;

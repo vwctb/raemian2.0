@@ -148,6 +148,18 @@ class SettingFamilyContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
+
+    handleImageLoaded() {
+        const { UIActions } = this.props;
+        UIActions.setSpinnerVisible(false);
+    }
+    
+    handleImageErrored() {
+        const { UIActions } = this.props;
+        UIActions.setSpinnerVisible(false);
+    }
+
+    
     handleClick  = async () =>{
         const { AuthActions, UIActions } = this.props;
         const { desc, phototype, img } = this.props.homebgs.toJS();
@@ -196,25 +208,30 @@ class SettingFamilyContainer extends Component {
 
    
     handleChangeFile = (e) => {
-        const { AuthActions } = this.props;
+        const { AuthActions, UIActions } = this.props;
         //if(e.target.files.length === 0) return;
         const type =  e.target.files[0].type;
+        UIActions.setSpinnerVisible(true);
         if(e.target.files[0] && type.split('/')[0] === 'image'){
           let reader = new FileReader();
           reader.onload = function (e) {
+            AuthActions.setCheckboxHomeBGType(2);
             AuthActions.setHomeBgsImage(e.target.result);
           }
           reader.readAsDataURL(e.target.files[0]);
         }
+       
     }
     basicImageClich=()=>{ 
         const { AuthActions} = this.props;
         AuthActions.setCheckboxHomeBGType(1);
     }
 
-    handleClickPhotoImage=()=>{ 
-        const { AuthActions} = this.props;
-        AuthActions.setCheckboxHomeBGType(2);
+
+    handleKeyPressEvent = (e) => {
+        if(e.key === 'Enter'){
+            e.target.blur();
+        }
     }
 
     render() {
@@ -237,7 +254,7 @@ class SettingFamilyContainer extends Component {
                             {phototype === 1 && $CheckIcon}
                             <BasicImage onClick={this.basicImageClich}/>
                         </ImageSpace>
-                        <ImageSpace onClick={this.handleClickPhotoImage}>
+                        <ImageSpace>
                             {phototype === 2 && $CheckIcon}
 
                             <FileInputSpace>
@@ -250,7 +267,12 @@ class SettingFamilyContainer extends Component {
 
                             {      
                             img !== null ?
-                            <CustomImage src={img}>
+                            <CustomImage 
+                            src={img} 
+                            onLoad={this.handleImageLoaded.bind(this)}
+                            onError={this.handleImageErrored.bind(this)}
+                            
+                            >
                             </CustomImage>
                             :
                             <PhotoImage >
@@ -268,10 +290,11 @@ class SettingFamilyContainer extends Component {
                     <InputSpace>
                         <InputWrapper>
                             <Input 
+                                onKeyPress={this.handleKeyPressEvent}
                                 onChange = {this.handleChange}
                                 value = {desc === null ? "행복한 래미안 하우스" : desc}
                             />
-                            <InputIcon/>
+                            <InputIcon />
                             <InputNotice>{'(16자 이내)'}</InputNotice>
                         </InputWrapper>
                     </InputSpace>

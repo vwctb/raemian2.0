@@ -126,8 +126,6 @@ class AuthContainers extends Component {
                     onClickEvent={this.handleClick}
                     name={'다 음'}
                 />
-             
-
                 <Modal visible={visible} onHide={this.onHide} title={modalTitle}>
                     {
                         modalTitle === '이용약관' ?
@@ -135,7 +133,6 @@ class AuthContainers extends Component {
                         :
                         <Privacy/>
                     }
-                   
                 </Modal>
                  <Dimmed visible={visible}/>
 

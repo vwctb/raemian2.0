@@ -185,7 +185,11 @@ class SignupContainers extends Component {
             modalSW = true;
         },500);
     }
-
+    handleKeyPressEvent=(e)=>{
+        if(e.key === 'Enter'){
+            e.target.blur();
+        }
+    }
     render() {
         const { pageType, checkBoxListArray, error, visible } = this.props;
         const { dong, ho, pass, authConfirm } = this.props.base.toJS();
@@ -202,6 +206,7 @@ class SignupContainers extends Component {
                     type="number" 
                     value={dong}
                     onChange={this.handleChange}
+                    onKeyPress={this.handleKeyPressEvent}
                 />
                 <InputWithLabel 
                     label="호" 
@@ -209,6 +214,7 @@ class SignupContainers extends Component {
                     type="number" 
                     value={ho}
                     onChange={this.handleChange}
+                    onKeyPress={this.handleKeyPressEvent}
                 />
                 </InputWrapper>
           
@@ -239,6 +245,7 @@ class SignupContainers extends Component {
                         type="text"
                         value={pass}
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPressEvent}
                     />
                     <SubNotice>
                         외부접속 비밀번호는<br/>거실 월패드에서 설정하실 수 있습니다.

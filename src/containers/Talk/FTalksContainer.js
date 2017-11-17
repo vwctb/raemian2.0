@@ -47,11 +47,13 @@ class FTalksContainer extends Component {
     // 스크롤 리스너
     handleScroll = () => {
         const { beforeLastTime } = this.props;
-        if(window.myRef.scrollTop < 200){
+        if(window.myRef.scrollTop < 15){
             if((sendLastTime == null && beforeLastTime != null) || (sendLastTime != null && beforeLastTime > 0 && sendLastTime > beforeLastTime)){
                 beforeScrollTop = window.myRef.scrollHeight;
                 this.load(beforeLastTime);
             }
+
+
         }
     }
     

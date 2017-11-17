@@ -64,8 +64,9 @@ const BtnClose = styled.div`
 
 class MenuHeader extends Component {
     clickEvent = () => {
-        const {sideViewIndex,changeSideMenuView} = this.props;
+        const {sideViewIndex,changeSideMenuView,settingInitial} = this.props;
         changeSideMenuView({sideViewIndex:0});
+        settingInitial();
     }
 
     render() {

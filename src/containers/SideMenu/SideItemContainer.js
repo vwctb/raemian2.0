@@ -61,7 +61,7 @@ const SettingTitleBar = styled.div`
 
 
 
-const ItemMenu = ({slideBack,changeSideMenuView,sideViewIndex,sideViewTitle}) => (
+const ItemMenu = ({slideBack,changeSideMenuView,sideViewIndex,sideViewTitle,settingInitial}) => (
     <div>
         <MenuHeader
             slideBack = {slideBack}
@@ -69,6 +69,7 @@ const ItemMenu = ({slideBack,changeSideMenuView,sideViewIndex,sideViewTitle}) =>
             changeSideMenuView = {changeSideMenuView}
             titleName = {sideViewTitle}
             btnVisible={true}
+            settingInitial={settingInitial}
         />
              {
                 (sideViewIndex !== 0) ?

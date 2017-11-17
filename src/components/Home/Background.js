@@ -44,20 +44,15 @@ const ImageBackground = styled.img`
 `;
 
 const BGBox = ({homebgs}) => {
-    let { desc, phototype,img } = homebgs.toJS()
-    if(homebgs === undefined){
-        homebgs = {
-            desc :'행복한 레미안 하우스',
-            phototype : 1,
-            img : ''
-        }
-    }
+
+    let { desc, phototype,img } = homebgs.toJS();
+   
     if(desc === null || desc === ''){
         desc = '행복한 레미안 하우스';
-        phototype = 1;
     }
 
     return (
+        phototype !== null &&
         <Wrapper>
             <TitleBar>{desc}</TitleBar>
             {
@@ -66,9 +61,8 @@ const BGBox = ({homebgs}) => {
                 :
                 <ImageBackground src = {img}/>
             }
-           
-
         </Wrapper>
+        
     );
 };
 BGBox.propTypes = {

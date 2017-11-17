@@ -8,6 +8,8 @@ import {FamliyItemSmall} from 'components/Shared';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authActions from 'redux/modules/auth';
+import * as uiActions from 'redux/modules/ui';
+
 import FileInput from 'react-file-input';
 
 const Wrapper = styled.div`
@@ -172,15 +174,29 @@ const BtnFileUpload = styled.div`
 `;
 
 class ProfilePhotoAliasContainer extends Component {
+
+
+    handleImageLoaded() {
+        const { UIActions } = this.props;
+        UIActions.setSpinnerVisible(false);
+    }
+    
+    handleImageErrored() {
+        const { UIActions } = this.props;
+        UIActions.setSpinnerVisible(false);
+    }
+
+
      handleChange = (e) => {
         const { AuthActions } = this.props;
         const { value } = e.target;
         if(value.length > 6)return;
         AuthActions.changeProfileInput(value);
+
     }
     handleKeyPressEvent=(e)=>{
         if(e.key === 'Enter'){
-           
+            e.target.blur();
         }
     }
 
@@ -189,14 +205,23 @@ class ProfilePhotoAliasContainer extends Component {
         const $CheckIcon = <CheckIcon dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('checkSmall')}} />;
         
         return (
-            <Wrapper>
+            <Wrapper
+                ref={(input) => { this.aliasInput = input; }} 
+             >
                 <InnerWrapper>
                     <MainPhotoSpace>
                         {
-                            icon === 0 ?  <MainPhotoImage src={img} /> : <MainPhoto icon = {icon}/>
+                            icon === 0 ? 
+                            <MainPhotoImage 
+                                src={img}  
+                                onLoad={this.handleImageLoaded.bind(this)}
+                                onError={this.handleImageErrored.bind(this)}
+                            /> 
+                            : 
+                            <MainPhoto icon = {icon}/>
                         }
                         <InputSpace>
-                            <Input 
+                            <Input
                                 onChange = {this.handleChange}
                                 value = {alias}
                                 onKeyPress={this.handleKeyPressEvent}
@@ -224,6 +249,8 @@ class ProfilePhotoAliasContainer extends Component {
                                     placeholder=''
                                     className="inputFileClass"
                                     onChange={handleChangeFile}
+
+
                                 />
                         </BtnFileUpload>
                         </BtnAddPhoto>
@@ -242,7 +269,8 @@ export default connect(
     
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UIActions: bindActionCreators(uiActions, dispatch)
     })
    
 )(ProfilePhotoAliasContainer);

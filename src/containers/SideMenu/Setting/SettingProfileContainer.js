@@ -91,14 +91,19 @@ class SettingProfileContainer extends Component {
         const { success } = this.props;
         if(success){
             UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
+            AuthActions.initial('setting');
         }else{
             alert('프로필 수정 에러');
         }
 
+    
+
+
     }
 
     handleChangeFile = (e) => {
-        const { AuthActions} = this.props;
+        const { AuthActions, UIActions} = this.props;
+        UIActions.setSpinnerVisible(true);
         if(e.target.files.length === 0) return;
         const type =  e.target.files[0].type;
         if(e.target.files[0] && type.split('/')[0] === 'image'){
@@ -202,7 +207,7 @@ class SettingProfileContainer extends Component {
                     />
                     <OnePassTagContainer
                         tagcolor = {tagcolor}
-                     
+                    
                         onClickEvent={this.handleClickTagColor}
                     />
                      <OnePassNotice>
