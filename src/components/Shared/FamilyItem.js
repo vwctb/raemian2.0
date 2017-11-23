@@ -42,7 +42,7 @@ const FamilyImage = styled.div`
     width: ${props => props.size+'rem'};
     height: ${props => props.size+'rem'};
     border-radius: ${props => props.size+'rem'};
-    background-image: url(${props => props.icon > 0 ? ImgArray[props.icon] : props.imgData});
+    background-image: url(${props => props.icon > 0 ? ImgArray[props.icon] : (props.imgData === null || props.imgData === undefined) ? ImgArray[9] : props.imgData});
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -87,6 +87,8 @@ class FamilyItem extends Component {
     render() {
         const {icon,imgData,tagcolor,check,onCheckEvent,size,news} = this.props;
         return (
+
+        
            <Wrapper
              onClick={onCheckEvent}
            >

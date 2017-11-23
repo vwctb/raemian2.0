@@ -93,6 +93,12 @@ class FmsgsWriteContainer extends Component {
             alert('받는 가족을 선택해주세요!'); 
             return;
         }
+
+        if(msg === null ||  msg === "" ||  msg === " " ||  msg === "  " || msg === undefined ){
+            alert('메시지를 입력해주세요'); 
+            return;
+        }
+
         const jsonData = {
             msg:msg,
             receivetime:receivetime,

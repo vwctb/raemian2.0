@@ -48,7 +48,10 @@ const Input = styled.input`
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     margin-right:${props => props.focus && '0.6rem'};
+    background-color: white;
+
 `;
+
 Input.propTypes = {
     focus : PropTypes.bool
 }

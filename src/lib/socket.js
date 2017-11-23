@@ -32,52 +32,55 @@ export default (function socketHelper() {
             const value =  parseJSON(KEY.decryptedKey(_data.data));
              console.log("value data : ",value);
             // if(!value || !value.type) return; // 파싱 실패했거나, type 값이 없으면 무시
-
+            if(userToken === value.userToken) return;
+            
             if(type === 'ftalks'){
                 //console.log('get message');
                 _store.dispatch({
                     type:'talks/ftalks/RECEIVE_FTALKS_NEW_MSG',
                     payload:{value:value,userToken:userToken}
                 });
-
                 window.myRef.scrollTop = window.myRef.scrollHeight;
             }else if(type === 'control'){
-
                 if(value.device === 'light'){
                     _store.dispatch({
                         type:'control/RECEIVE_NEW_LIGHT',
                         payload:value.items
                     });
                 }
-
                 if(value.device === 'concent'){
                     _store.dispatch({
                         type:'control/RECEIVE_NEW_CONCENT',
                         payload:value.items
                     });
                 }
-
-
                 _store.dispatch({
                     type:'ui/spinner/SET_SPINNER_VISIBLE',
                     payload:false
                 });
-                
-
             }
         });
 
-
-
         _socket.on('fileEventListener',(_data)=>{
             const value =  parseJSON(KEY.decryptedKey(_data.data));
+            if(userToken === value.userToken) {
+                window.isFirstLoad= true;
+            }else{
+                window.isFirstLoad= false;
+            }
+
             //console.log("value data : ",value);
             // if(!value || !value.type) return; // 파싱 실패했거나, type 값이 없으면 무시
             _store.dispatch({
                 type:'talks/ftalks/RECEIVE_FTALKS_NEW_MSG',
                 payload:{value:value,userToken:userToken}
             });
-            window.myRef.scrollTop = window.myRef.scrollHeight;
+
+            _store.dispatch({
+                type:'ui/spinner/SET_SPINNER_VISIBLE',
+                payload:false
+            });
+            
         });
 
 

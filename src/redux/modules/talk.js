@@ -52,7 +52,6 @@ const SET_FTALKS_INPUT_FOCUS = 'talks/ftalks/SET_FTALKS_INPUT_FOCUS'; //true,fal
 const RECEIVE_FTALKS_NEW_MSG = 'talks/ftalks/RECEIVE_FTALKS_NEW_MSG';
 
 export const initial= createAction(INITIAL);
-
 export const setDate = createAction(SET_DATE);
 export const setActiveDate = createAction(SET_ACTIVE_DATE);
 export const setAddYear = createAction(SET_ADD_YEAR);
@@ -247,6 +246,7 @@ export default handleActions({
         type: POST_FTALKS_SEND_MESSAGE,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
+            console.log('jsonData:',jsonData);
             return state.setIn(['ftalksSendMsg','successSendMsg'], fromJS(JSON.parse(jsonData).success)).setIn(['ftalksSendMsg','msg'],'');
         }
     }),
@@ -289,7 +289,7 @@ export default handleActions({
         type: GET_FMSGS_LIST,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            //console.log(jsonData);
+            console.log(jsonData);
             return state.setIn(['fmsgs','list'], fromJS(JSON.parse(jsonData).list)).setIn(['fmsgs','user'], fromJS(JSON.parse(jsonData).user));
         }
     }),
@@ -338,7 +338,7 @@ export default handleActions({
             console.log(listData.length);
             if(listData.length <= 0){
                 console.log('return');
-                return state.set('ftalks',list => list);
+                return state.set('ftalks',state.get('ftalks'));
             }
             return state.updateIn(['ftalks','list'],list => list.concat(fromJS(listData)))
             .setIn(['ftalks','user'],fromJS(JSON.parse(jsonData).user))

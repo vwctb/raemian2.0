@@ -162,9 +162,11 @@ class SettingFamilyContainer extends Component {
     
     handleClick  = async () =>{
         const { AuthActions, UIActions } = this.props;
+        UIActions.setSpinnerVisible(true);
+        
         const { desc, phototype, img } = this.props.homebgs.toJS();
         const { usertoken, result } = this.props.loginUserInfo.toJS();
-
+ 
 
         const jsonData = {
             img:img,
@@ -186,10 +188,10 @@ class SettingFamilyContainer extends Component {
             if(success){
                 UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
                 AuthActions.setHomeHomeBgsImage(jsonData);
-
             }else{
                 alert('에러');
             }
+            UIActions.setSpinnerVisible(false);
         }
     }
 

@@ -99,18 +99,22 @@ const SubTitle = styled.div`
 `;
 
 const FmsgViewList = ({ msgViewData, familysArray, pageType, userImageData }) => {
-    const {msg, icon, fromto,alias,date, filetype, filePath } = msgViewData.toJS();
-    console.log(msgViewData.toJS());
+    const {msg, icon, fromto, alias, date, filetype, filePath } = msgViewData.toJS();
+    console.log("msgViewData:",msgViewData.size);
     return (
+
         <Wrapper>
             <ListWrapper>
-                <FamilyItem 
+                { msgViewData.size > 0 &&
+                  <FamilyItem 
                     icon={
                         fromto ==='from' ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === alias ),'icon']) : icon
                     } 
                     size={3}
                     imgData = { userImageData }
-                />
+                    />
+                }
+              
                 {
                     alias !== undefined &&
                     <Body>

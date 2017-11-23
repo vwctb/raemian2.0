@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -24,50 +24,68 @@ const ItemListWrapper = styled.div`
 `;
 
 let key=0;
-const FTalkList = ({listArray,userArray,itemClick,typeClick,handleFocus,focus}) => {    
-    let list=''; 
-    if(listArray.size > 0){
-        list = listArray.map(
-            item => (
-                <FTalkItem
-                    key={key++}
-                    msg={item.get('msg')}
-                    icon={ 
-                        item.get('userIcon') === undefined ? 
-                        userArray.getIn([userArray.findIndex(list => list.get('userkey') === item.get('userkey')),'icon']) :
-                        item.get('userIcon')
-                    }
-                    img={
-                        item.get('userIcon') === undefined ? 
-                        userArray.getIn([userArray.findIndex(list => list.get('userkey') === item.get('userkey')),'img']) :
-                        item.get('userImg')
-                    }
-                    date={item.get('date')}
-                    alias={item.get('alias')}
-                    own={item.get('own')}
-                    fileFlag={item.get('fileFlag')}
-                    fileType={item.get('fileType')}
-                    filePath={item.get('filePath')}
-                    thumbPath={item.get('thumbPath')}
-                    itemClick= {itemClick}
-               />
-            )
-        );
-    } 
-    
 
-    return (
-        <Wrapper
-            innerRef={ref=>window.myRef=ref}
-           
-        >
-            <ItemListWrapper
-            onClick={()=>handleFocus(false)}
+class FTalkList extends Component {
+    
+        
+    componentDidUpdate(prevProps, prevState) {
+
+            const { clientHeight, scrollHeight, scrollTop } = window.myRef;
+            // scroll to bottom when scroll is at bottom already
+            if(scrollHeight - clientHeight- scrollTop < 200) {
+                window.myRef.scrollTop = window.myRef.scrollHeight;
+            }
+
+ 
+    }
+
+
+
+    render(){
+        const {listArray,userArray,itemClick,typeClick,handleFocus,focus,handleLoaded} = this.props;
+        let list=''; 
+        if(listArray === undefined) return;
+        if(listArray.size > 0){
+            list = listArray.map(
+                item => (
+                    <FTalkItem
+                        key={key++}
+                        msg={item.get('msg')}
+                        icon={ 
+                            item.get('userIcon') === undefined ? 
+                            userArray.getIn([userArray.findIndex(list => list.get('userkey') === item.get('userkey')),'icon']) :
+                            item.get('userIcon')
+                        }
+                        img={
+                            item.get('userIcon') === undefined ? 
+                            userArray.getIn([userArray.findIndex(list => list.get('userkey') === item.get('userkey')),'img']) :
+                            item.get('userImg')
+                        }
+                        date={item.get('date')}
+                        alias={item.get('alias')}
+                        own={item.get('own')}
+                        fileFlag={item.get('fileFlag')}
+                        fileType={item.get('fileType')}
+                        filePath={item.get('filePath')}
+                        thumbPath={item.get('thumbPath')}
+                        itemClick= {itemClick}
+                        handleLoaded={handleLoaded}
+                   />
+                )
+            );
+        }; 
+        return (
+            <Wrapper
+                innerRef={ref=>window.myRef=ref}
             >
-                {list}
-            </ItemListWrapper>
-        </Wrapper>
-    );
+                <ItemListWrapper
+                onClick={()=>handleFocus(false)}
+                >
+                    {list}
+                </ItemListWrapper>
+            </Wrapper>
+        )
+    }
 };
 
 FTalkList.propTypes = {

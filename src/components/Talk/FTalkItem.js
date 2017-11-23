@@ -101,7 +101,7 @@ class FTalkItem extends Component {
     }
 
     render() {
-        const {msg,icon,img,date,alias,own,fileFlag,fileType,filePath,thumbPath,itemClick} = this.props;
+        const {msg,icon,img,date,alias,own,fileFlag,fileType,filePath,thumbPath,itemClick,handleLoaded} = this.props;
         return (
             <Wapper own={own}>
                 {
@@ -122,10 +122,10 @@ class FTalkItem extends Component {
                    
 
                     {
-                       fileType === "1" && <ImageFile src = {'http://122.199.242.18:17501'+thumbPath} />
+                       fileType === "1" && <ImageFile src = {'http://122.199.242.18:17501'+thumbPath} onLoad={handleLoaded.bind(this)}/>
                     }
                     {
-                       fileType === "2"  && <VideoFile src = {'http://122.199.242.18:17501'+filePath} controls/>
+                       fileType === "2"  && <VideoFile onLoad={handleLoaded.bind(this)} src = {'http://122.199.242.18:17501'+filePath} controls/>
                     }
 
                     {

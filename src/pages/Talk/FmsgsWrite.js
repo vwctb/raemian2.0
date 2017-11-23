@@ -17,6 +17,7 @@ class FmsgsWrite extends Component {
         TalkActions.setInitalFmsgsWrite();
         
         try {
+            await TalkActions.initial('fmsgs');
             await TalkActions.getFmsgsFamilysList(usertoken);
         } catch(e) {
             console.log(e);

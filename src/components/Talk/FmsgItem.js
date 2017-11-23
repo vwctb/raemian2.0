@@ -33,6 +33,7 @@ const Title = styled.div`
     color:${props => props.fromto === 'to' ? '#50bbcd' : '#49433c' };
     display:  inline-block;
     font-size:1rem;
+    width: 16rem;
     align-items: center;
     white-space:nowrap;
     overflow:hidden;

@@ -72,6 +72,8 @@ class SettingProfileContainer extends Component {
    */
     handleClick = async () => {
         const { AuthActions,UIActions } = this.props;
+        UIActions.setSpinnerVisible(true);
+
         const { profile } = this.props.base.toJS();
         const { icon, img, alias, tagcolor } = profile;
         const { usertoken } = this.props.loginUserInfo.toJS();
@@ -96,7 +98,7 @@ class SettingProfileContainer extends Component {
             alert('프로필 수정 에러');
         }
 
-    
+     UIActions.setSpinnerVisible(false);
 
 
     }
