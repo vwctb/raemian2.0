@@ -14,23 +14,32 @@ class FmsgsWriteContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
-    
     receiverkeyEvnet = async (key) => {
         const { TalkActions} = this.props;
-        
         try {
             await TalkActions.setFmsgsWriteReceiverkey(key);
         } catch(e) {
             console.log(e);
         }
     }
-    
     handleChangeFile = async (e) => {
-      const { TalkActions} = this.props;
-      const name = e.target.files[0].name;
-      tempType =  e.target.files[0].type;
-      tempFile = e.target.files[0];
+        const { TalkActions, UIActions} = this.props;
+        const name = e.target.files[0].name;
+        tempType =  e.target.files[0].type;
+        tempFile = e.target.files[0];
+        if(e.target.files.length === 0) return;
+
+   
+        const size =  Math.round((e.target.files[0].size/1024)/1024);
+
+       UIActions.setSpinnerVisible(true);
+
       if(e.target.files[0] && tempType.split('/')[0] === 'image'){
+        if(size > 10){
+            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.");
+            UIActions.setSpinnerVisible(false);
+            return;
+        }
         let reader = new FileReader();
         reader.onload = function (e) {
             TalkActions.setFmsgsWriteUploadFile(
@@ -45,6 +54,11 @@ class FmsgsWriteContainer extends Component {
       }
 
       if(e.target.files[0] && tempType.split('/')[0] === 'video'){
+        if(size > 50){
+            alert("이미지파일의 용량은 50MB를 초과할 수 없습니다.");
+            UIActions.setSpinnerVisible(false);
+            return;
+        }
         const URL = window.URL || window.webkitURL;
         const files = e.target.files[0];
         const fileURL = URL.createObjectURL(files);
@@ -69,11 +83,13 @@ class FmsgsWriteContainer extends Component {
         }
 
        const { fileid, success } = this.props.msgFileupload.toJS();
+       UIActions.setSpinnerVisible(false);
        if(success){
            TalkActions.setFmsgsWriteFileId(fileid);
        }else{
            alert('업로드 실패');
        }
+      
     }
 
     handleChangeInput = (e) => {

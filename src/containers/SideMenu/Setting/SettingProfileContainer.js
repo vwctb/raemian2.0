@@ -104,10 +104,8 @@ class SettingProfileContainer extends Component {
     }
 
     handleChangeFile = (e) => {
-        const { AuthActions, UIActions} = this.props;
-        UIActions.setSpinnerVisible(true);
-        if(e.target.files.length === 0) return;
-        const type =  e.target.files[0].type;
+
+        /*
         if(e.target.files[0] && type.split('/')[0] === 'image'){
           let reader = new FileReader();
           reader.onload = function (e) {
@@ -116,6 +114,59 @@ class SettingProfileContainer extends Component {
           }
           reader.readAsDataURL(e.target.files[0]);
         }
+        */
+        const { AuthActions, UIActions} = this.props;
+        UIActions.setSpinnerVisible(true);
+        if(e.target.files.length === 0) return;
+        const type =  e.target.files[0].type;
+        const size =  Math.round((e.target.files[0].size/1024)/1024);
+        if(size > 10){
+            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
+            return;
+        }
+        if(e.target.files[0] && type.split('/')[0] === 'image'){
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            let reader = new FileReader();
+            let ratio;
+            reader.onload = function(event){
+                var img = new Image();
+                img.onload = function(){
+                    if(img.width > img.height){
+                    //가로 이미지
+                    if(img.width > 1500){
+                        ratio = 0.4;
+                    } 
+                    if(img.width > 3000){
+                        ratio = 0.2;
+                    }
+                    }else{
+                    //세로 이미지
+                    if(img.height > 1500){
+                        ratio=0.4;
+                    }
+                    if(img.height > 3000){
+                        ratio=0.2;
+                    }
+                    }
+                    canvas.width = img.width * ratio;
+                    canvas.height = img.height * ratio;
+                    ctx.imageSmoothingEnabled= true;
+                    ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
+
+                    var dataURL = canvas.toDataURL();
+
+                    AuthActions.setProfileUploadFile(dataURL);
+                    AuthActions.setProfileIcon(0);
+
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+
+            UIActions.setSpinnerVisible(false);
+        }
+
     }
 
     handleClickTagColor= async (val) => {

@@ -289,7 +289,7 @@ export default handleActions({
         type: GET_FMSGS_LIST,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-            console.log(jsonData);
+            //console.log(jsonData);
             return state.setIn(['fmsgs','list'], fromJS(JSON.parse(jsonData).list)).setIn(['fmsgs','user'], fromJS(JSON.parse(jsonData).user));
         }
     }),

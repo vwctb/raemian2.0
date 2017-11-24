@@ -109,6 +109,15 @@ class FTalks extends Component {
 
         let formData = new FormData();
         formData.append("uploadFile",e.target.files[0]);
+
+        let size =  Math.round((e.target.files[0].size/1024)/1024);
+        let fileSizeMax = (type === 'imageUpload') ? 10 : 50;
+
+        if(size > fileSizeMax){
+            alert("파일의 용량은 "+fileSizeMax+"MB를 초과할 수 없습니다.")
+            return;
+        }
+
         UIActions.setSpinnerVisible(true);
 
         try {
