@@ -12,18 +12,18 @@ const Wrapper = styled.div`
      position:absolute;
      width:100%;
      top:3.5rem;
-     bottom: 0;
+     bottom: 4rem;
+     overflow:auto;
      background:#f7f6ef;
      overflow-y:auto;
-`;
 
-const ItemListWrapper = styled.div`
-    width:100%;
+     width:100%;
     display: flex;
     align-content: flex-start;
     justify-content: space-around;
     flex-flow: row wrap;
 `;
+
 let key=0;
 const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemClick,typeClick}) => {    
     let list=''; 
@@ -38,7 +38,14 @@ const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemCl
                            item.get('fromto') === 'from'  ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === item.getIn(['alias',0])),'icon']) :
                            userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'icon'])
                     }
-                    img={item.get('fromto') === 'to' ? userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'img']) : ''}
+                    img={
+                        
+                        item.get('fromto') === 'from'  ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === item.getIn(['alias',0])),'img']) :
+                        
+                        userArray.getIn([userArray.findIndex(user => user.get('userkey') === item.get('userkey')),'img'])
+                
+                
+                }
                     fromto={item.get('fromto')}
                     news={item.get('new')}
                     msg={item.get('msg')}
@@ -52,9 +59,9 @@ const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemCl
 
     return (
         <Wrapper>
-            <ItemListWrapper>
+        
                 {list}
-            </ItemListWrapper>
+          
         </Wrapper>
     );
 };
