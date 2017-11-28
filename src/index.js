@@ -10,8 +10,8 @@ import configureStore from 'redux/configureStore';
 
 const store = configureStore();
 
-const socketURITalk = 'ws://122.199.242.18:4805';
-const socketURIControl = 'ws://122.199.242.18:4804';
+const socketURITalk = 'ws://211.201.31.134:4805';
+const socketURIControl = 'ws://211.201.31.134:4804';
      // socket.initialize(store, socketURI);
 const render = Component => {
     window.store = store;
