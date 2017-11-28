@@ -54,6 +54,13 @@ export default (function socketHelper() {
                         payload:value.items
                     });
                 }
+                if(value.device === 'guard'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_GUARD',
+                        payload:value.status
+                    });
+                }
+
                 _store.dispatch({
                     type:'ui/spinner/SET_SPINNER_VISIBLE',
                     payload:false

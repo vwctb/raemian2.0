@@ -113,6 +113,13 @@ export const getInitialAircons = () => axios.get('http://localhost:3001/aircon')
 export const getInitialLights =  (usertoken) => axios.get('/smarthome/v1/lights',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
+
+export const getInitialGuard =  (usertoken) => axios.get('/smarthome/v1/guards',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+
+
 export const getInitialBatch =  (usertoken) => axios.get('/smarthome/v1/batchoffs',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
@@ -123,10 +130,15 @@ export const getInitialConcents =  (usertoken) => axios.get('/smarthome/v1/conce
 export const setControlLightOnOff = (value) => axios.post('/smarthome/v1/lights',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
+
 export const setControlConcentOnOff = (value) => axios.post('/smarthome/v1/concents',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
 
+
+export const setControlGuard = (value) => axios.post('/smarthome/v1/guards',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 /*[ 스마트예약제어 ]*******************************/
 export const getSmartReserveMorning =  (usertoken) => axios.get('/smarthome/v1/smarts/morning',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {

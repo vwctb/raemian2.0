@@ -55,8 +55,6 @@ const FmsgList = ({listArray,userArray,familysArray,pageType,selectedType,itemCl
             )
         );
     } 
-    
-
     return (
         <Wrapper>
         

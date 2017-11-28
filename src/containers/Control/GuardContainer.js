@@ -9,6 +9,7 @@ import * as uiAction from 'redux/modules/ui';
 import PropTypes from 'prop-types';
 import {BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
 import * as Image from 'img';
+import * as KEY from 'lib/raemianAES';
 
 const Wrapper = styled.div`
     width:100%;
@@ -76,19 +77,26 @@ class ControlHeating extends Component {
         const { UIActions,visible } = this.props;
         title = '외출방법 설정';
         modalContent= 'init';
-
         if(!modalSW) return; //반복 모달 호출현상 방지
         UIActions.setModalVisible(!visible);
         modalSW = false;
     }
 
-    handleClickSetting = () =>{
-        const {ControlActions,UIActions,visible } = this.props;
-        ControlActions.updateGuardStatus(1);
+     handleClickSetting = async () =>{
+        const {ControlActions, UIActions, visible } = this.props;
         UIActions.setModalVisible(!visible);
-        setTimeout(() => {
-            modalSW = true;
-        },500);
+        const jsonData = {
+            status:1
+        }
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const {usertoken} = this.props.loginUserInfo.toJS();
+        UIActions.setSpinnerVisible(true);
+        try {
+            await ControlActions.setControlGuard({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+        UIActions.setSpinnerVisible(false);
     }
     
     onHide = () =>{
@@ -156,7 +164,8 @@ class ControlHeating extends Component {
 export default connect(
     (state) => ({
         visible: state.ui.getIn(['modal','visible']),
-        guard: state.control.getIn(['data_guard','status'])
+        guard: state.control.getIn(['data_guard','status']),
+        loginUserInfo:state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({
         ControlActions: bindActionCreators(controlActions, dispatch),

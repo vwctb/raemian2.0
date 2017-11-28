@@ -12,8 +12,11 @@ const GET_INITIAL_AIRCONS= 'control/GET_INITIAL_AIRCONS';
 const GET_INITIAL_LIGHTS= 'control/GET_INITIAL_LIGHTS';
 const GET_INITIAL_CONCENTS = 'control/GET_INITIAL_CONCENTS';
 const GET_INITIAL_BATCH = 'control/GET_INITIAL_BATCH';
+const GET_INITIAL_GUARD = 'control/GET_INITIAL_GUARD';
+
 const RECEIVE_NEW_LIGHT='control/RECEIVE_NEW_LIGHT';
 const RECEIVE_NEW_CONCENT='control/RECEIVE_NEW_CONCENT';
+const RECEIVE_NEW_GUARD='control/RECEIVE_NEW_GUARD';
 
 
 const UPDATE_HEATING_CONDITION= 'control/heating/UPDATE_HEATING_CONDITION';
@@ -30,6 +33,7 @@ const CHECKBOX_RESERVE_CONTROL = 'control/CHECKBOX_RESERVE_CONTROL';
 const RESERVE_CONTROL_WAKEUP_TIMER = 'control/RESERVE_CONTROL_WAKEUP_TIMER';
 const RESERVE_CONTROL_WAKEUP_DAYOFWEEK = 'control/RESERVE_CONTROL_WAKEUP_DAYOFWEEK';
 const SET_CONTROL_BACHOFF = 'control/SET_CONTROL_BACHOFF';
+const SET_CONTROL_GUARD = 'control/SET_CONTROL_GUARD';
 const SET_CONTROL_LIGHT_ONOFF = 'control/SET_CONTROL_LIGHT_ONOFF';
 const SET_CONTROL_CONCENT_ONOFF = 'control/SET_CONTROL_CONCENT_ONOFF';
 const GET_SMART_RESERVE_GOOUT = 'control/GET_SMART_RESERVE_GOOUT';
@@ -48,8 +52,12 @@ export const setSpinnerVisible = createAction(SET_CONTROL_SPINNER_VISIBLE);
 export const getInitialHeatings = createAction(GET_INITIAL_HEATINGS, WebAPI.getInitialHeatings);
 export const getInitialAircons = createAction(GET_INITIAL_AIRCONS, WebAPI.getInitialAircons);
 export const getInitialLights = createAction(GET_INITIAL_LIGHTS, WebAPI.getInitialLights);
+export const getInitialGuard = createAction(GET_INITIAL_GUARD, WebAPI.getInitialGuard);
+
 export const getInitialConcents = createAction(GET_INITIAL_CONCENTS, WebAPI.getInitialConcents);
 export const getInitialBatch = createAction(GET_INITIAL_BATCH, WebAPI.getInitialBatch);
+
+
 
 export const receiveNewLight = createAction(RECEIVE_NEW_LIGHT);
 export const receiveNewConcent = createAction(RECEIVE_NEW_CONCENT);
@@ -68,6 +76,7 @@ export const setCheckboxReserveControl = createAction(CHECKBOX_RESERVE_CONTROL);
 export const setBachOff = createAction(SET_CONTROL_BACHOFF,WebAPI.setBachOff); //true false
 export const setControlLightOnOff = createAction(SET_CONTROL_LIGHT_ONOFF,WebAPI.setControlLightOnOff); 
 export const setControlConcentOnOff = createAction(SET_CONTROL_CONCENT_ONOFF,WebAPI.setControlConcentOnOff); 
+export const setControlGuard = createAction(SET_CONTROL_GUARD,WebAPI.setControlGuard); 
 
 
 
@@ -99,7 +108,6 @@ const initialState = Map({
     data_guard:Map({
         status:0
     }),
-
     reserveControl:Map({
             gooutSuccess:null,
             wakeupSuccess:null,
@@ -289,7 +297,9 @@ export default handleActions({
     [RECEIVE_NEW_CONCENT]: (state, action) => {
         return state.set('data_concents', fromJS(action.payload));
     },
-
+    [RECEIVE_NEW_GUARD]: (state, action) => {
+        return state.setIn(['data_guard','status'], fromJS(action.payload));
+    },
 
     [SET_CONTROL_SPINNER_VISIBLE]: (state, action) => {
         return state.set('spinner', action.payload);
@@ -373,6 +383,17 @@ export default handleActions({
             return state.set('data_heatings',fromJS(data.items));
         }
     }),
+
+    ...pender({
+        type: GET_INITIAL_GUARD,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            return state.setIn(['data_guard','status'],fromJS(data.status));
+        }
+    }),
+
+    
 
     ...pender({
         type: GET_INITIAL_BATCH,

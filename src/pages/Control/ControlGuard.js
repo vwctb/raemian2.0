@@ -11,8 +11,7 @@ class ControlAircon extends Component {
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'방 범'});
         try {
-            //await ControlActions.getInitialHeatings({usertoken:loginUserInfo.usertoken});
-          //  await ControlActions.getInitialGas();
+            await ControlActions.getInitialGuard({usertoken:loginUserInfo.usertoken});
         } catch(e) {
             console.log(e);
         }
