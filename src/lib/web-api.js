@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://122.199.242.18:17501';
+axios.defaults.baseURL = 'http://211.201.31.134:17501';
 //var plaintext = "사용자 토큰이 잘못 되었습니다.";
 //KEY.encryptedKey(plaintext)
 //var encStr = "hol6c5B6tRG+SdWFFtb99rYtb6W7fsD9tKmeIJ12rFUkC6wNbNTpZfxacjb2rcuZgrkaHi3YR4R3jycj/FVmiw==";
