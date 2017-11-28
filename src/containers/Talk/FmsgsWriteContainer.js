@@ -24,10 +24,12 @@ class FmsgsWriteContainer extends Component {
     }
     handleChangeFile = async (e) => {
         const { TalkActions, UIActions} = this.props;
+  
+
+        if(e.target.files.length === 0) return;
         const name = e.target.files[0].name;
         tempType =  e.target.files[0].type;
         tempFile = e.target.files[0];
-        if(e.target.files.length === 0) return;
 
    
         const size =  Math.round((e.target.files[0].size/1024)/1024);

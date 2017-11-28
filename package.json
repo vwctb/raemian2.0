@@ -96,7 +96,7 @@
     "build:server": "cross-env NODE_PATH=src node scripts/build.server.js",
     "test": "node scripts/test.js --env=jsdom"
   },
-  "proxy": "http://122.199.242.18:17501",
+  "proxy": "http://211.201.31.134/:17501",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"

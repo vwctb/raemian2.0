@@ -101,8 +101,11 @@ class FTalks extends Component {
     handleChangeFile = async (e)=>{
 
         const { TalkActions, UIActions } = this.props;
+        if(e.target.files.length === 0) return;
+        
         tempType =  e.target.files[0].type;
         tempFile = e.target.files[0];
+
 
         const { usertoken } = this.props.loginUserInfo.toJS();
         const type = (tempType.split('/')[0] === 'image' ? 'imageUpload' : 'videoUpload');
