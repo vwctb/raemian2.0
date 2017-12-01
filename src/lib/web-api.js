@@ -90,11 +90,15 @@ export const deleteFamily  = (value) => axios.delete(`/smarthome/v1/familys/${va
     console.log("channel error",error.response);
 });
 
-
-
-
 export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/all',{
     data: { data: value }, 
+}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setFormatFamilyAfterLogin  = (value) => axios.delete('/smarthome/v1/familys/all',
+    {data: { data: value.data }, },
+    {headers:{'usertoken':value.usertoken}
 }).catch(function (error) {
     console.log("channel error",error.response);
 });

@@ -154,12 +154,13 @@ class FamilyContainers extends Component {
         const data = {
             dong:dong,
             ho:ho,
-            pass:KEY.encryptedKey(JSON.stringify(pass)),
-            uuid:uuid
+            pass:KEY.encryptedKey(pass)
         }
+        const jsonData = KEY.encryptedKey(JSON.stringify(data));
+        const { usertoken } = this.props.loginUserInfo.toJS();
         console.log('data:',data);
         try {
-            await AuthActions.setFormatFamily(KEY.encryptedKey(JSON.stringify(data)));
+            await AuthActions.setFormatFamilyAfterLogin({data:jsonData,usertoken:usertoken});
         } catch(e) {
             console.log(e);
         }
@@ -168,7 +169,7 @@ class FamilyContainers extends Component {
             const { history } = this.context.router;
             const {  UIActions, visible } = this.props;
             UIActions.setModalVisible(!visible);
-            history.push('/auth/setFamilyGroup');
+            history.push('/auth');
             setTimeout(() => {
                 modalSW = true;
             },500);
