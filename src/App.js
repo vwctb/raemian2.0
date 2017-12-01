@@ -34,43 +34,27 @@ class App extends Component {
         //alert('uuid2:'+window.device.uuid);
         //alert('uuid3:'+window.deviceId);
         if(!history.location.pathname.match('auth')){
-            const { AuthActions, UIActions} = this.props;
-            UIActions.setSpinnerVisible(true);
-            const dummy = new Date().getTime();
-           // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
-           const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
-           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
-           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
-           AuthActions.setUUID(uuid);
-           AuthActions.setPUSHID(pushid);
-            try {
-                await AuthActions.postLogin({'data':data}); 
-            } catch(e) {
-                  console.log('login error: ',e);
-            }
-            const {loginUserInfo} = this.props
-            const {result,usertoken} = loginUserInfo.toJS();  
-            isFirstLoad=false;
-            //console.log('loginUserInfo: ',loginUserInfo);
-            if(result === 'fail'){
-                history.push('/auth');
-            }            
-            UIActions.setSpinnerVisible(false);
-            
+            this.login();
         }
         //document.addEventListener("resume", this.onResume, false);
         document.addEventListener("deviceready", this.onResume, false);
         //document.addEventListener("pause", this.onPause, false);
     }
 
+
     componentWillUpdate(nextProps, nextState) {
-    if(!isFirstLoad){
-        const { loginUserInfo } = this.props
-        const { UIActions} = this.props;
-        const { usertoken } = loginUserInfo.toJS();    
-        UIActions.getNewTalks(usertoken);
+        if(!isFirstLoad){
+            const { loginUserInfo } = this.props
+            const { UIActions} = this.props;
+            const { usertoken } = loginUserInfo.toJS();    
+            UIActions.getNewTalks(usertoken);
+
+            if(usertoken === undefined || usertoken === null){
+                this.login();
+            }
+        }
     }
-    }
+    
     async componentDidMount(){
         const { history } = this.context.router;
         const { HomeActions } = this.props;
@@ -79,6 +63,34 @@ class App extends Component {
                 HomeActions.setLockVisible(true);
             }
         }
+    }
+
+    login=async()=>{
+        console.log('login');
+        const { history } = this.context.router;
+        const { AuthActions, UIActions} = this.props;
+        UIActions.setSpinnerVisible(true);
+        const dummy = new Date().getTime();
+       // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
+       const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+       const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
+       const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
+       AuthActions.setUUID(uuid);
+       AuthActions.setPUSHID(pushid);
+        try {
+            await AuthActions.postLogin({'data':data}); 
+        } catch(e) {
+              console.log('login error: ',e);
+        }
+        const {loginUserInfo} = this.props
+        const {result,usertoken} = loginUserInfo.toJS();  
+        isFirstLoad=false;
+        //console.log('loginUserInfo: ',loginUserInfo);
+        if(result === 'fail'){
+            history.push('/auth');
+        }            
+        UIActions.setSpinnerVisible(false);
+        
     }
 
     onResume = () => {

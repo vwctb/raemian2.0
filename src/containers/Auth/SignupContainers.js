@@ -161,7 +161,7 @@ class SignupContainers extends Component {
             {
                 dong:dong,
                 ho:ho,
-                pass:KEY.encryptedKey(JSON.stringify(pass))
+                pass:KEY.encryptedKey(pass)
             }
         ));
         this.ititAuth(data);

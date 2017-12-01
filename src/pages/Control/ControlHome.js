@@ -37,17 +37,13 @@ class ControlHome extends Component {
         UIActions.setPageType({pageType:'main'});
         try {
             UIActions.setSpinnerVisible(true);
-            await ControlActions.getSmartReserveGoout(usertoken);
-            await ControlActions.getSmartReserveMorning(usertoken);
+            await Promise.all([ControlActions.getSmartReserveGoout(usertoken),ControlActions.getSmartReserveMorning(usertoken)]);
         }catch(e) {
             console.log(e);
         }
         UIActions.setSpinnerVisible(false);
     }
 
-    componentWillUnmount(){
-     
-    }
 
    render() {
        return(

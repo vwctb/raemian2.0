@@ -169,7 +169,7 @@ class FamilyContainers extends Component {
         const data = {
             dong:dong,
             ho:ho,
-            pass:KEY.encryptedKey(JSON.stringify(pass)),
+            pass:KEY.encryptedKey(pass),
             uuid:uuid
         }
         console.log('data:',data);

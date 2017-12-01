@@ -76,7 +76,7 @@ class FmsgItem extends Component {
         return (
             <Wapper onClick={()=>itemClick(seq)}>
 
-                <FamilyItem icon={icon} imgData={img} size={3} news={news}/>
+                <FamilyItem icon={icon} imgData={img} size={3} fromto={fromto} news={news}/>
 
                 <Body>
                     <Title fromto={fromto}>{msg}</Title>

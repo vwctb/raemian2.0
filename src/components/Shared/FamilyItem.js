@@ -85,7 +85,7 @@ const Icon = styled.div`
 class FamilyItem extends Component {
     
     render() {
-        const {icon,imgData,tagcolor,check,onCheckEvent,size,news} = this.props;
+        const {icon,imgData,tagcolor,check,onCheckEvent,size,news,fromto} = this.props;
         return (
 
         
@@ -103,7 +103,7 @@ class FamilyItem extends Component {
                         check = {check}
                     >
                     {
-                        news && <Icon/>
+                       (fromto === "from" && !news) && <Icon/>
                     }
                     {tagcolor && <TagColor tagcolor = {tagcolor} size = {size/4}/>}
                     </FamilyImage>
