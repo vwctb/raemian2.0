@@ -44,7 +44,7 @@ const ListViewSpace = styled.div`
 class TalkHomeContainer extends Component {
 
     render() {
-        const { HomeItemListArray,newalarmsArray, uiActions } = this.props;
+        const { HomeItemListArray, newTalk } = this.props;
         
         return (
             <Wrapper>
@@ -53,6 +53,8 @@ class TalkHomeContainer extends Component {
                     <HomeItemList
                         HomeItemListArray={HomeItemListArray}
                         pageType={'talk'}
+                        newFtalk= {newTalk.get('ftalk')}
+                        newFmsg = {newTalk.get('fmsg')}
                     />
                     </ListViewSpace>
                 </Background>
@@ -64,7 +66,8 @@ class TalkHomeContainer extends Component {
 
 export default connect(
     (state) => ({
-        HomeItemListArray: state.ui.getIn(['sideMenu', 'talkItemList'])
+        HomeItemListArray: state.ui.getIn(['sideMenu', 'talkItemList']),
+        newTalk : state.ui.get('newTalk')
     }),
     (dispatch) => ({
     })

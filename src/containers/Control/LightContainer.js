@@ -8,6 +8,7 @@ import * as uiActions from 'redux/modules/ui';
 import * as controlActions from 'redux/modules/control';
 import PropTypes from 'prop-types';
 import * as KEY from 'lib/raemianAES';
+import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 
 const Wrapper = styled.div`
     /* 레이아웃 */
@@ -68,7 +69,14 @@ const SwitchBtn = styled.div`
     }
     float:left;
 `;
-
+const MainNotice = styled.div`
+    width: 100%;
+    text-align:center;
+    font-size:1rem;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    line-height: 1.6rem;
+    color:#49433c;
+`;
 
 SwitchBtn.propTypes = {
     check : PropTypes.bool
@@ -80,6 +88,8 @@ const Title = styled.div`
     color:#49433c;
 `;
 
+let modalMsg='';
+let modalSW=true;
 class LightContainer extends Component {
 
 
@@ -119,6 +129,7 @@ class LightContainer extends Component {
     }
 
     handleControlClick = async (value)=>{
+        const { UIActions, ControlActions ,visible } = this.props;
         let { id , status, name } = value.toJS();
         if(status === 'on') {
             status = 'off';
@@ -126,7 +137,13 @@ class LightContainer extends Component {
             status = 'on';
         }else{
             status = 'err';
-            alert('error');
+            modalMsg = '장치를 확인해주시기 바랍니다.'
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
+
             return;
         }
         const jsonData = {
@@ -134,7 +151,6 @@ class LightContainer extends Component {
             status:status
         }
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
-        const { ControlActions, UIActions } = this.props;
         const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
 
@@ -143,11 +159,32 @@ class LightContainer extends Component {
         } catch(e) {
             console.log(e);
         }
+
+        if(!this.props.success){
+            UIActions.setSpinnerVisible(false);
+           
+            modalMsg = '장치 제어를 실패하였습니다';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
+        }
+
         //UIActions.setSpinnerVisible(false);
     }
 
+    onHide = () =>{
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+    }
+
+
     render() {
-        const { controlItemListArray,batchoff} = this.props;
+        const { controlItemListArray,batchoff ,visible } = this.props;
         return (
             <Wrapper>
                     <ControlItemList
@@ -155,7 +192,6 @@ class LightContainer extends Component {
                         itemClick = {this.handleControlClick}
                         controlType = {'light'}
                     />
-
                     <LightGasControl>
                         <Title>조명, 가스 일괄차단</Title>
                         <SwitchBtnSpace>
@@ -171,6 +207,23 @@ class LightContainer extends Component {
                         onClickEvent2={()=>this.handleControlAll('off')}
                         color2={'cccbca'} 
                     />
+
+
+                    <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
+                    <div>
+                        <MainNotice>
+                           { modalMsg }
+                        </MainNotice>
+                        
+                        <BtnSingleModal
+                            onClickEvent={this.onHide}
+                            name={'확인'}
+                        />
+                    </div>
+                </Modal>
+                <Dimmed visible={visible}/>
+
+
                        
             </Wrapper>
         );
@@ -182,7 +235,9 @@ export default connect(
     (state) => ({
         controlItemListArray: state.control.get('data_lights'),
         batchoff: state.control.get('batchoff'),
-        loginUserInfo:state.auth.get('loginUserInfo')
+        loginUserInfo:state.auth.get('loginUserInfo'),
+        visible: state.ui.getIn(['modal','visible']),
+        success: state.control.getIn(['success','control_light_success'])
     }),
     (dispatch) => ({
          UIActions: bindActionCreators(uiActions, dispatch),

@@ -40,6 +40,8 @@ class ListViewHome extends Component {
             <ListViewHomeContainer/>
              <Footer
                selectedPage = "listView"
+               newFtalk= {this.props.newTalk.get('ftalk')}
+               newFmsg = {this.props.newTalk.get('fmsg')}
              />
         </Wrapper>
        
@@ -49,7 +51,7 @@ class ListViewHome extends Component {
 
 export default connect(
     (state) => ({
-
+        newTalk : state.ui.get('newTalk')
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch)

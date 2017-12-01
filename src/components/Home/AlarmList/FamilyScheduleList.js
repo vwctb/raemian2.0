@@ -60,8 +60,8 @@ const IconNext = styled.div`
 
 
 let cnt = 0;
-
 const FschedulesList = ({fschedulesArray,onClickEvent, svgIconArrowRight, onOpen, index}) => {
+
     const fschedulesList = fschedulesArray.map(
         fschedules => (
             <FamilyScheduleItem
@@ -79,7 +79,7 @@ const FschedulesList = ({fschedulesArray,onClickEvent, svgIconArrowRight, onOpen
                 />
             </TitleBar>
             {
-               fschedulesArray.index === 0 ? <DefaultList><Icon/>등록된 일정이 없습니다.</DefaultList>: fschedulesList
+               fschedulesArray.size === 0 ? <DefaultList><Icon/>등록된 일정이 없습니다.</DefaultList>: fschedulesList
             }
         </Wrapper>
     );

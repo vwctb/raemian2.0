@@ -5,6 +5,7 @@ import * as WebAPI from 'lib/web-api';
 import * as KEY from 'lib/raemianAES';
 // 액션 타입
 const INITIAL = 'control/INITIAL';
+const INITIAL_DAYOFWEEK = 'control/INITIAL_DAYOFWEEK';
 const SET_CONTROL_SPINNER_VISIBLE = 'control/spinner/SET_CONTROL_SPINNER_VISIBLE';
 
 const GET_INITIAL_HEATINGS= 'control/GET_INITIAL_HEATINGS';
@@ -13,18 +14,19 @@ const GET_INITIAL_LIGHTS= 'control/GET_INITIAL_LIGHTS';
 const GET_INITIAL_CONCENTS = 'control/GET_INITIAL_CONCENTS';
 const GET_INITIAL_BATCH = 'control/GET_INITIAL_BATCH';
 const GET_INITIAL_GUARD = 'control/GET_INITIAL_GUARD';
+const GET_INITIAL_GAS = 'control/GET_INITIAL_GAS';
+
 
 const RECEIVE_NEW_LIGHT='control/RECEIVE_NEW_LIGHT';
+const RECEIVE_NEW_HEATING='control/RECEIVE_NEW_HEATING';
 const RECEIVE_NEW_CONCENT='control/RECEIVE_NEW_CONCENT';
 const RECEIVE_NEW_GUARD='control/RECEIVE_NEW_GUARD';
-
 
 const UPDATE_HEATING_CONDITION= 'control/heating/UPDATE_HEATING_CONDITION';
 const UPDATE_AIRCONS_CONDITION= 'control/heating/UPDATE_AIRCONS_CONDITION';
 const UPDATE_LIGHT_CONDITION = 'control/light/UPDATE_LIGHT_CONDITION';
 const UPDATE_CONCENTS_CONDITION = 'control/light/UPDATE_CONCENTS_CONDITION';
 
-const UPDATE_GAS_STATUS = 'control/gas/UPDATE_GAS_STATUS';
 const UPDATE_GUARD_STATUS = 'control/gas/UPDATE_GUARD_STATUS';
 
 const CHECKBOX_RESERVE_CONTROL_USE = 'control/CHECKBOX_RESERVE_CONTROL_USE';
@@ -34,6 +36,7 @@ const RESERVE_CONTROL_WAKEUP_TIMER = 'control/RESERVE_CONTROL_WAKEUP_TIMER';
 const RESERVE_CONTROL_WAKEUP_DAYOFWEEK = 'control/RESERVE_CONTROL_WAKEUP_DAYOFWEEK';
 const SET_CONTROL_BACHOFF = 'control/SET_CONTROL_BACHOFF';
 const SET_CONTROL_GUARD = 'control/SET_CONTROL_GUARD';
+const SET_CONTROL_GAS = 'control/SET_CONTROL_GAS';
 const SET_CONTROL_LIGHT_ONOFF = 'control/SET_CONTROL_LIGHT_ONOFF';
 const SET_CONTROL_CONCENT_ONOFF = 'control/SET_CONTROL_CONCENT_ONOFF';
 const GET_SMART_RESERVE_GOOUT = 'control/GET_SMART_RESERVE_GOOUT';
@@ -41,11 +44,12 @@ const SET_SMART_RESERVE_GOOUT = 'control/SET_SMART_RESERVE_GOOUT';
 const GET_SMART_RESERVE_MORNING = 'control/GET_SMART_RESERVE_MORNING';
 const SET_SMART_RESERVE_MORNING = 'control/SET_SMART_RESERVE_MORNING';
 const INITIALIZE_RESERVE = 'control/INITIALIZE_RESERVE';
-
+const SET_CONTROL_HEATING_ONOFF = 'control/SET_CONTROL_HEATING_ONOFF';
 
 
 // 액션 생성자
-export const initial= createAction(INITIAL);
+export const initial = createAction(INITIAL);
+export const initialDayOfWeek = createAction(INITIAL_DAYOFWEEK);
 
 export const setSpinnerVisible = createAction(SET_CONTROL_SPINNER_VISIBLE);
 
@@ -53,6 +57,7 @@ export const getInitialHeatings = createAction(GET_INITIAL_HEATINGS, WebAPI.getI
 export const getInitialAircons = createAction(GET_INITIAL_AIRCONS, WebAPI.getInitialAircons);
 export const getInitialLights = createAction(GET_INITIAL_LIGHTS, WebAPI.getInitialLights);
 export const getInitialGuard = createAction(GET_INITIAL_GUARD, WebAPI.getInitialGuard);
+export const getInitialGas = createAction(GET_INITIAL_GAS, WebAPI.getInitialGas);
 
 export const getInitialConcents = createAction(GET_INITIAL_CONCENTS, WebAPI.getInitialConcents);
 export const getInitialBatch = createAction(GET_INITIAL_BATCH, WebAPI.getInitialBatch);
@@ -60,14 +65,12 @@ export const getInitialBatch = createAction(GET_INITIAL_BATCH, WebAPI.getInitial
 
 
 export const receiveNewLight = createAction(RECEIVE_NEW_LIGHT);
+export const receiveNewHeating = createAction(RECEIVE_NEW_LIGHT);
 export const receiveNewConcent = createAction(RECEIVE_NEW_CONCENT);
 
 export const updateHeatingCondition = createAction(UPDATE_HEATING_CONDITION, WebAPI.updateHeatingCondition);
 export const updateAirconsCondition = createAction(UPDATE_AIRCONS_CONDITION, WebAPI.updateAirconsCondition);
-export const updateGasStatus = createAction(UPDATE_GAS_STATUS);
 export const updateGuardStatus = createAction(UPDATE_GUARD_STATUS);
-
-
 export const updateLightCondition = createAction(UPDATE_LIGHT_CONDITION, WebAPI.updateLightCondition);
 export const updateConcentsCondition = createAction(UPDATE_CONCENTS_CONDITION,WebAPI.updateConcentsCondition);
 
@@ -75,19 +78,13 @@ export const setCheckboxReserveControlUse = createAction(CHECKBOX_RESERVE_CONTRO
 export const setCheckboxReserveControl = createAction(CHECKBOX_RESERVE_CONTROL); // index, check
 export const setBachOff = createAction(SET_CONTROL_BACHOFF,WebAPI.setBachOff); //true false
 export const setControlLightOnOff = createAction(SET_CONTROL_LIGHT_ONOFF,WebAPI.setControlLightOnOff); 
+export const setControlHeatingOnOff = createAction(SET_CONTROL_HEATING_ONOFF,WebAPI.setControlHeatingOnOff); 
 export const setControlConcentOnOff = createAction(SET_CONTROL_CONCENT_ONOFF,WebAPI.setControlConcentOnOff); 
 export const setControlGuard = createAction(SET_CONTROL_GUARD,WebAPI.setControlGuard); 
-
-
-
-
+export const setGasStatus = createAction(SET_CONTROL_GAS,WebAPI.setGasStatus); 
 export const setReserveControlWakeupTimer = createAction(RESERVE_CONTROL_WAKEUP_TIMER); // form, time
 export const setReserveControlWakeupDayofWeek = createAction(RESERVE_CONTROL_WAKEUP_DAYOFWEEK); // num, check
-
-
-
-export const initializeReserve = createAction(INITIALIZE_RESERVE); //
-
+export const initializeReserve = createAction(INITIALIZE_RESERVE); 
 export const getSmartReserveGoout = createAction(GET_SMART_RESERVE_GOOUT,WebAPI.getSmartReserveGoout); //
 export const setSmartReserveGoout = createAction(SET_SMART_RESERVE_GOOUT,WebAPI.setSmartReserveGoout); // 
 export const getSmartReserveMorning = createAction(GET_SMART_RESERVE_MORNING,WebAPI.getSmartReserveMorning); // 
@@ -96,6 +93,10 @@ export const setSmartReserveMorning = createAction(SET_SMART_RESERVE_MORNING,Web
 
 
 const initialState = Map({
+    success:Map({
+        control_light_success:false,
+        control_guard_success:false,
+    }),
     data_heatings: List(),
     data_lights: List(),
     data_concents:List(),
@@ -229,7 +230,7 @@ const initialState = Map({
                         Map({
                             num: 3,
                             name:'수',
-                            check:true,
+                            check:false,
                         }),
                         Map({
                             num: 4,
@@ -259,11 +260,16 @@ const initialState = Map({
 
 
 export default handleActions({
-
     [INITIAL] : (state, action) => {
         const initialForm = initialState.get(action.payload);
-        return state.set(action.payload, initialForm);
+        const initialFormSuccess = initialState.get('success');
+        return state.set(action.payload, initialForm).set('success',initialFormSuccess);
     },
+    [INITIAL_DAYOFWEEK] : (state) => {
+        const initialForm = initialState.getIn(['reserveControl','wakeup','dayofweek']);
+        return state.setIn(['reserveControl','wakeup','dayofweek'], initialForm);
+    },
+
 
     [INITIALIZE_RESERVE]: (state, action) => {
         const initial = initialState.get('reserveControl');
@@ -277,7 +283,7 @@ export default handleActions({
     },
     [CHECKBOX_RESERVE_CONTROL]: (state, action) => {
         const { from1, from2, index, check } = action.payload;
-        const i = index-1;
+        const i = Number(index);
         return state.setIn(['reserveControl', from1, from2, i, 'check'], check);
     },
     [RESERVE_CONTROL_WAKEUP_DAYOFWEEK]: (state, action) => {
@@ -289,10 +295,12 @@ export default handleActions({
         const { form, time } = action.payload;
         return state.setIn(['reserveControl','wakeup',form], time);
     },
-    [UPDATE_GAS_STATUS]: (state, action) => state.setIn(['data_gas','status'], 'off'),
     [UPDATE_GUARD_STATUS]:(state, action)=> state.setIn(['data_guard','status'], action.payload),
     [RECEIVE_NEW_LIGHT]: (state, action) => {
         return state.set('data_lights', fromJS(action.payload));
+    },
+    [RECEIVE_NEW_HEATING]: (state, action) => {
+        return state.set('data_heatings', fromJS(action.payload));
     },
     [RECEIVE_NEW_CONCENT]: (state, action) => {
         return state.set('data_concents', fromJS(action.payload));
@@ -304,7 +312,6 @@ export default handleActions({
     [SET_CONTROL_SPINNER_VISIBLE]: (state, action) => {
         return state.set('spinner', action.payload);
     },
-    
     // 초기 리스트 로딩
     /*
     ...pender({
@@ -317,7 +324,6 @@ export default handleActions({
         }
     }),
     */
-
     ...pender({
         type: SET_CONTROL_BACHOFF,
         onSuccess: (state, action) => {
@@ -335,46 +341,19 @@ export default handleActions({
         console.log(action.payload);
         console.log(data);
         //console.log('tempdata:',tempdata);
-
-        const initialForm = List([
-               Map({
-                    id: 1,
-                    name:'거실',
-                    status:action.payload,
-                }),
-                Map({
-                    id: 2,
-                    name:'안방',
-                    status:action.payload,
-                }),
-                Map({
-                    id: 3,
-                    name:'침실1',
-                    status:action.payload,
-                }),
-                Map({
-                    id: 4,
-                    name:'침실2',
-                    status:action.payload,
-                }),
-                Map({
-                    id: 5,
-                    name:'침실3',
-                    status:action.payload,
-                }),
-                Map({
-                    id: 6,
-                    name:'침실3',
-                    status:action.payload,
-                })
-        ]);
-     
-        
-        
-        return state.set('data_lights',fromJS(data.items));
+        return state.set('data_lights',fromJS(data.items)).setIn(['success','control_light_success'],data.success);
         }
     }),
-
+    ...pender({
+        type: SET_CONTROL_HEATING_ONOFF,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log(action.payload);
+            console.log(data);
+            return state.set('data_heatings',fromJS(data.items));
+        }
+    }),
     ...pender({
         type: GET_INITIAL_HEATINGS,
         onSuccess: (state, action) => {
@@ -383,13 +362,31 @@ export default handleActions({
             return state.set('data_heatings',fromJS(data.items));
         }
     }),
-
     ...pender({
         type: GET_INITIAL_GUARD,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
-            return state.setIn(['data_guard','status'],fromJS(data.status));
+            console.log('data:',data);
+            return state.setIn(['data_guard','status'],fromJS(data.status)).setIn(['success','control_guard_success'],true);
+        }
+    }),
+    ...pender({
+        type: SET_CONTROL_GAS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            // const index = Number(data.items[0].id)-1;
+            return state.setIn(['data_gas',0],fromJS(data.items));
+        }
+    }),
+    ...pender({
+        type: GET_INITIAL_GAS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log('data:',data);
+            return state.set('data_gas',fromJS(data.items));
         }
     }),
 
@@ -509,6 +506,7 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
+            console.log('data:',data)
             return state.setIn(['reserveControl','wakeupSuccess'],JSON.parse(jsonData).success);
         }
     })

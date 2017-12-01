@@ -4,6 +4,7 @@ import * as controlActions from 'redux/modules/control';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { HeatingContainer } from 'containers/Control';
+import * as KEY from 'lib/raemianAES';
 
 class ControlHeating extends Component {
     async componentDidMount() {
@@ -11,9 +12,12 @@ class ControlHeating extends Component {
         const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'난 방'});
+
+        const data = 'all';
+
         try {
             UIActions.setSpinnerVisible(true);
-            await ControlActions.getInitialHeatings(usertoken);
+            await ControlActions.getInitialHeatings({data:data,usertoken:usertoken});
         }catch(e) {
             console.log(e);
         }

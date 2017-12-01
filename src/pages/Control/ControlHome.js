@@ -55,6 +55,8 @@ class ControlHome extends Component {
             <HomeContainer/>
              <Footer
                selectedPage = "control"
+               newFtalk= {this.props.newTalk.get('ftalk')}
+               newFmsg = {this.props.newTalk.get('fmsg')}
              />
         </Wrapper>
        
@@ -65,7 +67,8 @@ class ControlHome extends Component {
 
 export default connect(
     (state) => ({
-        loginUserInfo: state.auth.get('loginUserInfo')
+        loginUserInfo: state.auth.get('loginUserInfo'),
+        newTalk : state.ui.get('newTalk')
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),

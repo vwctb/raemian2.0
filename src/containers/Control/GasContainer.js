@@ -19,43 +19,17 @@ class ControlHeating extends Component {
     static contextTypes = {
         router: PropTypes.object
 	}
-    handleUpdate = () => {
-        const { ControlActions, heatingitem } = this.props;
-        const { id, status, name, configTemp, currentTemp } = heatingitem.toJS();
-        ControlActions.updateHeatingCondition({
-            id,
-            control: {status,name,currentTemp,configTemp}
-        });
-        this.initHeating();
-    }
-
-    async initHeating () {
-        const { ControlActions } = this.props;
-        try {
-          await  ControlActions.getInitialHeatings();
-        } catch(e) {
-            console.log(e);
-        }
-        const{ history } = this.context.router;
-        history.push('/control/heating');
-    }
-
-
-    handleChange = (configTemp) =>{
-        const { UIActions } = this.props;
-        UIActions.setControlConfigTemp({configTemp});
-    }
-
+ 
     handleClick = () => {
         const { UIActions } = this.props;
         const { status } = this.props.heatingitem.toJS();
         let setStatus = (status === 'on') ? 'off': 'on';
-        UIActions.setControlStatus({setStatus});
+      //  UIActions.setControlStatus({setStatus});
     }
 
     render() {
         const {gas_onoff,ControlActions} = this.props;
-        const {handleUpdate} = this;
+
         return (
             <Wrapper>
                 <GasItem onoff={gas_onoff} />
@@ -63,7 +37,7 @@ class ControlHeating extends Component {
                 {
                     gas_onoff === 'on' ? 
                     <BtnSingle
-                        onClickEvent={()=>{ControlActions.updateGasStatus()}}
+                        onClickEvent={()=>{ControlActions.setGasStatus()}}
                         name={'잠그기'}
                     /> : ''
                 }
@@ -74,7 +48,7 @@ class ControlHeating extends Component {
 
 export default connect(
     (state) => ({
-        gas_onoff: state.control.getIn(['data_gas','status'])
+        gas_onoff: state.control.getIn(['data_gas',0,'status'])
     }),
     (dispatch) => ({
         ControlActions: bindActionCreators(controlActions, dispatch),

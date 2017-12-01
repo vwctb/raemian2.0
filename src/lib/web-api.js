@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-axios.defaults.baseURL = 'http://211.201.31.134:17501';
+import * as proxyServer from 'lib/proxyServer';
+axios.defaults.baseURL = 'http://'+proxyServer.getProxyServer()+':17501';
 //var plaintext = "사용자 토큰이 잘못 되었습니다.";
 //KEY.encryptedKey(plaintext)
 //var encStr = "hol6c5B6tRG+SdWFFtb99rYtb6W7fsD9tKmeIJ12rFUkC6wNbNTpZfxacjb2rcuZgrkaHi3YR4R3jycj/FVmiw==";
@@ -106,9 +106,10 @@ export const setBachOff =  (value) => axios.post('/smarthome/v1/batchoffs',{data
     console.log("channel error",error.response);
 });
 
-export const getInitialHeatings = (usertoken) => axios.get('/smarthome/v1/heatings',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+export const getInitialHeatings = (value) => axios.get('/smarthome/v1/heatings?id='+value.data,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
+
 export const getInitialAircons = () => axios.get('http://localhost:3001/aircon'); 
 export const getInitialLights =  (usertoken) => axios.get('/smarthome/v1/lights',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -118,7 +119,9 @@ export const getInitialGuard =  (usertoken) => axios.get('/smarthome/v1/guards',
     console.log("channel error",error.response);
 });
 
-
+export const getInitialGas =  (usertoken) => axios.get('/smarthome/v1/gass',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 export const getInitialBatch =  (usertoken) => axios.get('/smarthome/v1/batchoffs',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -131,10 +134,17 @@ export const setControlLightOnOff = (value) => axios.post('/smarthome/v1/lights'
     console.log("channel error",error.response);
 });
 
+export const setControlHeatingOnOff = (value) => axios.post('/smarthome/v1/heatings',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 export const setControlConcentOnOff = (value) => axios.post('/smarthome/v1/concents',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
 
+export const setGasStatus = (value) => axios.post('/smarthome/v1/gass',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 export const setControlGuard = (value) => axios.post('/smarthome/v1/guards',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -159,6 +169,13 @@ export const setSmartReserveGoout = (value) => axios.post('/smarthome/v1/smarts/
 /*****************************************
                   가족톡
 ******************************************/
+
+
+
+export const getNewTalks = (usertoken) => axios.get(`/smarthome/v1/ftalkmenus`,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 
 /*[ 가족일정 ]*******************************/
 export const getFschedulesList = (value) => axios.get(`/smarthome/v1/fschedules?year=${value.year}&month=${value.month}`,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {

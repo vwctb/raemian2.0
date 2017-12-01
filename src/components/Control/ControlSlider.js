@@ -159,7 +159,7 @@ class ControllSlider extends Component {
                 <SizerOver className={'controlType_'+controlType}>
                     <Square className="sliderSignle" >
                         <OffBox onClick={handleClick}>꺼짐</OffBox>
-                    <CurrentTempSpace>
+                        <CurrentTempSpace>
                             <CurrentTemp> 현재 온도 </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {currentTemp}° </CurrentTempValue>
                         </CurrentTempSpace>
                     </Square>

@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as controlActions from 'redux/modules/control';
 import * as uiAction from 'redux/modules/ui';
 import PropTypes from 'prop-types';
-import {BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
+import {BtnDoubleModal,BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 import * as Image from 'img';
 import * as KEY from 'lib/raemianAES';
 
@@ -77,6 +77,7 @@ class ControlHeating extends Component {
         const { UIActions,visible } = this.props;
         title = '외출방법 설정';
         modalContent= 'init';
+        console.log('modalSW:',modalSW);
         if(!modalSW) return; //반복 모달 호출현상 방지
         UIActions.setModalVisible(!visible);
         modalSW = false;
@@ -84,19 +85,34 @@ class ControlHeating extends Component {
 
      handleClickSetting = async () =>{
         const {ControlActions, UIActions, visible } = this.props;
-        UIActions.setModalVisible(!visible);
         const jsonData = {
             status:1
         }
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
         const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
+      
         try {
             await ControlActions.setControlGuard({data:data,usertoken:usertoken});
         } catch(e) {
             console.log(e);
         }
+
         UIActions.setSpinnerVisible(false);
+        const { success } = this.props;
+        if(!success){
+            title = '외출방법 설정';
+            modalContent = 'error';
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
+        }else{
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+        }
+   
     }
     
     onHide = () =>{
@@ -147,7 +163,14 @@ class ControlHeating extends Component {
                     </div>
                     :
                     <div>
-                       
+                        <MainNotice>
+                            방범설정에 실패하였습니다.
+                        </MainNotice>
+
+                        <BtnSingleModal
+                            onClickEvent={this.onHide}
+                            name={'확인'}
+                        />
                       
                     </div>
 
@@ -165,7 +188,8 @@ export default connect(
     (state) => ({
         visible: state.ui.getIn(['modal','visible']),
         guard: state.control.getIn(['data_guard','status']),
-        loginUserInfo:state.auth.get('loginUserInfo')
+        loginUserInfo:state.auth.get('loginUserInfo'),
+        success:state.control.getIn(['success','control_guard_success'])
     }),
     (dispatch) => ({
         ControlActions: bindActionCreators(controlActions, dispatch),

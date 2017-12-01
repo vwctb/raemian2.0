@@ -1,5 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
 import { Map, List, fromJS } from 'immutable';
+import { pender } from 'redux-pender';
+import * as WebApi from 'lib/web-api';
+import * as KEY from 'lib/raemianAES';
 
 const SIDE_OPEN = 'ui/sideMenu/SIDE_OPEN';
 const SET_PAGETYPE = 'ui/write/SET_PAGETYPE';
@@ -9,8 +12,14 @@ const SET_CONTROL_STATUS = 'ui/control/SET_CONTROL_STATUS';
 const SET_CONTROL_CONFIGTEMP = 'ui/control/SET_CONTROL_CONFIGTEMP';
 const CHANGE_SIDE_MENU_VIWE ='ui/sideMenu/CHANGE_SIDE_MENU_VIWE';
 const SET_MODAL_VISIBLE = 'ui/modal/SET_MODAL_VISIBLE';
+const SET_MODAL_MESSAGE = 'ui/modal/SET_MODAL_MESSAGE';
 const SET_SPINNER_VISIBLE = 'ui/spinner/SET_SPINNER_VISIBLE';
+const GET_NEW_TALKS = 'ui/spinner/SET_SPINNER_VISIBLE';
+
+
+export const getNewTalks = createAction(GET_NEW_TALKS,WebApi.getNewTalks);
 export const sideOpen = createAction(SIDE_OPEN);
+export const setModalMessage = createAction(SET_MODAL_MESSAGE);
 export const changeSideMenuView = createAction(CHANGE_SIDE_MENU_VIWE); // {view}
 export const setPageType = createAction(SET_PAGETYPE); //{pageType}
 export const setHeaderTitle = createAction(SET_HEADERTITLE); //{title}
@@ -25,6 +34,10 @@ const initialState = Map({
         focused: false,
         date: '',
         body: ''
+    }),
+    newTalk:Map({
+        ftalk:false,
+        fmsg:false
     }),
     sideMenu: Map({
         sideOpen: false,
@@ -161,7 +174,8 @@ const initialState = Map({
         })
     }),
     modal:Map({
-        visible:false
+        visible:false,
+        message:''
     }),
     spinner:false,
     memo:Map({
@@ -183,6 +197,7 @@ export default handleActions({
         const { title } = action.payload
         return state.setIn(['roots','title'], title);
     },
+    [SET_MODAL_MESSAGE]:(state, action) => state.setIn(['modal','message'], action.payload),
     [SIDE_OPEN]: (state) => state.setIn(['sideMenu','sideOpen'], true),
     [SET_MODAL_VISIBLE]: (state,action) => state.setIn(['modal','visible'], action.payload),
     [SET_SPINNER_VISIBLE]: (state,action) => state.set('spinner', action.payload),
@@ -201,7 +216,16 @@ export default handleActions({
     [SET_CONTROL_CONFIGTEMP]: (state, action) => {
         const { configTemp } = action.payload;
         return state.setIn(['control', 'nowSelectItem','configTemp'], configTemp)
-    }
+    },
+    ...pender({
+        type: GET_NEW_TALKS,
+        onSuccess: (state, action) => {
+             const jsonData = KEY.decryptedKey(action.payload.data.data);
+             const data = JSON.parse(jsonData);
+             return state.set('newTalk',fromJS(data));
+        }
+    }),
+
 
 
 }, initialState);

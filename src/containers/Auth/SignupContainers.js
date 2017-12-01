@@ -157,7 +157,13 @@ class SignupContainers extends Component {
         // 검증작업 진행
         const passCheck = this.validate['pass'](pass);
         if(!passCheck)return;
-        const data = KEY.encryptedKey(JSON.stringify({dong:dong,ho:ho,pass:pass}));
+        const data = KEY.encryptedKey(JSON.stringify(
+            {
+                dong:dong,
+                ho:ho,
+                pass:KEY.encryptedKey(JSON.stringify(pass))
+            }
+        ));
         this.ititAuth(data);
     }
 

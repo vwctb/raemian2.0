@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import {CalendarSelectContainer} from 'containers/Shared';
 import Textarea from 'react-textarea-autosize';
 import * as KEY from 'lib/raemianAES';
+import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 
 const Wrapper = styled.div`
     position: absolute;
@@ -42,6 +43,17 @@ const StyledTextarea = styled(Textarea)`
     }
 
 `;
+const MainNotice = styled.div`
+    width: 100%;
+    font-size:1rem;
+    text-align:center;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    line-height: 1.6rem;
+    color:#49433c;
+`;
+
+let modalMsg='';
+let modalSW=true;
 class FSchedulesAddContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -50,7 +62,7 @@ class FSchedulesAddContainer extends Component {
     handleClickAdd = async() => {
         console.log('addFscheduleClick click');
         const { year, month, day, memo, repeat, alarm } = this.props.write.toJS();
-        const { UIActions, TalkActions } = this.props;
+        const { UIActions, TalkActions, visible } = this.props;
         const { usertoken } = this.props.loginUserInfo.toJS(); 
 
         const jsonData = {
@@ -77,9 +89,13 @@ class FSchedulesAddContainer extends Component {
       
         if(success) {
             history.push('/talk/fschedules');
+        }else{
+            modalMsg = '등록을 실패하였습니다.';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
         }
-        
-
     }
 
     useWakeUp = () => {
@@ -96,6 +112,14 @@ class FSchedulesAddContainer extends Component {
         });
     }
     
+    onHide = () =>{
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+    }
+
     render() {
  
        const { handleChange , TalkActions} = this.props;
@@ -142,6 +166,22 @@ class FSchedulesAddContainer extends Component {
                     onClickEvent={this.handleClickAdd}
                     name={'추 가'}
                 />
+
+
+                <Modal visible={this.props.visible} onHide={this.onHide} title={'알림'}>                
+                    <div>
+                        <MainNotice>
+                           { modalMsg }
+                        </MainNotice>
+                        
+                        <BtnSingleModal
+                            onClickEvent = {this.onHide}
+                            name = {'확인'}
+                        />
+                    </div>
+                </Modal>
+                <Dimmed visible={this.props.visible}/>
+
             </Layout>
         )
     };
@@ -154,7 +194,8 @@ export default connect(
         checkBoxListArrayDayofWeek: state.control.getIn(['reserveControl','wakeup','dayofweek']),
         wakeup: state.control.getIn(['reserveControl','wakeup']),
         write:state.talk.getIn(['fschedule','write']),
-        loginUserInfo:state.auth.get('loginUserInfo')
+        loginUserInfo:state.auth.get('loginUserInfo'),
+        visible: state.ui.getIn(['modal','visible'])
 
     }),
     (dispatch) => ({

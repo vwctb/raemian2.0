@@ -32,11 +32,14 @@ class TalkHome extends Component {
     }
 
    render() {
+       const {newTalk} = this.props;
        return(
         <Wrapper>
             <TalkHomeContainer/>
              <Footer
                selectedPage = "talk"
+               newFtalk= {newTalk.get('ftalk')}
+               newFmsg = {newTalk.get('fmsg')}
              />
         </Wrapper>
        
@@ -47,7 +50,7 @@ class TalkHome extends Component {
 
 export default connect(
     (state) => ({
-
+        newTalk : state.ui.get('newTalk')
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch)

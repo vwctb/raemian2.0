@@ -6,6 +6,7 @@ import { media } from 'lib/style-utils';
 import { Link } from 'react-router-dom';
 import * as Image from 'img';
 
+
 const IconArray =
     {
         'light' : Image.Icon_Light,
@@ -92,6 +93,19 @@ const iconStyle = {
     height:'4rem'
 };
 
+const NewIcon = styled.div`
+    width:1.5rem;
+    height:1.5rem;
+    background-image: url(${Image.Icon_New});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-left:0.3rem;
+    margin-bottom:0.1rem;
+    position: absolute;
+    right: -0.3rem;
+    top: -0.3rem;
+`;
 
 
 class HomeItem extends Component {
@@ -101,6 +115,8 @@ class HomeItem extends Component {
             icon: PropTypes.string,
             index: PropTypes.number
         }),
+        newFtalk:PropTypes.bool,
+        newFmsg:PropTypes.bool,
         pageType: PropTypes.string,
         onOpen: PropTypes.func
     }
@@ -111,10 +127,10 @@ class HomeItem extends Component {
     }
   
     render() {
-        
+
         const { name, icon } = this.props.item.toJS();
-        const { pageType } = this.props;
-         
+        const { pageType, newFtalk, newFmsg } = this.props;
+
         return (
             <Link 
                 style = {iconStyle}
@@ -123,6 +139,8 @@ class HomeItem extends Component {
                 <Sizer>
                     <List >
                         <Contents>
+                            {(icon === 'chat_room' && newFtalk) && <NewIcon/>}
+                            {(icon === 'fmsgs' && newFmsg) && <NewIcon/>}
                             <Icon
                                 icon = {icon}
                             />

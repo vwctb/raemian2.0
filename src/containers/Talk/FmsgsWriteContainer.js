@@ -7,6 +7,20 @@ import * as talkActions from 'redux/modules/talk';
 import * as uiAction from 'redux/modules/ui';
 import * as KEY from 'lib/raemianAES';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
+
+const MainNotice = styled.div`
+    width: 100%;
+    font-size:1rem;
+    text-align:center;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    line-height: 1.6rem;
+    color:#49433c;
+`;
+
+let modalMsg='';
+let modalSW=true;
 
 let tempFile = null;
 let tempType = null;
@@ -23,22 +37,22 @@ class FmsgsWriteContainer extends Component {
         }
     }
     handleChangeFile = async (e) => {
-        const { TalkActions, UIActions} = this.props;
-  
-
+        const { TalkActions, UIActions , visible} = this.props;
         if(e.target.files.length === 0) return;
         const name = e.target.files[0].name;
         tempType =  e.target.files[0].type;
         tempFile = e.target.files[0];
-
-   
         const size =  Math.round((e.target.files[0].size/1024)/1024);
-
-       UIActions.setSpinnerVisible(true);
+        UIActions.setSpinnerVisible(true);
 
       if(e.target.files[0] && tempType.split('/')[0] === 'image'){
         if(size > 10){
-            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.");
+            modalMsg = '이미지파일의 용량은 10MB를 초과할 수 없습니다.';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
             UIActions.setSpinnerVisible(false);
             return;
         }
@@ -57,7 +71,12 @@ class FmsgsWriteContainer extends Component {
 
       if(e.target.files[0] && tempType.split('/')[0] === 'video'){
         if(size > 50){
-            alert("이미지파일의 용량은 50MB를 초과할 수 없습니다.");
+            modalMsg = '이미지파일의 용량은 50MB를 초과할 수 없습니다.';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
             UIActions.setSpinnerVisible(false);
             return;
         }
@@ -89,7 +108,12 @@ class FmsgsWriteContainer extends Component {
        if(success){
            TalkActions.setFmsgsWriteFileId(fileid);
        }else{
-           alert('업로드 실패');
+
+           modalMsg = '업로드를 실패하였습니다.';
+           UIActions.setModalVisible(!visible);
+           setTimeout(() => {
+               modalSW = true;
+           },500);
        }
       
     }
@@ -102,18 +126,28 @@ class FmsgsWriteContainer extends Component {
 
 
     HandleClickSendMsg = async () => {
-        const { TalkActions, UIActions, uploadFile } = this.props;
+        const { TalkActions, UIActions, uploadFile, visible } = this.props;
         const { usertoken } = this.props.loginUserInfo.toJS();
         //const {  } = this.props.uploadFile;
 
         const { msg, receivetime, receiverkey, fileid } = this.props.write.toJS();
         if(receiverkey.size === 0){
-            alert('받는 가족을 선택해주세요!'); 
+            modalMsg = '받는 가족을 선택해주세요!';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
             return;
         }
 
         if(msg === null ||  msg === "" ||  msg === " " ||  msg === "  " || msg === undefined ){
-            alert('메시지를 입력해주세요'); 
+
+            modalMsg = '메시지를 입력해주세요!';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
             return;
         }
 
@@ -133,21 +167,30 @@ class FmsgsWriteContainer extends Component {
         }
 
         UIActions.setSpinnerVisible(false);
-
         const { writeSuccess } = this.props;
-       
         if( writeSuccess ) {
             const { history } = this.context.router;
             history.push('/talk/fmsgs');
         }else{
-            alert('메시지 전송을 실패하였습니다.')
+            modalMsg = '메시지 전송을 실패하였습니다.';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
         }
 
     }
 
+    onHide = () =>{
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+    }
 
     render() {
-        const {listArray,write,TalkActions,receiverkey,uploadFile} = this.props;
+        const {listArray, write, TalkActions, receiverkey, uploadFile, visible} = this.props;
         return (
             <div>
                 
@@ -167,6 +210,21 @@ class FmsgsWriteContainer extends Component {
                 name={'전송'}
                 onClickEvent={this.HandleClickSendMsg}
               />
+
+              <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
+                    <div>
+                        <MainNotice>
+                           { modalMsg }
+                        </MainNotice>
+                        
+                        <BtnSingleModal
+                            onClickEvent = {this.onHide}
+                            name = {'확인'}
+                        />
+                    </div>
+                </Modal>
+                <Dimmed visible={visible}/>
+
             </div>
         )
     };
@@ -181,6 +239,7 @@ export default connect(
         uploadFile : state.talk.getIn(['fmsgs','uploadFile']),
         msgFileupload: state.talk.getIn(['fmsgs','msgfileupload']),
         writeSuccess : state.talk.getIn(['fmsgs','write','success']),
+        visible: state.ui.getIn(['modal','visible'])
     }),
     (dispatch) => ({
         TalkActions: bindActionCreators(talkActions, dispatch),

@@ -22,13 +22,11 @@ import { Spinner } from 'components/Shared';
 import storage from 'lib/storage';
 
 
-
 let isFirstLoad = true;
 class App extends Component { 
     static contextTypes = {
         router: PropTypes.object
     }
-
     async componentWillMount() {
         //console.log('componentWillMount');
         const { history } = this.context.router;
@@ -46,14 +44,14 @@ class App extends Component {
            AuthActions.setUUID(uuid);
            AuthActions.setPUSHID(pushid);
             try {
-                await AuthActions.postLogin({'data':data});
+                await AuthActions.postLogin({'data':data}); 
             } catch(e) {
                   console.log('login error: ',e);
             }
             const {loginUserInfo} = this.props
-            const {result,usertoken} = loginUserInfo.toJS();    
+            const {result,usertoken} = loginUserInfo.toJS();  
+            isFirstLoad=false;
             //console.log('loginUserInfo: ',loginUserInfo);
-   
             if(result === 'fail'){
                 history.push('/auth');
             }            
@@ -65,11 +63,16 @@ class App extends Component {
         //document.addEventListener("pause", this.onPause, false);
     }
 
+    componentWillUpdate(nextProps, nextState) {
+    if(!isFirstLoad){
+        const { loginUserInfo } = this.props
+        const { UIActions} = this.props;
+        const { usertoken } = loginUserInfo.toJS();    
+        UIActions.getNewTalks(usertoken);
+    }
+    }
     async componentDidMount(){
-
         const { history } = this.context.router;
-        console.log('componentDidMount');
- 
         const { HomeActions } = this.props;
         if(!history.location.pathname.match('auth')){
             if(storage.get('screenLockUse')){
@@ -89,6 +92,7 @@ class App extends Component {
     }
 
     onPause = () => {
+        
     }
 
     render() {

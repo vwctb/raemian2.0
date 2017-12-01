@@ -13,24 +13,27 @@ import * as authActions from 'redux/modules/auth';
 class Home extends Component {
     endCursor = 0
     async componentDidMount() {
-        const { HomeActions } = this.props;
         // 초기 메모 로딩
         try {
            // await Promise.all([HomeActions.getInitialFschedules(),HomeActions.getInitialNewalarms()]);
            // this.getRecentMemo();
+           
+           
         } catch(e) {
             console.log(e);
         }
     }
 
     render() {
-        const {UIActions} = this.props;
+        const {handleClick, newTalk} = this.props;
         return (
             <Layout>
                <HomeContainer/>
                <Footer
                  selectedPage = "home"
-                 handleClick = {this.handleClick}
+                 newFtalk= {newTalk.get('ftalk')}
+                 newFmsg = {newTalk.get('fmsg')}
+                 handleClick = {handleClick}
                />
             </Layout>
         );
@@ -40,7 +43,8 @@ class Home extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
-        slideOpen: state.ui.getIn(['slideMenu','slideOpen'])
+        slideOpen: state.ui.getIn(['slideMenu','slideOpen']),
+        newTalk : state.ui.get('newTalk')
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),

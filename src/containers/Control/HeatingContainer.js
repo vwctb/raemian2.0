@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { BtnDouble } from 'components/Shared';
 import * as uiActions from 'redux/modules/ui';
 import * as controlActions from 'redux/modules/control';
+import * as KEY from 'lib/raemianAES';
 
 const Wrapper = styled.div`
     /* 레이아웃 */
@@ -30,18 +31,26 @@ class ControlHeatingContainer extends Component {
         const { ControlActions } = this.props;
     }
 
-    onClickEvent1 = () => {
-        console.log('click1');
+
+    handleControlAll = async (status)=>{
+        const jsonData = {
+            id:'all',
+            status:status
+        }
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const { ControlActions, UIActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo.toJS();
+        UIActions.setSpinnerVisible(true);
+        try {
+            await ControlActions.setControlHeatingOnOff({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
     }
 
-    onClickEvent2 = () => {
-        console.log('click2');
-    }
-
-
+  
     render() {
         const { controlSliderItemListArray,UIActions} = this.props;
-        const { onClickEvent1,onClickEvent2 } = this;
         return (
             <Wrapper>
                     <ControlSliderItemList
@@ -51,10 +60,10 @@ class ControlHeatingContainer extends Component {
                     />
                     <BtnDouble
                         name1={'전체켜기'}
-                        onClickEvent1={onClickEvent1} 
+                        onClickEvent1={()=>this.handleControlAll('on')}
                         color1={'50bbcd'} 
                         name2={'전체끄기'}
-                        onClickEvent2={onClickEvent2}
+                        onClickEvent2={()=>this.handleControlAll('off')}
                         color2={'cccbca'} 
                     />
                        
@@ -65,7 +74,8 @@ class ControlHeatingContainer extends Component {
 
 export default connect(
     (state) => ({
-        controlSliderItemListArray: state.control.get('data_heatings')
+        controlSliderItemListArray: state.control.get('data_heatings'),
+        loginUserInfo: state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({
          UIActions: bindActionCreators(uiActions, dispatch),

@@ -6,12 +6,15 @@ import './index.css';
 
 import { AppContainer } from 'react-hot-loader';
 import configureStore from 'redux/configureStore';
+
+import * as proxyServer from 'lib/proxyServer';
+
 //import socket from 'lib/socket';
 
 const store = configureStore();
-
-const socketURITalk = 'ws://211.201.31.134:4805';
-const socketURIControl = 'ws://211.201.31.134:4804';
+const proxy = proxyServer.getProxyServer();
+const socketURITalk = 'ws://'+proxy+':4805';
+const socketURIControl = 'ws://'+proxy+':4804';
      // socket.initialize(store, socketURI);
 const render = Component => {
     window.store = store;

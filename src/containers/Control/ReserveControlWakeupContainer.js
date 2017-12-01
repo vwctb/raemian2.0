@@ -27,14 +27,23 @@ const Wrapper = styled.div`
 class ReserveControlWakeupContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
-	}
+    }
+    
+    componentDidMount(){
+        const { ControlActions, checkBoxListArrayDayofWeek } = this.props;
+        if(checkBoxListArrayDayofWeek.size === 0){
+            ControlActions.initialDayOfWeek();
+        }
+    }
 
     handleClick = async () => {
-        const { ControlActions, UIActions, uploadFile, use, goout} = this.props;
+        const { ControlActions, UIActions, uploadFile, wakeup} = this.props;
+        const {use} = this.props.wakeup.toJS();
+
         const { usertoken } = this.props.loginUserInfo.toJS();
         let jsonData;
         if(use === true){
-            jsonData = goout;
+            jsonData = wakeup;
         }else{
             jsonData = {
                 use : use
@@ -44,7 +53,7 @@ class ReserveControlWakeupContainer extends Component {
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
         UIActions.setSpinnerVisible(true);
         try {
-            await ControlActions.setSmartReserveGoout({data:data,usertoken:usertoken});
+            await ControlActions.setSmartReserveMorning({data:data,usertoken:usertoken});
         } catch(e) {
             console.log(e);
         }
@@ -60,10 +69,9 @@ class ReserveControlWakeupContainer extends Component {
     }
     
     render() {
- 
        const { checkBoxListArrayLights,checkBoxListArrayDayofWeek,ControlActions } = this.props;
        const {use,hour,minute} = this.props.wakeup.toJS();
-        return (
+       return (
             <Layout>
                 <Wrapper>
                     <BtnDoubleCheck
@@ -82,7 +90,7 @@ class ReserveControlWakeupContainer extends Component {
                         from2={'lights'}
                         use={use}
                         checkBoxListArray={checkBoxListArrayLights}
-                        onCheck={use ? ControlActions.setCheckboxReserveControl: ()=>{return}}
+                        onCheck={use ? ControlActions.setCheckboxReserveControl : ()=>{return}}
                     />
                     <SubTitleWithIcon
                         title = {'예약 시간'}

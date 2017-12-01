@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import $ from 'jquery';
 import 'round-slider';
@@ -104,6 +104,11 @@ const OffBox =  styled.div`
 `;
 
 class ControllSliderItem extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
     componentDidMount() {
         const { configTemp } = this.props.slideritem.toJS();
 
@@ -130,7 +135,7 @@ class ControllSliderItem extends Component {
 
     static propTypes = {
         slideritem: ImmutablePropTypes.mapContains({
-            id: PropTypes.number,
+            id: PropTypes.string,
             name: PropTypes.string,
             status: PropTypes.string,
             currentTemp: PropTypes.string,
@@ -141,21 +146,25 @@ class ControllSliderItem extends Component {
     }
 
     handleClick = () => {
-        const {itemClick} = this.props;
-        itemClick({nowSelectItem:this.props.slideritem});
+        const { history } = this.context.router;
+        const {status,name } = this.props.slideritem.toJS();
+        const {itemClick, controlType} = this.props;
+
+        if(status !=='err'){
+            itemClick({nowSelectItem:this.props.slideritem});
+            history.push("/control/"+controlType+"/"+name);
+        }else{
+            alert('연결상태를 확인해주세요.');
+        }
+        
     }
-  
+
     render() {
         const { id, name, status, configTemp, currentTemp } = this.props.slideritem.toJS();
-
-        const { controlType }=this.props;
-        const { handleClick, slideritem } = this;
+        const { handleClick } = this;
         return (
-            <Sizer>
-                <Link 
-                    to = {controlType+"/"+name}
-                    onClick = {handleClick}
-                >
+            <Sizer onClick = {handleClick}>
+
                 <Square className="sliderMulti">
                     <Title>
                         {name}
@@ -165,7 +174,7 @@ class ControllSliderItem extends Component {
                          <CurrentTemp> 현재  </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {currentTemp}° </CurrentTempValue>
                     </CurrentTempSpace>
                 </Square>
-                </Link>
+
             </Sizer>
         )
     }

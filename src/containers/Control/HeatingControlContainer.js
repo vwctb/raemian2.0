@@ -7,14 +7,30 @@ import { bindActionCreators } from 'redux';
 import * as controlActions from 'redux/modules/control';
 import * as uiAction from 'redux/modules/ui';
 import PropTypes from 'prop-types';
+import * as KEY from 'lib/raemianAES';
+import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 
-const Wrapper = styled.div`
+
+
+const Wrapper = styled.div``;
+
+const MainNotice = styled.div`
+    width: 100%;
+    font-size:1rem;
+    text-align:center;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    line-height: 1.6rem;
+    color:#49433c;
 `;
+
+let modalMsg='';
+let modalSW=true;
 
 class ControlHeating extends Component {
     static contextTypes = {
         router: PropTypes.object
-	}
+    }
+    /*
     handleUpdate = async () => {
         const { ControlActions, heatingitem } = this.props;
         const { id, status, name, configTemp, currentTemp } = heatingitem.toJS();
@@ -26,16 +42,9 @@ class ControlHeating extends Component {
         } catch(e) {
             console.log(e);
         }
-
-        try {
-          await  ControlActions.getInitialHeatings();
-        } catch(e) {
-            console.log(e);
-        }
         const{ history } = this.context.router;
         history.push('/control/heating');
-    }
-
+    }*/
 
     handleChange = (configTemp) =>{
         const { UIActions } = this.props;
@@ -49,9 +58,55 @@ class ControlHeating extends Component {
         UIActions.setControlStatus({setStatus});
     }
 
+    handleUpdate = async ()=>{
+        const { ControlActions, heatingitem, UIActions, visible } = this.props;
+        const { id, status, name, configTemp, currentTemp } = heatingitem.toJS();
+        const jsonData = {
+            id,
+            control: {status,name,currentTemp,configTemp}
+        }
+
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const { usertoken } = this.props.loginUserInfo.toJS();
+        UIActions.setSpinnerVisible(true);
+
+        try {
+            await ControlActions.setControlHeatingOnOff({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+
+        try {
+            await  ControlActions.getInitialHeatings();
+        } catch(e) {
+              console.log(e);
+        }
+
+        const{ history } = this.context.router;
+        history.push('/control/heating');
+        /*
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+        */
+
+        //UIActions.setSpinnerVisible(false);
+    }
+
+
+    onHide = () =>{
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+    }
+
+
     render() {
         const {heatingitem} = this.props;
-        const {handleUpdate,handleClick,handleChange} = this;
+        const {handleUpdate,handleClick,handleChange,visible} = this;
         return (
             <Wrapper>
                 <ControlSlider 
@@ -64,6 +119,19 @@ class ControlHeating extends Component {
                     onClickEvent={handleUpdate}
                     name={'확인'}
                 />
+                <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
+                    <div>
+                        <MainNotice>
+                           { modalMsg }
+                        </MainNotice>
+                        
+                        <BtnSingleModal
+                            onClickEvent = {this.onHide}
+                            name = {'확인'}
+                        />
+                    </div>
+                </Modal>
+                <Dimmed visible={visible}/>
             </Wrapper>
         )
     };
@@ -71,7 +139,10 @@ class ControlHeating extends Component {
 
 export default connect(
     (state) => ({
-        heatingitem: state.ui.getIn(['control','nowSelectItem'])
+        heatingitem: state.ui.getIn(['control','nowSelectItem']),
+        loginUserInfo: state.auth.get('loginUserInfo'),
+        visible: state.ui.getIn(['modal','visible'])
+
     }),
     (dispatch) => ({
         ControlActions: bindActionCreators(controlActions, dispatch),

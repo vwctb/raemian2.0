@@ -4,7 +4,7 @@ import oc from 'open-color';
 import { Link } from 'react-router-dom';
 import * as SvgIcon from 'lib/icon_svg'
 import PropTypes from 'prop-types';
-
+import {Icon_New} from 'img';
 const Wrapper = styled.div`
     /* 레이아웃 */
     display: flex;
@@ -36,7 +36,20 @@ const iconStyle = (avtive) => ({
     justifyContent: 'center',
 });
 
-const Footer = ({selectedPage,handleClick}) => (
+const Icon = styled.div` 
+    width:1rem;
+    height:1rem;
+    background-image: url(${Icon_New});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-left:0.3rem;
+    margin-bottom:0.1rem;
+    position: absolute;
+    margin-left: 1.8rem;
+    top: 0.5rem;
+`;
+const Footer = ({selectedPage,handleClick, newFtalk, newFmsg}) => (
         <Wrapper>
             <Link to = "/"
                   style = {iconStyle("home" === selectedPage)}
@@ -52,10 +65,13 @@ const Footer = ({selectedPage,handleClick}) => (
                    style = {iconStyle("listView" === selectedPage)}
                    dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('listview')}}
             />
-             <Link to="/talk"
-                   style = {iconStyle("talk" === selectedPage)}
-                   dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('talk')}}
-            />
+            <div>
+               { (newFtalk || newFmsg) && <Icon/> }
+                <Link to="/talk"
+                    style = {iconStyle("talk" === selectedPage)}
+                    dangerouslySetInnerHTML={{__html: SvgIcon.getInitialSvgIcon('talk')}}
+                />
+            </div>
         </Wrapper>
     );
 Footer.propTypes = {

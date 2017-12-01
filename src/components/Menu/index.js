@@ -40,10 +40,11 @@ class Menu extends Component {
     }
 
     onClickBackPage = () => {
-        const { pageType,TalkActions } = this.props;
+        const { pageType,TalkActions,UIActions } = this.props;
         const{ history } = this.context.router;
         history.push(pageType);
 
+        UIActions.setSpinnerVisible(false);
         if(pageType === '/talk/fmsgs'){
             TalkActions.setInitalFmsgsView();
         }

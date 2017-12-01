@@ -10,10 +10,23 @@ import * as KEY from 'lib/raemianAES';
 import debounce from 'lodash/debounce';
 import styled from 'styled-components';
 import moment from 'moment';
+import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 
 const Wrapper = styled.div`
 
 `;
+
+const MainNotice = styled.div`
+    width: 100%;
+    font-size:1rem;
+    text-align:center;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    line-height: 1.6rem;
+    color:#49433c;
+`;
+
+let modalMsg='';
+let modalSW=true;
 
 let tempFile = null;
 let tempType = null;
@@ -48,13 +61,17 @@ class FTalks extends Component {
 
 
     handleClickSendMsg = async () => {
-        const { TalkActions, UIActions, uploadFile, sendMsg } = this.props;
+        const { TalkActions, UIActions, uploadFile, sendMsg,visible } = this.props;
         const { usertoken, } = this.props.loginUserInfo.toJS();
         //const {  } = this.props.uploadFile;
 
         const { msg } = sendMsg.toJS();
         if(msg === ''){
-            alert('메시지를 입력해주세요!'); 
+            modalMsg = "메시지를 입력해주세요!";
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
             return;
         }
 
@@ -91,16 +108,20 @@ class FTalks extends Component {
   
         if(successSendMsg) {
           
-            
         }else{
-            alert('메시지 전송을 실패하였습니다.');
+            modalMsg = "메시지 전송을 실패하였습니다.";
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
         }
     }
 
        
     handleChangeFile = async (e)=>{
 
-        const { TalkActions, UIActions } = this.props;
+        const { TalkActions, UIActions, visible } = this.props;
         if(e.target.files.length === 0) return;
         
         tempType =  e.target.files[0].type;
@@ -117,7 +138,12 @@ class FTalks extends Component {
         let fileSizeMax = (type === 'imageUpload') ? 10 : 50;
 
         if(size > fileSizeMax){
-            alert("파일의 용량은 "+fileSizeMax+"MB를 초과할 수 없습니다.")
+            modalMsg = "파일의 용량은 "+fileSizeMax+"MB를 초과할 수 없습니다.";
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
             return;
         }
 
@@ -131,9 +157,22 @@ class FTalks extends Component {
         }
         const { successUploadFile } = this.props.sendMsg.toJS();
         if(!successUploadFile) {
-            alert('업로드 실패');
+            modalMsg = '업로드를 실패하였습니다.';
+            UIActions.setModalVisible(!visible);
+            setTimeout(() => {
+                modalSW = true;
+            },500);
+
         }
         
+    }
+
+    onHide = () =>{
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
     }
         
     render() {
@@ -147,6 +186,22 @@ class FTalks extends Component {
                         handleClickSendMsg={this.handleClickSendMsg}
                         handleChangeInput={this.handleChangeInput}
                 />
+
+
+                <Modal visible={this.props.visible} onHide={this.onHide} title={'알림'}>                
+                    <div>
+                        <MainNotice>
+                           { modalMsg }
+                        </MainNotice>
+                        
+                        <BtnSingleModal
+                            onClickEvent = {this.onHide}
+                            name = {'확인'}
+                        />
+                    </div>
+                </Modal>
+                <Dimmed visible={this.props.visible}/>
+
             </Wrapper>
         )
     };
@@ -157,7 +212,8 @@ export default connect(
     (state) => ({
         loginUserInfo:state.auth.get('loginUserInfo'),
         profile:state.auth.getIn(['register','base','profile']),
-        sendMsg: state.talk.get('ftalksSendMsg')
+        sendMsg: state.talk.get('ftalksSendMsg'),
+        visible: state.ui.getIn(['modal','visible'])
         
     }),
     (dispatch) => ({

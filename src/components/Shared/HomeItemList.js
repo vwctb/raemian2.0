@@ -21,13 +21,15 @@ const ItemListWrapper = styled.div`
 `;
 
 let cnt = 0;
-const HomeItemList = ({HomeItemListArray,pageType}) => {
+const HomeItemList = ({HomeItemListArray,pageType,newFtalk,newFmsg}) => {
     const HomeItemList = HomeItemListArray.map(
         item => (
             <HomeItem
                 key={cnt++}
                 item={item}
                 pageType={pageType}
+                newFtalk= {newFtalk}
+                newFmsg = {newFmsg}
             />
         )
     );
@@ -50,6 +52,8 @@ const HomeItemList = ({HomeItemListArray,pageType}) => {
             itemClick: PropTypes.func
         })
     ),
+    newFtalks:PropTypes.bool,
+    newFmsg:PropTypes.bool,
     pageType:PropTypes.string
 }
 

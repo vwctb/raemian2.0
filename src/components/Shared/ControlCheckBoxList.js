@@ -86,14 +86,14 @@ const BtnSubSingle = styled.div`
         filter: brightness(80%);
     }
 `;
-
+let key=0;
 const ControlCheckBoxList = ({checkBoxListArray,onCheck,from1,from2,use}) => {
 
-   
+
     const CheckBoxItemList = checkBoxListArray.map(
         controlitem => (
             <ItemSpace
-                key={ controlitem.get('id') === undefined ? controlitem.get('index') : controlitem.get('id') }
+                key={ key++ }
                 use={use}
             >   
                 <CheckBoxSpace>
@@ -129,7 +129,7 @@ const ControlCheckBoxList = ({checkBoxListArray,onCheck,from1,from2,use}) => {
  ControlCheckBoxList.propTypes = {
     checkBoxListArray: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
-            id: PropTypes.number,
+            id: PropTypes.string,
             name: PropTypes.string,
             check: PropTypes.bool
         })

@@ -8,6 +8,9 @@ import * as Image from 'img';
 import Textarea from 'react-textarea-autosize';
 import { FamilyItem } from'components/Shared'
 import moment from 'moment';
+import * as proxyServer from 'lib/proxyServer';
+const proxy = proxyServer.getProxyServer();
+
 const Wrapper = styled.div`
      position:absolute;
      width:100%;
@@ -129,13 +132,13 @@ const FmsgViewList = ({ msgViewData, familysArray, pageType, userImageData }) =>
             {
                 filetype === '1' &&
                 <ImageFile
-                    src = {'http://122.199.242.18:17501'+filePath}
+                    src = {'http://'+proxy+':17501'+filePath}
                 />
             }
             {
                 filetype === '2' &&
                 <VideoFile
-                     src = {'http://122.199.242.18:17501'+filePath}
+                     src = {'http://'+proxy+':17501'+filePath}
                     controls 
                 />
             }

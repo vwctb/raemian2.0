@@ -10,7 +10,8 @@ import moment from 'moment';
 import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
-
+import * as proxyServer from 'lib/proxyServer';
+const proxy = proxyServer.getProxyServer();
 
 const formatter = buildFormatter(koreanStrings); // 한글 형식으로 보여주기 위해 필요
 
@@ -122,10 +123,10 @@ class FTalkItem extends Component {
                    
 
                     {
-                       fileType === "1" && <ImageFile src = {'http://122.199.242.18:17501'+thumbPath} onLoad={handleLoaded.bind(this)}/>
+                       fileType === "1" && <ImageFile src = {'http://'+proxy+':17501'+thumbPath} onLoad={handleLoaded.bind(this)}/>
                     }
                     {
-                       fileType === "2"  && <VideoFile onLoad={handleLoaded.bind(this)} src = {'http://122.199.242.18:17501'+filePath} controls/>
+                       fileType === "2"  && <VideoFile onLoad={handleLoaded.bind(this)} src = {'http://'+proxy+':17501'+filePath} controls/>
                     }
 
                     {

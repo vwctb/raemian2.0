@@ -21,12 +21,12 @@ const ItemListWrapper = styled.div`
     padding: 2rem 1rem;
     font-size: 0px; 
 `;
-
+let key = 0;
 const ControlSliderItemList = ({controlSliderItemListArray,itemClick,controlType}) => {
     const controlSliderItemList = controlSliderItemListArray.map(
         slideritem => (
-            <ControlSliderItem
-                key={slideritem.get('id')}
+            <ControlSliderItem 
+                key={key++}
                 slideritem={slideritem}
                 itemClick = {itemClick} 
                 controlType={controlType}
@@ -45,7 +45,7 @@ const ControlSliderItemList = ({controlSliderItemListArray,itemClick,controlType
  ControlSliderItemList.propTypes = {
     controlSliderItemListArray: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
-            id: PropTypes.number,
+            id: PropTypes.string,
             name: PropTypes.string,
             status: PropTypes.string,
             currentTemp: PropTypes.string,

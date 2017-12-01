@@ -48,6 +48,13 @@ export default (function socketHelper() {
                         payload:value.items
                     });
                 }
+                if(value.device === 'heating'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_HEATING',
+                        payload:value.items
+                    });
+                }
+
                 if(value.device === 'concent'){
                     _store.dispatch({
                         type:'control/RECEIVE_NEW_CONCENT',
