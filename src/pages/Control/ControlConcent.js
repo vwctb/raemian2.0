@@ -14,7 +14,6 @@ class ControlConcent extends Component {
         
         try {
             UIActions.setSpinnerVisible(true);
-            //await ControlActions.getInitialHeatings({usertoken:loginUserInfo.usertoken});
             await ControlActions.getInitialConcents(usertoken);
         } catch(e) {
             console.log(e);

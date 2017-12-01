@@ -96,6 +96,7 @@ const initialState = Map({
     success:Map({
         control_light_success:false,
         control_guard_success:false,
+        control_batch_success:false,
     }),
     data_heatings: List(),
     data_lights: List(),
@@ -283,7 +284,7 @@ export default handleActions({
     },
     [CHECKBOX_RESERVE_CONTROL]: (state, action) => {
         const { from1, from2, index, check } = action.payload;
-        const i = Number(index);
+        const i = Number(index)-1;
         return state.setIn(['reserveControl', from1, from2, i, 'check'], check);
     },
     [RESERVE_CONTROL_WAKEUP_DAYOFWEEK]: (state, action) => {
@@ -329,7 +330,8 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
-            return state.set('batchoff',fromJS(data.status));
+            console.log('jsonData2 :',jsonData);
+            return state.setIn(['success','control_batch_success'],fromJS(data.success));
         }
     }),
     ...pender({

@@ -124,7 +124,18 @@ class LightContainer extends Component {
         } catch(e) {
             console.log(e);
         }
-        //ControlActions.setSpinnerVisible(false);
+
+        if(this.props.batchSuccess){
+            try {
+                await ControlActions.getInitialBatch(usertoken);
+            } catch(e) {
+                console.log(e);
+            }
+          
+
+            UIActions.setSpinnerVisible(false);
+        }
+
     
     }
 
@@ -237,7 +248,9 @@ export default connect(
         batchoff: state.control.get('batchoff'),
         loginUserInfo:state.auth.get('loginUserInfo'),
         visible: state.ui.getIn(['modal','visible']),
-        success: state.control.getIn(['success','control_light_success'])
+        success: state.control.getIn(['success','control_light_success']),
+        batchSuccess: state.control.getIn(['success','control_batch_success'])
+
     }),
     (dispatch) => ({
          UIActions: bindActionCreators(uiActions, dispatch),

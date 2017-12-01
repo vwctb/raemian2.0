@@ -15,8 +15,8 @@ class ControlLight extends Component {
         UIActions.setSpinnerVisible(true);
         try {
             //await ControlActions.getInitialHeatings({usertoken:loginUserInfo.usertoken});
-            await ControlActions.getInitialBatch(usertoken);
-            await ControlActions.getInitialLights(usertoken);
+            await Promise.all([ControlActions.getInitialBatch(usertoken),ControlActions.getInitialLights(usertoken)]);
+      
         } catch(e) {
             console.log(e);
         }

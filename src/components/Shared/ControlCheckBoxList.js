@@ -107,7 +107,7 @@ const ControlCheckBoxList = ({checkBoxListArray,onCheck,from1,from2,use}) => {
                                     from1:from1,
                                     from2:from2,
                                     check:(!controlitem.get('check')),
-                                    index: controlitem.get('id') === undefined ? controlitem.get('index') : controlitem.get('id') 
+                                    index: controlitem.get('id') 
                                 })
                             }
                         }
