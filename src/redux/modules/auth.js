@@ -60,6 +60,11 @@ export const deleteFamily = createAction(DELETE_FAMILY,AuthAPI.deleteFamily); //
 export const setDeleteSelectFamily = createAction(SET_DELETE_SELECT_FAMILY); // userkey
 export const setDeleteSelectFamilyAlias = createAction(SET_DELETE_SELECT_FAMILY_ALIAS); // name
 export const setFormatFamily = createAction(FORMAT_FAMILY,AuthAPI.setFormatFamily); // dong ho pass(암호화된 외부비밀번호)
+
+export const setFormatFamilyAfterLogin = createAction(FORMAT_FAMILY,AuthAPI.setFormatFamilyAfterLogin);
+
+
+
 export const changeFormatInput = createAction(FORMAT_INPUT);
 export const setInputDongHo = createAction(INPUT_DONGHO); // index, check
 export const setError = createAction(SET_ERROR); // { form, message }
