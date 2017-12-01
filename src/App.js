@@ -41,20 +41,21 @@ class App extends Component {
         //document.addEventListener("pause", this.onPause, false);
     }
 
-
     componentWillUpdate(nextProps, nextState) {
         if(!isFirstLoad){
+            const { history } = this.context.router;
             const { loginUserInfo } = this.props
             const { UIActions} = this.props;
             const { usertoken } = loginUserInfo.toJS();    
             UIActions.getNewTalks(usertoken);
-
-            if(usertoken === undefined || usertoken === null){
-                this.login();
+            if(!history.location.pathname.match('auth')){
+                if(usertoken === undefined || usertoken === null){
+                    this.login();
+                }
             }
         }
     }
-    
+
     async componentDidMount(){
         const { history } = this.context.router;
         const { HomeActions } = this.props;
