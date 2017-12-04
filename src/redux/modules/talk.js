@@ -7,15 +7,13 @@ import * as KEY from 'lib/raemianAES';
 
 
 const INITIAL = 'talk/INITIAL';
+const INITIAL_FTALKS_MSG = 'talk/INITIAL_FTALKS_MSG';
 const SET_DATE = 'talk/fschedule/SET_DATE';
 const SET_ACTIVE_DATE = 'talk/fschedule/SET_ACTIVE_DATE';
 const SET_ADD_YEAR = 'talk/fschedule/add/SET_ADD_YEAR';
 const SET_ADD_MONTH = 'talk/fschedule/add/SET_ADD_MONTH';
 const SET_ADD_DAY = 'talk/fschedule/add/SET_ADD_DAY';
 const CHANGE_INPUT = 'talk/fschedule/CHANGE_INPUT'; // input 값 변경
-
-
-
 
 const CHECKBOX_ADD_REPEAT = 'talk/fschedule/add/CHECKBOX_ADD_REPEAT'; // 매년반복
 const GET_FSCHEDULES_LIST = 'talk/fschedule/GET_FSCHEDULES_LIST'; // 가족일정 조회
@@ -51,7 +49,8 @@ const CHANGE_INPUT_FTALK_WRITE = 'talk/ftalks/CHANGE_INPUT_FTALK_WRITE';
 const SET_FTALKS_INPUT_FOCUS = 'talks/ftalks/SET_FTALKS_INPUT_FOCUS'; //true,false
 const RECEIVE_FTALKS_NEW_MSG = 'talks/ftalks/RECEIVE_FTALKS_NEW_MSG';
 
-export const initial= createAction(INITIAL);
+export const initial = createAction(INITIAL);
+export const initialFtalksMsg = createAction(INITIAL_FTALKS_MSG);
 export const setDate = createAction(SET_DATE);
 export const setActiveDate = createAction(SET_ACTIVE_DATE);
 export const setAddYear = createAction(SET_ADD_YEAR);
@@ -166,7 +165,7 @@ export default handleActions({
         const initialForm = initialState.get(action.payload);
         return state.set(action.payload, initialForm);
     },
-
+    [INITIAL_FTALKS_MSG] : (state, action) => state.setIn(['ftalksSendMsg','msg'], ''),
     [SET_FTALKS_INPUT_FOCUS] : (state, action) => state.setIn(['ftalksSendMsg','focus'], action.payload),
     [SET_FMSGS_WRITE_FILEID] : (state, action) => state.setIn(['fmsgs','write','fileid'], action.payload),
     [SET_INITIAL_FMSGS_WRITE]: (state, action) => {
@@ -247,7 +246,7 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             console.log('jsonData:',jsonData);
-            return state.setIn(['ftalksSendMsg','successSendMsg'], fromJS(JSON.parse(jsonData).success)).setIn(['ftalksSendMsg','msg'],'');
+            return state.setIn(['ftalksSendMsg','successSendMsg'], fromJS(JSON.parse(jsonData).success));
         }
     }),
     ...pender({

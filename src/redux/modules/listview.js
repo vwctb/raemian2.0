@@ -48,7 +48,6 @@ const initialState = Map({
 });
 
 export default handleActions({  
-
     [SET_CONTENT]:(state, action)=>state.set('data_content', action.payload),
     [SET_SELECTED_TYPE]:(state, action)=>state.set('data_selected_type', action.payload),
     ...pender({

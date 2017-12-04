@@ -123,7 +123,7 @@ const initialState = Map({
             img:null,
             success:false
         }),
-        usertoken:'',
+        usertoken:null,
     }),
     register: Map({
         success:false,

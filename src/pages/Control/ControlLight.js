@@ -22,8 +22,6 @@ class ControlLight extends Component {
         }
         UIActions.setSpinnerVisible(false);
         socket.initialize(window.store, window.socketURIControl, usertoken, 'control');
-        
-
     }
 
     componentWillUnmount(){
@@ -43,6 +41,7 @@ class ControlLight extends Component {
 export default connect(
     (state) => ({
         loginUserInfo: state.auth.get('loginUserInfo'),
+        batchSuccess: state.control.getIn(['success','control_batch_success'])
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),

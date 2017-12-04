@@ -98,10 +98,11 @@ class FTalks extends Component {
             await TalkActions.receiveFtalksNewMsg({value:newMsg,userToken:usertoken});
             window.myRef.scrollTop = window.myRef.scrollHeight;
             await TalkActions.postFtalksSendMessage({data:data,usertoken:usertoken});
-
         } catch(e) {
             console.log(e);
         }
+
+        TalkActions.initialFtalksMsg();
         //UIActions.setSpinnerVisible(false);
         const { successSendMsg } = this.props.sendMsg.toJS();
      

@@ -3,11 +3,17 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {Icon_Check} from 'img';
 import {BtnKeyNum} from 'components/Shared'
+import { shadow, media } from 'lib/style-utils';
 
 const Wrapper = styled.div`
     position:fixed;
     bottom:4rem;
-    padding:${props => props.type === 'screenLock' && '0 1.5rem 0 1.5rem' };
+    ${media.plusphone`
+        padding:${props => props.type === 'screenLock' && '0 2rem 0 2rem' };
+    `}
+    ${media.mobile`
+        padding:${props => props.type === 'screenLock' && '0 1.5rem 0 1.5rem' };
+    `}
     top:${props => props.type === 'screenLock' ? '7rem' : '6.5rem' };
 `;
 
@@ -18,7 +24,15 @@ Wrapper.propTypes={
 const BtnNumberSpace = styled.div`
     width:100%;
     height:100%;
-    padding:0 1rem 0rem 1rem;
+    
+    ${media.plusphone`
+        padding:0 2rem 0 2rem;
+    `}
+
+    ${media.mobile`
+        padding:0 1rem 0 1rem;
+    `}
+
     display: flex;
     align-content: center;
     align-items: center;

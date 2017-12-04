@@ -3,10 +3,12 @@ import Footer from 'components/Footer'
 import styled from 'styled-components';
 import {HomeContainer} from 'containers/Control';
 import * as uiActions from 'redux/modules/ui';
+import * as authActions from 'redux/modules/auth';
+
 import * as controlActions from 'redux/modules/control';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+import * as KEY from 'lib/raemianAES';
 
 const Wrapper = styled.div`
     /* 레이아웃 */
@@ -31,10 +33,34 @@ class ControlHome extends Component {
 
     async componentDidMount() {
         const { UIActions, ControlActions, auth} = this.props;
-        const { usertoken } = this.props.loginUserInfo.toJS();
+        let { usertoken } = this.props.loginUserInfo.toJS();
         
         ControlActions.initializeReserve();
         UIActions.setPageType({pageType:'main'});
+        console.log('usertoken:',usertoken);
+
+       if(usertoken === null){
+            console.log('login');
+            const { AuthActions} = this.props;
+            UIActions.setSpinnerVisible(true);
+            const dummy = new Date().getTime();
+           // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
+           const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+           const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
+           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
+           AuthActions.setUUID(uuid);
+           AuthActions.setPUSHID(pushid);
+            try {
+                await AuthActions.postLogin({'data':data}); 
+            } catch(e) {
+                  console.log('login error: ',e);
+            }            
+            UIActions.setSpinnerVisible(false);
+            usertoken = this.props.loginUserInfo.get('usertoken');
+        }
+
+
+        console.log('usertoken:',usertoken);
         try {
             UIActions.setSpinnerVisible(true);
             await Promise.all([ControlActions.getSmartReserveGoout(usertoken),ControlActions.getSmartReserveMorning(usertoken)]);
@@ -42,6 +68,7 @@ class ControlHome extends Component {
             console.log(e);
         }
         UIActions.setSpinnerVisible(false);
+        
     }
 
 
@@ -69,5 +96,6 @@ export default connect(
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),
         ControlActions: bindActionCreators(controlActions, dispatch),
+        AuthActions: bindActionCreators(authActions, dispatch)
     })
 )(ControlHome);

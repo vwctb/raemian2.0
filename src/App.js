@@ -23,36 +23,46 @@ import storage from 'lib/storage';
 
 
 let isFirstLoad = true;
-class App extends Component { 
+class App extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
+
     async componentWillMount() {
         //console.log('componentWillMount');
         const { history } = this.context.router;
         //const strAgent = navigator.userAgent.toLowerCase();
         //alert('uuid2:'+window.device.uuid);
         //alert('uuid3:'+window.deviceId);
-        if(!history.location.pathname.match('auth')){
-            this.login();
+        const { loginUserInfo } = this.props
+        const { usertoken } = loginUserInfo.toJS();   
+        if(usertoken === null){
+            if(!history.location.pathname.match('auth')){
+                this.login();
+            }
         }
+       
         //document.addEventListener("resume", this.onResume, false);
         document.addEventListener("deviceready", this.onResume, false);
         //document.addEventListener("pause", this.onPause, false);
     }
 
     componentWillUpdate(nextProps, nextState) {
+        const { UIActions , spinner} = this.props;
         if(!isFirstLoad){
             const { history } = this.context.router;
             const { loginUserInfo } = this.props
-            const { UIActions} = this.props;
-            const { usertoken } = loginUserInfo.toJS();    
+            const { usertoken } = loginUserInfo.toJS();   
+            console.log('usertoken:',usertoken); 
             UIActions.getNewTalks(usertoken);
             if(!history.location.pathname.match('auth')){
                 if(usertoken === undefined || usertoken === null){
                     this.login();
                 }
             }
+        }
+        if(spinner){
+            UIActions.setSpinnerVisible(false); 
         }
     }
 
@@ -66,10 +76,15 @@ class App extends Component {
         }
     }
 
-    login=async()=>{
+    login = async()=>{
         console.log('login');
         const { history } = this.context.router;
         const { AuthActions, UIActions} = this.props;
+
+        if(history.location.pathname.match('control')){
+            return;
+        }
+        
         UIActions.setSpinnerVisible(true);
         const dummy = new Date().getTime();
        // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
@@ -83,6 +98,7 @@ class App extends Component {
         } catch(e) {
               console.log('login error: ',e);
         }
+
         const {loginUserInfo} = this.props
         const {result,usertoken} = loginUserInfo.toJS();  
         isFirstLoad=false;
@@ -91,7 +107,6 @@ class App extends Component {
             history.push('/auth');
         }            
         UIActions.setSpinnerVisible(false);
-        
     }
 
     onResume = () => {
@@ -101,6 +116,8 @@ class App extends Component {
             if(storage.get('screenLockUse')){
                 HomeActions.setLockVisible(true);
             }
+
+            
         }
     }
 

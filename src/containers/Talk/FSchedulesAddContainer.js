@@ -16,6 +16,7 @@ import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 const Wrapper = styled.div`
     position: absolute;
     width: 100%;
+    height:100%;
     bottom: 4rem;
     background:white;
     top: 3.5rem;
@@ -26,7 +27,6 @@ const Wrapper = styled.div`
 `;
 
 const StyledTextarea = styled(Textarea)`
-
     width: 100%;
     height: 100%;
     padding:1rem;

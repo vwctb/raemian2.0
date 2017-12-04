@@ -11,13 +11,12 @@ class ControlConcent extends Component {
         const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'콘센트'});
-        
-        try {
-            UIActions.setSpinnerVisible(true);
-            await ControlActions.getInitialConcents(usertoken);
-        } catch(e) {
-            console.log(e);
-        }
+            try {
+                UIActions.setSpinnerVisible(true);
+                await ControlActions.getInitialConcents(usertoken);
+            } catch(e) {
+                console.log(e);
+            }
         UIActions.setSpinnerVisible(false);
         socket.initialize(window.store, window.socketURIControl, usertoken, 'control');
     }

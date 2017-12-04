@@ -118,19 +118,19 @@ class NewAlarmItem extends Component {
 
         switch(item){
             case 'parcel':
-                result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
+                result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>;
                 break;
             case 'notice':
-                result = (value === 0 || value === undefined) ? <Text>새로운 공지사항이 없습니다.</Text> : <Text>새로운 공지사항이 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
+                result = (value === 0 || value === undefined) ? <Text>새로운 공지사항이 없습니다.</Text> : <Text>새로운 공지사항이 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>;
                 break;
             case 'visitor':
-                result = (value === 0 || value === undefined) ? <Text>새로운 방문자가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
+                result = (value === 0 || value === undefined) ? <Text>새로운 방문자가 없습니다.</Text> : <Text>새로운 방문자가 있습니다.</Text>;
                 break;
             case 'parcel':
-                result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>
+                result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>;
                 break;
             case 'homecome':
-                result = (comehome !== '' || comehome !== undefined) && <Text><ColorText>{comehome+'님이'}</ColorText> 있습니다.</Text>
+                result = (comehome !== '' || comehome !== undefined) && <Text><ColorText>{comehome+'님이'}</ColorText> 있습니다.</Text>;
                 break;
         }
 

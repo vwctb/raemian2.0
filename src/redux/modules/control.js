@@ -102,7 +102,7 @@ const initialState = Map({
     data_lights: List(),
     data_concents:List(),
     data_aircons:List(),
-    batchoff:'off',
+    batchoff:null,
     data_gas:Map({
         name:"",
         status:'on'
