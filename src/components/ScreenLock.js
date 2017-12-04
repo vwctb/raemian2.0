@@ -208,7 +208,9 @@ class ScreenLock extends Component {
         // 검증작업 진행
         const passCheck = this.validate['pass'](pass);
         if(!passCheck)return;
-        const data = KEY.encryptedKey(JSON.stringify({pass:pass}));        
+        const data = KEY.encryptedKey(JSON.stringify({
+                pass:KEY.encryptedKey(pass)
+            }));        
         try {
           await  HomeActions.postAuthConfirm({'data':data,'usertoken':usertoken});
         } catch(e) {
