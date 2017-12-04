@@ -49,6 +49,7 @@ const Annotaion = styled.div`
 const MainNotice = styled.div`
     width: 100%;
     text-align:center;
+    font-size:0.9rem;
     padding: 1rem 0.9rem 1rem 0.9rem;
     line-height: 1.6rem;
     color:#49433c;
