@@ -127,13 +127,13 @@ class LightContainer extends Component {
 
         if(this.props.batchSuccess){
             try {
-                await ControlActions.getInitialBatch(usertoken);
+                //await ControlActions.getInitialBatch(usertoken);
             } catch(e) {
                 console.log(e);
             }
           
 
-            UIActions.setSpinnerVisible(false);
+            //UIActions.setSpinnerVisible(false);
         }
 
     

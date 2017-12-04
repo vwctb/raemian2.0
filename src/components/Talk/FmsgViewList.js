@@ -104,6 +104,7 @@ const SubTitle = styled.div`
 const FmsgViewList = ({ msgViewData, familysArray, pageType, userImageData }) => {
     const {msg, icon, fromto, alias, date, filetype, filePath } = msgViewData.toJS();
     console.log("msgViewData:",msgViewData.size);
+    console.log("userImageData:",userImageData);
     return (
 
         <Wrapper>
@@ -114,7 +115,7 @@ const FmsgViewList = ({ msgViewData, familysArray, pageType, userImageData }) =>
                         fromto ==='from' ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === alias ),'icon']) : icon
                     } 
                     size={3}
-                    imgData = { userImageData }
+                    imgData = {fromto ==='from' ?  familysArray.getIn([familysArray.findIndex(user => user.get('alias') === alias ),'img'])   :  userImageData}
                     />
                 }
               

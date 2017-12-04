@@ -52,7 +52,7 @@ class FmsgsWriteContainer extends Component {
                 <FmsgViewList 
                     msgViewData={msgViewData} 
                     familysArray={familysArray} 
-                    userImageData={userImageData}  
+                    userImageData={userImageData}
                     pageType={'listview/fmsgs'} 
                 />
                 {

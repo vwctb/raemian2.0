@@ -96,6 +96,7 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
+            console.log('data:',data);
             return state.set('data_plocs', fromJS(data.list))
         }
     }),

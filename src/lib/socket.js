@@ -48,6 +48,13 @@ export default (function socketHelper() {
                         payload:value.items
                     });
                 }
+                if(value.device === 'batchoff'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_BATCHOFF',
+                        payload:value.status
+                    });
+                }
+
                 if(value.device === 'heating'){
                     _store.dispatch({
                         type:'control/RECEIVE_NEW_HEATING',

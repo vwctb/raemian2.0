@@ -21,6 +21,7 @@ const RECEIVE_NEW_LIGHT='control/RECEIVE_NEW_LIGHT';
 const RECEIVE_NEW_HEATING='control/RECEIVE_NEW_HEATING';
 const RECEIVE_NEW_CONCENT='control/RECEIVE_NEW_CONCENT';
 const RECEIVE_NEW_GUARD='control/RECEIVE_NEW_GUARD';
+const RECEIVE_NEW_BATCHOFF = 'control/RECEIVE_NEW_BATCHOFF';
 
 const UPDATE_HEATING_CONDITION= 'control/heating/UPDATE_HEATING_CONDITION';
 const UPDATE_AIRCONS_CONDITION= 'control/heating/UPDATE_AIRCONS_CONDITION';
@@ -67,6 +68,8 @@ export const getInitialBatch = createAction(GET_INITIAL_BATCH, WebAPI.getInitial
 export const receiveNewLight = createAction(RECEIVE_NEW_LIGHT);
 export const receiveNewHeating = createAction(RECEIVE_NEW_LIGHT);
 export const receiveNewConcent = createAction(RECEIVE_NEW_CONCENT);
+export const receiveNewBatchoff = createAction(RECEIVE_NEW_BATCHOFF);
+
 
 export const updateHeatingCondition = createAction(UPDATE_HEATING_CONDITION, WebAPI.updateHeatingCondition);
 export const updateAirconsCondition = createAction(UPDATE_AIRCONS_CONDITION, WebAPI.updateAirconsCondition);
@@ -300,6 +303,9 @@ export default handleActions({
     [RECEIVE_NEW_LIGHT]: (state, action) => {
         return state.set('data_lights', fromJS(action.payload));
     },
+    [RECEIVE_NEW_BATCHOFF]: (state, action) => {
+        return state.set('batchoff',action.payload);
+    },
     [RECEIVE_NEW_HEATING]: (state, action) => {
         return state.set('data_heatings', fromJS(action.payload));
     },
@@ -399,7 +405,7 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
-            return state.set('batchoff',fromJS(data.status));
+            return state.set('batchoff',data.status);
         }
     }),
 
