@@ -120,17 +120,19 @@ const TextTime = styled.div`
 `;
 
 
-const ReserveTimeContainers = ({ampm , hour, minute, handleClick, use}) => {
+const ReserveTimeContainers = ({ampm , hour, minute, handleClick, handleClickAMPM, use}) => {
 
+        let ampmValue = ampm ==='am' ? 'pm' : 'am';
         return (
             <Wrapper
               
             >
                 <BtnAmPmSpace
                     use={use}
+                    onClick={()=>{handleClickAMPM(ampmValue);}}
                 >
                     <BtnAmPm>
-                        {'오전'}
+                        {ampm === 'pm' ? '오후':'오전'}
                     </BtnAmPm>
                 </BtnAmPmSpace>
                 <BtnTimeSpace
@@ -140,7 +142,7 @@ const ReserveTimeContainers = ({ampm , hour, minute, handleClick, use}) => {
                     <BtnTimeInnerSpace>
                         <BtnPlus
                             onClick={()=>{
-                                (hour >= 0 && hour < 12) &&  handleClick({form:'hour',time:hour+1});
+                                (hour >= 0 && hour < 12) &&  handleClick({form:'hour',time:hour+1  });
                             }}
                             dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('btnIconPlus')}}
                         />
@@ -187,7 +189,9 @@ const ReserveTimeContainers = ({ampm , hour, minute, handleClick, use}) => {
     ReserveTimeContainers.propTypes = {
         hour: PropTypes.number,
         minute: PropTypes.number,
-        handleClick: PropTypes.func
+        ampm: PropTypes.string,
+        handleClick: PropTypes.func,
+        handleClickAMPM:PropTypes.func
     }
     
     

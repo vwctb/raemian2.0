@@ -46,7 +46,7 @@ const GET_SMART_RESERVE_MORNING = 'control/GET_SMART_RESERVE_MORNING';
 const SET_SMART_RESERVE_MORNING = 'control/SET_SMART_RESERVE_MORNING';
 const INITIALIZE_RESERVE = 'control/INITIALIZE_RESERVE';
 const SET_CONTROL_HEATING_ONOFF = 'control/SET_CONTROL_HEATING_ONOFF';
-
+const RESERVE_CONTROL_WAKEUP_TIMER_AMPM = 'control/RESERVE_CONTROL_WAKEUP_TIMER_AMPM';
 
 // 액션 생성자
 export const initial = createAction(INITIAL);
@@ -86,6 +86,9 @@ export const setControlConcentOnOff = createAction(SET_CONTROL_CONCENT_ONOFF,Web
 export const setControlGuard = createAction(SET_CONTROL_GUARD,WebAPI.setControlGuard); 
 export const setGasStatus = createAction(SET_CONTROL_GAS,WebAPI.setGasStatus); 
 export const setReserveControlWakeupTimer = createAction(RESERVE_CONTROL_WAKEUP_TIMER); // form, time
+export const setReserveControlWakeupTimerAMPM = createAction(RESERVE_CONTROL_WAKEUP_TIMER_AMPM); // form, time
+
+
 export const setReserveControlWakeupDayofWeek = createAction(RESERVE_CONTROL_WAKEUP_DAYOFWEEK); // num, check
 export const initializeReserve = createAction(INITIALIZE_RESERVE); 
 export const getSmartReserveGoout = createAction(GET_SMART_RESERVE_GOOUT,WebAPI.getSmartReserveGoout); //
@@ -184,10 +187,11 @@ const initialState = Map({
                     }),
                 ]),
             }),
+            wakeupAMPM:'am',
             wakeup: Map({
                 use:false,
                 hour:4,
-                minute:0,  
+                minute:0,
                 lights: List([
                         Map({
                             id: 1,
@@ -299,6 +303,7 @@ export default handleActions({
         const { form, time } = action.payload;
         return state.setIn(['reserveControl','wakeup',form], time);
     },
+    [RESERVE_CONTROL_WAKEUP_TIMER_AMPM]: (state, action) => state.setIn(['reserveControl','wakeupAMPM'], action.payload),
     [UPDATE_GUARD_STATUS]:(state, action)=> state.setIn(['data_guard','status'], action.payload),
     [RECEIVE_NEW_LIGHT]: (state, action) => {
         return state.set('data_lights', fromJS(action.payload));
@@ -397,9 +402,6 @@ export default handleActions({
             return state.set('data_gas',fromJS(data.items));
         }
     }),
-
-    
-
     ...pender({
         type: GET_INITIAL_BATCH,
         onSuccess: (state, action) => {
@@ -408,8 +410,6 @@ export default handleActions({
             return state.set('batchoff',data.status);
         }
     }),
-
-    
     ...pender({
         type: GET_INITIAL_AIRCONS,
         onSuccess: (state, action) => state.set('data_aircons', fromJS(action.payload.data))
@@ -506,7 +506,16 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log('jsonData:',jsonData);
-            return state.setIn(['reserveControl','wakeup'],fromJS(data));
+            const result = {
+                use:data.use,
+                hour:(data.hour > 12) ? data.hour - 12 : data.hour,
+                dayofweek:data.dayofweek,
+                lights:data.lights,
+                minute:data.minute
+            }
+            console.log('result:',result);
+            const ampm = data.hour > 12 ? 'pm' : 'am';
+            return state.setIn(['reserveControl','wakeup'],fromJS(result)).setIn(['reserveControl','wakeupAMPM'],ampm);
         }
     }),
     ...pender({

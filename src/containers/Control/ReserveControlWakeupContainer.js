@@ -37,13 +37,19 @@ class ReserveControlWakeupContainer extends Component {
     }
 
     handleClick = async () => {
-        const { ControlActions, UIActions, uploadFile, wakeup} = this.props;
-        const {use} = this.props.wakeup.toJS();
+        const { ControlActions, UIActions, uploadFile, ampm} = this.props;
+        const {use,hour,dayofweek,lights,minute} = this.props.wakeup.toJS();
 
         const { usertoken } = this.props.loginUserInfo.toJS();
         let jsonData;
         if(use === true){
-            jsonData = wakeup;
+            jsonData = {
+                use:use,
+                hour: ampm === 'am' ? hour : hour+12,
+                dayofweek:dayofweek,
+                lights:lights,
+                minute:minute
+            };
         }else{
             jsonData = {
                 use : use
@@ -69,7 +75,7 @@ class ReserveControlWakeupContainer extends Component {
     }
     
     render() {
-       const { checkBoxListArrayLights,checkBoxListArrayDayofWeek,ControlActions } = this.props;
+       const { checkBoxListArrayLights,checkBoxListArrayDayofWeek,ControlActions,ampm } = this.props;
        const {use,hour,minute} = this.props.wakeup.toJS();
        return (
             <Layout>
@@ -99,7 +105,9 @@ class ReserveControlWakeupContainer extends Component {
                      <ReserveTimeContainer
                         hour={hour}
                         minute={minute}
+                        ampm={ampm}
                         use={use}
+                        handleClickAMPM = {use ? ControlActions.setReserveControlWakeupTimerAMPM : ()=>{return} }
                         handleClick = {use ? ControlActions.setReserveControlWakeupTimer: ()=>{return}}
                     />
                      <SubTitleWithIcon
@@ -127,6 +135,7 @@ export default connect(
         loginUserInfo: state.auth.get('loginUserInfo'),
         success : state.control.getIn(['reserveControl','wakeupSuccess']),
         wakeup: state.control.getIn(['reserveControl','wakeup']),
+        ampm: state.control.getIn(['reserveControl','wakeupAMPM']),
         checkBoxListArrayLights: state.control.getIn(['reserveControl','wakeup','lights']),
         checkBoxListArrayDayofWeek: state.control.getIn(['reserveControl','wakeup','dayofweek']),
     }),
