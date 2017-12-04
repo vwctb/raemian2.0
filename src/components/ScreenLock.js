@@ -282,7 +282,7 @@ class ScreenLock extends Component {
                 />
                 <Modal visible={visible} onHide={this.onHide} title={'입주민 인증'}>
                     {
-                       success === null && 
+                       (success === null || success === undefined)  && 
                         <MainNotice>
                             우리집 외부접속 비밀번호를<br/>입력하세요!
                         </MainNotice>
