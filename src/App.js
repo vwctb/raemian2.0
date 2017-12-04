@@ -196,6 +196,10 @@ class App extends Component {
                 <Route exact path="/talk/chat_room" component={FTalks}/>
                 
                 <Route exact path="/test/" component={Test}/>
+
+
+
+               
             </div>
         );
     }
