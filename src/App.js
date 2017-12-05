@@ -20,6 +20,7 @@ import PropTypes from 'prop-types';
 import { ClipLoader } from 'react-spinners';
 import { Spinner } from 'components/Shared';
 import storage from 'lib/storage';
+import * as proxyServer from 'lib/proxyServer';
 
 
 let isFirstLoad = true;
@@ -41,7 +42,6 @@ class App extends Component {
                 this.login();
             }
         }
-       
         //document.addEventListener("resume", this.onResume, false);
         document.addEventListener("deviceready", this.onResume, false);
         //document.addEventListener("pause", this.onPause, false);
@@ -105,7 +105,12 @@ class App extends Component {
         //console.log('loginUserInfo: ',loginUserInfo);
         if(result === 'fail'){
             history.push('/auth');
-        }            
+        }else{
+            let expires = "";
+            let name = "complex_url"
+            let value = proxyServer.getProxyServer();
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
         UIActions.setSpinnerVisible(false);
     }
 

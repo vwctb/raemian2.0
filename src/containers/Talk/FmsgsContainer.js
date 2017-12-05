@@ -32,7 +32,7 @@ class FmsgsContainer extends Component {
             <FmsgList listArray={listArray} userArray={userArray} familysArray={familysArray} pageType={'listview/fmsgs'} itemClick={this.itemClick}  />
             
             <BtnSingle
-                name={'전송'}
+                name={'새 메시지 작성'}
                 onClickEvent={this.HandleClickWriteMsg}
               />
             </div>

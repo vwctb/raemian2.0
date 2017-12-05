@@ -71,7 +71,9 @@ class ParcelsItem extends Component {
                     <Title>{"'"+location+"'에 택배가 도착하였습니다."}</Title>
                     <SubTitle>{date.split(',')[0]}</SubTitle>
                 </Body>
-             { status === '수령' ? <StatusON>수령</StatusON> : <StatusOFF>미수령</StatusOFF>}
+                { status === '수령' || status === '고객수령'  ? <StatusON>{status}</StatusON> : <StatusOFF>{status}</StatusOFF>}
+             
+        
             </Wapper>
         )
     }
