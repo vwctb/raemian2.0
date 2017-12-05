@@ -61,25 +61,27 @@ class ControlHeating extends Component {
     handleUpdate = async ()=>{
         const { ControlActions, heatingitem, UIActions, visible } = this.props;
         const { id, status, name, configTemp, currentTemp } = heatingitem.toJS();
-        const jsonData = {
-            id,
-            control: {status,name,currentTemp,configTemp}
+        const jsonDataControl = {
+            id:id,
+            configTemp:configTemp
         }
 
-        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const jsonDataOnoff = {
+            id:id,
+            status:status
+        }
+        const dataControl = KEY.encryptedKey(JSON.stringify(jsonDataControl));
+        const dataOnoff = KEY.encryptedKey(JSON.stringify(jsonDataOnoff));
         const { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
-
+        console.log('jsonDataControl: ',jsonDataControl);
+        console.log('jsonDataOnoff: ',jsonDataOnoff);
         try {
-            await ControlActions.setControlHeatingOnOff({data:data,usertoken:usertoken});
+            await ControlActions.setControlHeatingOnOff({data:dataControl,usertoken:usertoken});
+            await ControlActions.setControlHeatingOnOff({data:dataOnoff,usertoken:usertoken});
+
         } catch(e) {
             console.log(e);
-        }
-
-        try {
-            await  ControlActions.getInitialHeatings();
-        } catch(e) {
-              console.log(e);
         }
 
         const{ history } = this.context.router;
@@ -93,8 +95,7 @@ class ControlHeating extends Component {
 
         //UIActions.setSpinnerVisible(false);
     }
-
-
+    
     onHide = () =>{
         const { UIActions,visible } = this.props;
         UIActions.setModalVisible(!visible);

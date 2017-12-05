@@ -14,13 +14,14 @@ class ControlHeating extends Component {
         UIActions.setHeaderTitle({title:'난 방'});
 
         const data = 'all';
-
+        console.log('data:',data);
         try {
             UIActions.setSpinnerVisible(true);
             await ControlActions.getInitialHeatings({data:data,usertoken:usertoken});
         }catch(e) {
             console.log(e);
         }
+
         UIActions.setSpinnerVisible(false);
     }
 

@@ -171,7 +171,7 @@ class ControllSliderItem extends Component {
                     </Title>
                      {(status === 'on') ? <div id={'slider_'+id} className="rslider" ref={ref=>this.slider=ref}></div> : <OffBox>꺼짐</OffBox>}
                    <CurrentTempSpace>
-                         <CurrentTemp> 현재  </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {currentTemp}° </CurrentTempValue>
+                         <CurrentTemp> 현재  </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {Number(currentTemp)}° </CurrentTempValue>
                     </CurrentTempSpace>
                 </Square>
 

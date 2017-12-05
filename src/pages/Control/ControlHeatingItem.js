@@ -9,14 +9,19 @@ import { bindActionCreators } from 'redux';
 class ControlHeatingItem extends Component {
 
     async componentDidMount() {
-        const {ControlActions, UIActions, match } = this.props;
+        const {ControlActions, UIActions, match,id } = this.props;
+        let { usertoken } = this.props.loginUserInfo.toJS();
+
         UIActions.setPageType({pageType:'/control/heating'});
         UIActions.setHeaderTitle({title:match.params.name+' 난방'});
+
+        const data = id;
         try {
-            await ControlActions.getInitialHeatings();
+            await ControlActions.getInitialHeatings({data:data,usertoken:usertoken});
         } catch(e) {
             console.log(e);
         }
+
     }
 
     render() {
@@ -28,7 +33,8 @@ class ControlHeatingItem extends Component {
 
 export default connect(
     (state) => ({
-
+        id: state.ui.getIn(['control','nowSelectItem','id']),
+        loginUserInfo: state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),

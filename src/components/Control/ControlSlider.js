@@ -160,17 +160,16 @@ class ControllSlider extends Component {
                     <Square className="sliderSignle" >
                         <OffBox onClick={handleClick}>꺼짐</OffBox>
                         <CurrentTempSpace>
-                            <CurrentTemp> 현재 온도 </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {currentTemp}° </CurrentTempValue>
+                            <CurrentTemp> 현재 온도 </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {Number(currentTemp)}° </CurrentTempValue>
                         </CurrentTempSpace>
                     </Square>
                 </SizerOver>
-      
             }
             <Sizer className={'controlType_'+controlType}>
                 <Square className="sliderSignle" >
                    <div id="slider_inside" className="rslider" ref={ref=>this.slider=ref}></div>
                    <CurrentTempSpace>
-                         <CurrentTemp> 현재 온도 </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {currentTemp}° </CurrentTempValue>
+                         <CurrentTemp> 현재 온도 </CurrentTemp> <CurrentTempValue className={'CurrentTempValue'}> {Number(currentTemp)}° </CurrentTempValue>
                     </CurrentTempSpace>
                 </Square>
             </Sizer>
