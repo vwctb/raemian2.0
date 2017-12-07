@@ -114,8 +114,8 @@ const initialState = Map({
             month:moment().local().format('M'),
             day:moment().local().format('D'),
             memo:'',
-            repeat:true,
-            alarm:true,
+            repeat:false,
+            alarm:false,
             success:false
         }),
         detail: Map({

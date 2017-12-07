@@ -164,7 +164,7 @@ const ReserveTimeContainers = ({ampm , hour, minute, handleClick, handleClickAMP
                     <BtnTimeInnerSpace>
                         <BtnPlus
                             onClick={()=>{
-                                (minute >= 0 && minute < 60) &&  handleClick({form:'minute',time:minute+1});
+                                (minute >= 0 && minute < 59) &&  handleClick({form:'minute',time:minute+1});
                             }}
                             dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('btnIconPlus')}}
                         />
@@ -176,7 +176,7 @@ const ReserveTimeContainers = ({ampm , hour, minute, handleClick, handleClickAMP
                         
                         <BtnMinus
                             onClick={()=>{
-                                (minute > 0 && minute <= 60) &&  handleClick({form:'minute',time:minute-1});
+                                (minute > 0 && minute <= 59) &&  handleClick({form:'minute',time:minute-1});
                             }}
                             dangerouslySetInnerHTML = {{__html : SvgIcon.getInitialSvgIcon('btnIconMinus')}}
                         />

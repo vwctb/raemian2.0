@@ -116,13 +116,14 @@ class App extends Component {
 
     onResume = () => {
         const { history } = this.context.router;        
-        const { HomeActions } = this.props;
+        const { HomeActions,UIActions,loginUserInfo } = this.props;
+        const { usertoken } = loginUserInfo.toJS();  
+
         if(!history.location.pathname.match('auth')){
             if(storage.get('screenLockUse')){
                 HomeActions.setLockVisible(true);
             }
-
-            
+             UIActions.getNewTalks(usertoken);
         }
     }
 
