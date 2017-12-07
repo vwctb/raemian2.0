@@ -111,6 +111,8 @@ class App extends Component {
             let value = proxyServer.getProxyServer();
             document.cookie = name + "=" + value + expires + "; path=/";
         }
+
+        UIActions.getNewTalks(usertoken);
         UIActions.setSpinnerVisible(false);
     }
 
@@ -118,12 +120,12 @@ class App extends Component {
         const { history } = this.context.router;        
         const { HomeActions,UIActions,loginUserInfo } = this.props;
         const { usertoken } = loginUserInfo.toJS();  
-
+        UIActions.getNewTalks(usertoken);
         if(!history.location.pathname.match('auth')){
             if(storage.get('screenLockUse')){
                 HomeActions.setLockVisible(true);
             }
-             UIActions.getNewTalks(usertoken);
+       
         }
     }
 
