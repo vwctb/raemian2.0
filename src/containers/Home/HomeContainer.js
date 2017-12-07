@@ -30,17 +30,17 @@ const Wrapper = styled.div`
 const ListContainer = styled.div`
     width: 100%;
 `;
-
+let isFirstLoad = false;
 class HomeContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
     componentDidMount(){
-        const { AuthActions,UIActions} = this.props;
+        const { AuthActions} = this.props;
         const { usertoken } = this.props.loginUserInfo.toJS();
         if(usertoken === '') return;
         AuthActions.getMain(usertoken);
-        UIActions.setSpinnerVisible(true);
+        isFirstLoad = true;
     }
     handleClickFamilySchedule =()=>{
         const { history } = this.context.router;
@@ -63,8 +63,12 @@ class HomeContainer extends Component {
     }
 
     handleImageLoaded() {
-        const { UIActions } = this.props;
-        UIActions.setSpinnerVisible(false);
+        /*
+        if(this.props){
+            const { UIActions } = this.props;
+            UIActions.setSpinnerVisible(false);
+        }*/
+        
     }
     
     render() {

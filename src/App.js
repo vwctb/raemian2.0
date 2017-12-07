@@ -60,10 +60,13 @@ class App extends Component {
                     this.login();
                 }
             }
+
+            if(spinner){
+                UIActions.setSpinnerVisible(false); 
+            }
+            
         }
-        if(spinner){
-            UIActions.setSpinnerVisible(false); 
-        }
+        
     }
 
     async componentDidMount(){

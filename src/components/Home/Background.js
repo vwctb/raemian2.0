@@ -43,7 +43,7 @@ const ImageBackground = styled.img`
     border:0;
 `;
 
-const BGBox = ({homebgs}) => {
+const BGBox = ({homebgs, handleImageLoaded}) => {
 
     let { desc, phototype,img } = homebgs.toJS();
    
@@ -59,7 +59,11 @@ const BGBox = ({homebgs}) => {
                 phototype === 1 ?
                 <Background/>
                 :
-                <ImageBackground src = {img}/>
+                <ImageBackground 
+                
+                    src = {img}
+                    onLoad={handleImageLoaded.bind(this)}
+                />
             }
         </Wrapper>
         
