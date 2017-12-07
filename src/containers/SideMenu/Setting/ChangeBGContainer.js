@@ -317,9 +317,8 @@ class SettingFamilyContainer extends Component {
                                     onChange={this.handleChangeFile}
                                 />
                             </FileInputSpace>
-
-                            {      
-                            img !== null ?
+                            {
+                            (img !== "") ?
                             <CustomImage 
                             src={img} 
                             onLoad={this.handleImageLoaded.bind(this)}

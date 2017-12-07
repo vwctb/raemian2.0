@@ -56,17 +56,53 @@ class FmsgsWriteContainer extends Component {
             UIActions.setSpinnerVisible(false);
             return;
         }
+
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
         let reader = new FileReader();
-        reader.onload = function (e) {
-            TalkActions.setFmsgsWriteUploadFile(
-                {
-                    fileData:e.target.result,
-                    fileName:name,
-                    fileType:tempType
+        let ratio;
+        reader.onload = function(event){
+            var img = new Image();
+            img.onload = function(){
+                if(img.width > img.height){
+                //가로 이미지
+                if(img.width > 1500){
+                    ratio = 0.4;
+                } 
+                if(img.width > 3000){
+                    ratio = 0.2;
                 }
-            )
+                }else{
+                //세로 이미지
+                if(img.height > 1500){
+                    ratio=0.4;
+                }
+                if(img.height > 3000){
+                    ratio=0.2;
+                }
+                }
+                canvas.width = img.width * ratio;
+                canvas.height = img.height * ratio;
+                ctx.imageSmoothingEnabled= true;
+                ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
+
+                var dataURL = canvas.toDataURL();
+                TalkActions.setFmsgsWriteUploadFile(
+                    {
+                        fileData:dataURL,
+                        fileName:name,
+                        fileType:tempType
+                    }
+                )
+            }
+            img.src = event.target.result;
         }
         reader.readAsDataURL(e.target.files[0]);
+
+
+
+
+
       }
 
       if(e.target.files[0] && tempType.split('/')[0] === 'video'){

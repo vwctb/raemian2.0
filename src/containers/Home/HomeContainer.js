@@ -36,10 +36,11 @@ class HomeContainer extends Component {
         router: PropTypes.object
     }
     componentDidMount(){
-        const { AuthActions} = this.props;
+        const { AuthActions,UIActions} = this.props;
         const { usertoken } = this.props.loginUserInfo.toJS();
         if(usertoken === '') return;
         AuthActions.getMain(usertoken);
+        UIActions.setSpinnerVisible(true);
     }
     handleClickFamilySchedule =()=>{
         const { history } = this.context.router;
@@ -60,6 +61,11 @@ class HomeContainer extends Component {
         const { history } = this.context.router;
         history.push('/listview/visitors');
     }
+
+    handleImageLoaded() {
+        const { UIActions } = this.props;
+        UIActions.setSpinnerVisible(false);
+    }
     
     render() {
         let { loginUserInfo } = this.props;
@@ -72,6 +78,8 @@ class HomeContainer extends Component {
             <Wrapper>
                 <BG
                     homebgs = {loginUserInfo.get('homebgs')}
+                    handleImageLoaded = {this.handleImageLoaded}
+
                 />
                 <ListContainer>
                     <FamilyScheduleList
