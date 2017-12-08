@@ -239,10 +239,6 @@ class SettingFamilyContainer extends Component {
             let ratio;
             reader.onload = function(event){
                 var img = new Image();
-
-
-               
-
                 img.onload = function(){
                     if(img.width > img.height){
                     //가로 이미지
@@ -272,6 +268,8 @@ class SettingFamilyContainer extends Component {
                 }
                 img.src = event.target.result;
             }
+
+            reader.readAsBinaryString();
             reader.readAsDataURL(e.target.files[0]);
 
             UIActions.setSpinnerVisible(false);

@@ -64,7 +64,6 @@ class App extends Component {
             if(spinner){
                 UIActions.setSpinnerVisible(false); 
             }
-            
         }
         
     }

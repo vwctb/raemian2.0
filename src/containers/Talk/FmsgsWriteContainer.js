@@ -57,11 +57,12 @@ class FmsgsWriteContainer extends Component {
             UIActions.setSpinnerVisible(false);
             return;
         }
-
+        let ori = 0;
         jpegOrientation.getOrientation(e.target.files[0], function(orientation) {
-            alert('orientation: ' + orientation);
+            if(orientation !== 1){
+                ori = 1;
+            }
         });
-
 
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
@@ -91,7 +92,10 @@ class FmsgsWriteContainer extends Component {
                 canvas.height = img.height * ratio;
                 ctx.imageSmoothingEnabled= true;
                 ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
-
+                if(ori === 1){
+                    ctx.rotate(90 * Math.PI / 180);
+                }
+               
                 var dataURL = canvas.toDataURL();
                 TalkActions.setFmsgsWriteUploadFile(
                     {
