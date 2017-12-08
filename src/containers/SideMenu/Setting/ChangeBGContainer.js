@@ -160,7 +160,7 @@ class SettingFamilyContainer extends Component {
     }
 
     
-    handleClick  = async () =>{
+    handleClick  = async () => {
         const { AuthActions, UIActions } = this.props;
         UIActions.setSpinnerVisible(true);
 
@@ -224,7 +224,7 @@ class SettingFamilyContainer extends Component {
           }
           reader.readAsDataURL(e.target.files[0]);
         }*/
-
+       console.log('e.target.files:',e.target.files);
        const size =  Math.round((e.target.files[0].size/1024)/1024);
        if(size > 10){
            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
@@ -240,6 +240,8 @@ class SettingFamilyContainer extends Component {
             reader.onload = function(event){
                 var img = new Image();
 
+
+               
 
                 img.onload = function(){
                     if(img.width > img.height){

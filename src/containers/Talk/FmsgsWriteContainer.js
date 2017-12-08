@@ -9,6 +9,7 @@ import * as KEY from 'lib/raemianAES';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {BtnSingleModal, Modal, Dimmed} from 'components/Shared';
+import * as jpegOrientation from 'lib/jpegOrientation';
 
 const MainNotice = styled.div`
     width: 100%;
@@ -56,6 +57,11 @@ class FmsgsWriteContainer extends Component {
             UIActions.setSpinnerVisible(false);
             return;
         }
+
+        jpegOrientation.getOrientation(e.target.files[0], function(orientation) {
+            alert('orientation: ' + orientation);
+        });
+
 
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
