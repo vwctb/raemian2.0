@@ -232,8 +232,13 @@ class SettingFamilyContainer extends Component {
            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
            return;
        }
-       ori.getOrientation(e.target.files[0], function(orientation) {
-        alert('orientation: ' + orientation);
+
+       //이미지 회전
+       const TO_RADIANS = Math.PI/180;
+       let x=0,y=0;
+       let orientation = 1;
+       ori.getOrientation(e.target.files[0], function(_orientation) {
+        orientation = _orientation;
         });
 
         const type =  e.target.files[0].type;
@@ -264,14 +269,24 @@ class SettingFamilyContainer extends Component {
                     }
                     }
 
-                
-                 
+                    if(orientation === 6){
+                        ctx.rotate(90 * TO_RADIANS);
+                        x=0;
+                        y=-(img.width * ratio);
+                    }else if(orientation === 8){
+                        ctx.rotate(-90 * TO_RADIANS);
+                        x=-(img.width * ratio);
+                        y=0;
+                    }
+              
                     
 
                     canvas.width = img.width * ratio;
                     canvas.height = img.height * ratio;
                     ctx.imageSmoothingEnabled= true;
-                    ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
+                    ctx.drawImage(img,x,y,img.width * ratio,img.height * ratio);
+
+
                     var dataURL = canvas.toDataURL();
                     AuthActions.setCheckboxHomeBGType(2);
                     AuthActions.setHomeBgsImage(dataURL);
