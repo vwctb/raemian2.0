@@ -8,6 +8,7 @@ import * as Image from 'img';
 import Textarea from 'react-textarea-autosize';
 import { CheckBox }from 'components/Shared';
 import FileInput from 'react-file-input';
+import * as proxyServer from 'lib/proxyServer';
 
 const Wrapper = styled.div`
      position:absolute;
@@ -145,7 +146,7 @@ const BtnFileUpload = styled.div`
     overflow: hidden;
 `;
 
-const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChangeFile,receiverkey,uploadFile,listArray,userArray,write,pageType,selectedType,itemClick,typeClick}) => {
+const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChangeFile,receiverkey,uploadFile,listArray,userArray,write,pageType,selectedType,itemClick,typeClick,msgFileupload}) => {
     let cnt = 0;
     const {msg,receivetime,fileid} = write.toJS();
     let key = receiverkey.toJS();
@@ -173,10 +174,13 @@ const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChange
         )
     );
 
-
-
+    console.log('msgFileupload::',msgFileupload);
     const { fileType, fileName, fileData } = uploadFile.toJS();
-
+    let filePath = '';
+    if(msgFileupload){
+        filePath  = msgFileupload.get('filePath');
+    }
+    
     return (
         <Wrapper>
             <ListWrapper>
@@ -235,7 +239,7 @@ const FmsgList = ({handleChangeInput,checkBoxEvent,receiverkeyEvnet,handleChange
             {
                 fileType.split('/')[0] === 'image' &&
                 <ImageFile
-                    src = {fileData}
+                    src = {'http://'+proxyServer.getProxyServer()+':17501'+filePath}
                 />
             }
             {
@@ -276,6 +280,11 @@ FmsgList.propTypes = {
         receivetime:PropTypes.number,
         receiverkey: PropTypes.arry,
         fileid:PropTypes.string,
+    }),
+    msgFileupload:ImmutablePropTypes.mapContains({
+        success:PropTypes.bool,
+        fileid:PropTypes.string,
+        filePath:PropTypes.string
     }),
     checkBoxEvent:PropTypes.func,
     receiverkeyEvnet:PropTypes.func,

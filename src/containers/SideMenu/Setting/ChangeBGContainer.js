@@ -261,7 +261,6 @@ class SettingFamilyContainer extends Component {
                     canvas.height = img.height * ratio;
                     ctx.imageSmoothingEnabled= true;
                     ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
-
                     var dataURL = canvas.toDataURL();
                     AuthActions.setCheckboxHomeBGType(2);
                     AuthActions.setHomeBgsImage(dataURL);
@@ -269,7 +268,6 @@ class SettingFamilyContainer extends Component {
                 img.src = event.target.result;
             }
 
-            reader.readAsBinaryString();
             reader.readAsDataURL(e.target.files[0]);
 
             UIActions.setSpinnerVisible(false);

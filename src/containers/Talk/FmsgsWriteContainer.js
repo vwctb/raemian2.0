@@ -45,7 +45,7 @@ class FmsgsWriteContainer extends Component {
         tempFile = e.target.files[0];
         const size =  Math.round((e.target.files[0].size/1024)/1024);
         UIActions.setSpinnerVisible(true);
-
+/*
       if(e.target.files[0] && tempType.split('/')[0] === 'image'){
         if(size > 10){
             modalMsg = '이미지파일의 용량은 10MB를 초과할 수 없습니다.';
@@ -57,13 +57,7 @@ class FmsgsWriteContainer extends Component {
             UIActions.setSpinnerVisible(false);
             return;
         }
-        let ori = 0;
-        jpegOrientation.getOrientation(e.target.files[0], function(orientation) {
-            if(orientation !== 1){
-                ori = 1;
-            }
-        });
-
+ 
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
         let reader = new FileReader();
@@ -92,9 +86,7 @@ class FmsgsWriteContainer extends Component {
                 canvas.height = img.height * ratio;
                 ctx.imageSmoothingEnabled= true;
                 ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
-                if(ori === 1){
-                    ctx.rotate(90 * Math.PI / 180);
-                }
+          
                
                 var dataURL = canvas.toDataURL();
                 TalkActions.setFmsgsWriteUploadFile(
@@ -114,7 +106,17 @@ class FmsgsWriteContainer extends Component {
 
 
       }
+*/
 
+    if(e.target.files[0] && tempType.split('/')[0] === 'image'){
+            TalkActions.setFmsgsWriteUploadFile(
+                {
+                    fileData:'',
+                    fileName:name,
+                    fileType:tempType
+                }
+            )
+    }
       if(e.target.files[0] && tempType.split('/')[0] === 'video'){
         if(size > 50){
             modalMsg = '이미지파일의 용량은 50MB를 초과할 수 없습니다.';
@@ -236,7 +238,7 @@ class FmsgsWriteContainer extends Component {
     }
 
     render() {
-        const {listArray, write, TalkActions, receiverkey, uploadFile, visible} = this.props;
+        const {listArray, write, TalkActions, receiverkey, uploadFile, visible, msgFileupload} = this.props;
         return (
             <div>
                 
@@ -248,6 +250,7 @@ class FmsgsWriteContainer extends Component {
                 handleChangeFile={this.handleChangeFile} 
                 checkBoxEvent={TalkActions.checkboxFmsgsWrite} 
                 receiverkey = {receiverkey} 
+                msgFileupload={msgFileupload}
                 receiverkeyEvnet={this.receiverkeyEvnet}  
                 pageType={'listview/fmsgs'} 
             />
