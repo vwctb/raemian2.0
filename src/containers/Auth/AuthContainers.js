@@ -71,7 +71,7 @@ class AuthContainers extends Component {
 
     backClickEvent = () => {
         console.log('back click');
-       
+        window.location.href = 'http://119.194.107.93/prev';        
     }
 
 
