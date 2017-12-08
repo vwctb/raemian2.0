@@ -47,7 +47,7 @@ class ControlHome extends Component {
            // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
            const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
            const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
-           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy}));
+           const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy,pushid:pushid}));
            AuthActions.setUUID(uuid);
            AuthActions.setPUSHID(pushid);
             try {

@@ -232,7 +232,9 @@ class SettingFamilyContainer extends Component {
            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
            return;
        }
-      
+       ori.getOrientation(e.target.files[0], function(orientation) {
+        alert('orientation: ' + orientation);
+        });
 
         const type =  e.target.files[0].type;
         if(e.target.files[0] && type.split('/')[0] === 'image'){
@@ -263,9 +265,7 @@ class SettingFamilyContainer extends Component {
                     }
 
                 
-                    ori.getOrientation(e.target.files[0], function(orientation) {
-                        alert('orientation: ' + orientation);
-                    });
+                 
                     
 
                     canvas.width = img.width * ratio;
