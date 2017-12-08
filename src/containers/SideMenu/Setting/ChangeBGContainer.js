@@ -13,6 +13,8 @@ import  {BG_Basic} from 'img';
 import * as SvgIcon from 'lib/icon_svg'
 import FileInput from 'react-file-input';
 import * as KEY from 'lib/raemianAES';
+import * as ori from 'lib/jpegOrientation';
+
 const Wrapper = styled.div`
     position: absolute;
     width: 100%;
@@ -230,6 +232,8 @@ class SettingFamilyContainer extends Component {
            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
            return;
        }
+      
+
         const type =  e.target.files[0].type;
         if(e.target.files[0] && type.split('/')[0] === 'image'){
             UIActions.setSpinnerVisible(true);
@@ -257,6 +261,13 @@ class SettingFamilyContainer extends Component {
                         ratio=0.2;
                     }
                     }
+
+                
+                    ori.getOrientation(e.target.files[0], function(orientation) {
+                        alert('orientation: ' + orientation);
+                    });
+                    
+
                     canvas.width = img.width * ratio;
                     canvas.height = img.height * ratio;
                     ctx.imageSmoothingEnabled= true;
