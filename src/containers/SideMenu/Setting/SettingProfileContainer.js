@@ -10,8 +10,8 @@ import styled from 'styled-components';
 import {OnePassTagContainer,ProfilePhotoAliasContainer} from 'containers/Shared'
 import PropTypes from 'prop-types';
 import * as KEY from 'lib/raemianAES';
-import {BtnDoubleModal, Modal, Dimmed, InputWithLabelModal} from 'components/Shared';
-
+import {BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
+import * as ori from 'lib/jpegOrientation';
 const Wrapper = styled.div`
     position: absolute;
     width: 100%;
@@ -124,6 +124,15 @@ class SettingProfileContainer extends Component {
             alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
             return;
         }
+
+           //이미지 회전
+       const TO_RADIANS = Math.PI/180;
+       let x=0,y=0;
+       let orientation = 1;
+        ori.getOrientation(e.target.files[0], function(_orientation) {
+        orientation = _orientation;
+        });
+
         if(e.target.files[0] && type.split('/')[0] === 'image'){
             let canvas = document.createElement('canvas');
             let ctx = canvas.getContext('2d');
@@ -153,6 +162,20 @@ class SettingProfileContainer extends Component {
                     canvas.height = img.height * ratio;
                     ctx.imageSmoothingEnabled= true;
                     ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
+
+                    let width=img.width * ratio;
+           
+                    if(orientation === 6){
+                        ctx.rotate(90 * TO_RADIANS);
+                        x=0;
+                        y=y-width;
+                    }else if(orientation === 8){
+                        ctx.rotate(-90 * TO_RADIANS);
+                        x=x-width;
+                        y=0;
+                    }
+              
+                    ctx.drawImage(img,x,y,img.width * ratio,img.height * ratio);
 
                     var dataURL = canvas.toDataURL();
 
