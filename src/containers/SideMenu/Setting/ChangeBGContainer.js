@@ -246,12 +246,34 @@ class SettingFamilyContainer extends Component {
             let ctx = canvas.getContext('2d');
             let reader = new FileReader();
   
+            let ratio = 1;
 
             reader.onload = function(event){
                 var img = new Image();
                 img.onload = function(){
-                    let width = img.width;
-                    let height = img.height;
+
+                    if(img.width > img.height){
+                        //가로 이미지
+                        if(img.width > 1500){
+                            ratio = 0.4;
+                        } 
+                        if(img.width > 3000){
+                            ratio = 0.2;
+                        }
+                        }else{
+                        //세로 이미지
+                        if(img.height > 1500){
+                            ratio=0.4;
+                        }
+                        if(img.height > 3000){
+                            ratio=0.2;
+                        }
+                        }
+
+
+
+                    let width = img.width*ratio;
+                    let height = img.height*ratio;
                     let degrees = 0;
                     if(orientation === 6){
                         degrees=90;
@@ -272,10 +294,10 @@ class SettingFamilyContainer extends Component {
                     // you want to rotate around center of canvas
                     ctx.translate(canvas.width/2,canvas.height/2);
                     ctx.rotate(degrees*Math.PI/180);
-                    ctx.drawImage(img, -width*0.5, -height*0.5);
+                    ctx.drawImage(img, -width*0.5, -height*0.5,width,height);
                     ctx.restore();
              
-                    var dataURL = canvas.toDataURL();
+                    let dataURL = canvas.toDataURL();
                     AuthActions.setCheckboxHomeBGType(2);
                     AuthActions.setHomeBgsImage(dataURL);
 
@@ -336,7 +358,6 @@ class SettingFamilyContainer extends Component {
                             src={img} 
                             onLoad={this.handleImageLoaded.bind(this)}
                             onError={this.handleImageErrored.bind(this)}
-                            
                             >
                             </CustomImage>
                             :
