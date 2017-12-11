@@ -232,10 +232,8 @@ class SettingFamilyContainer extends Component {
            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
            return;
        }
-
+       UIActions.setSpinnerVisible(true);
        //이미지 회전
-       const TO_RADIANS = Math.PI/180;
-       let x=0,y=0;
        let orientation = 1;
         ori.getOrientation(e.target.files[0], function(_orientation) {
         orientation = _orientation;
@@ -243,64 +241,51 @@ class SettingFamilyContainer extends Component {
 
         const type =  e.target.files[0].type;
         if(e.target.files[0] && type.split('/')[0] === 'image'){
-            UIActions.setSpinnerVisible(true);
+       
             let canvas = document.createElement('canvas');
             let ctx = canvas.getContext('2d');
             let reader = new FileReader();
-            let ratio;
+  
+
             reader.onload = function(event){
                 var img = new Image();
                 img.onload = function(){
-                    if(img.width > img.height){
-                    //가로 이미지
-                    if(img.width > 1500){
-                        ratio = 0.4;
-                    } 
-                    if(img.width > 3000){
-                        ratio = 0.2;
-                    }
-                    }else{
-                    //세로 이미지
-                    if(img.height > 1500){
-                        ratio=0.4;
-                    }
-                    if(img.height > 3000){
-                        ratio=0.2;
-                    }
-                    }
-
-
-                    canvas.width = img.width * ratio;
-                    canvas.height = img.height * ratio;
-                    ctx.imageSmoothingEnabled= true;
-                    ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
-
-                    let width=img.width * ratio;
-           
+                    let width = img.width;
+                    let height = img.height;
+                    let degrees = 0;
                     if(orientation === 6){
-                        ctx.rotate(90 * TO_RADIANS);
-                        x=0;
-                        y=y-width;
+                        degrees=90;
                     }else if(orientation === 8){
-                        ctx.rotate(-90 * TO_RADIANS);
-                        x=x-width;
-                        y=0;
+                        degrees=-90
                     }
-              
-                    ctx.drawImage(img,x,y,img.width * ratio,img.height * ratio);
-
-
+                    if (degrees >= 360) degrees = 0;
+                    if (degrees === 0 || degrees === 180 ) {
+                        canvas.width = width;
+                        canvas.height = height;
+                    }
+                    else {
+                        // swap
+                        canvas.width = height;
+                        canvas.height = width;
+                    }
+                    ctx.save();
+                    // you want to rotate around center of canvas
+                    ctx.translate(canvas.width/2,canvas.height/2);
+                    ctx.rotate(degrees*Math.PI/180);
+                    ctx.drawImage(img, -width*0.5, -height*0.5);
+                    ctx.restore();
+             
                     var dataURL = canvas.toDataURL();
-                    console.log('dataURL:',dataURL);
                     AuthActions.setCheckboxHomeBGType(2);
                     AuthActions.setHomeBgsImage(dataURL);
+
+               
                 }
                 img.src = event.target.result;
             }
 
             reader.readAsDataURL(e.target.files[0]);
 
-            UIActions.setSpinnerVisible(false);
         }
     }
     basicImageClich=()=>{ 

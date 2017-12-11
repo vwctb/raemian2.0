@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import * as KEY from 'lib/raemianAES';
 import {BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
 import * as ori from 'lib/jpegOrientation';
+
 const Wrapper = styled.div`
     position: absolute;
     width: 100%;
@@ -141,53 +142,37 @@ class SettingProfileContainer extends Component {
             reader.onload = function(event){
                 var img = new Image();
                 img.onload = function(){
-                    if(img.width > img.height){
-                    //가로 이미지
-                    if(img.width > 1500){
-                        ratio = 0.4;
-                    } 
-                    if(img.width > 3000){
-                        ratio = 0.2;
-                    }
-                    }else{
-                    //세로 이미지
-                    if(img.height > 1500){
-                        ratio=0.4;
-                    }
-                    if(img.height > 3000){
-                        ratio=0.2;
-                    }
-                    }
-                    canvas.width = img.width * ratio;
-                    canvas.height = img.height * ratio;
-                    ctx.imageSmoothingEnabled= true;
-                    ctx.drawImage(img,0,0,img.width * ratio,img.height * ratio);
-
-                    let width=img.width * ratio;
-           
+                    let width = img.width;
+                    let height = img.height;
+                    let degrees = 0;
                     if(orientation === 6){
-                        ctx.rotate(90 * TO_RADIANS);
-                        x=0;
-                        y=y-width;
+                        degrees=90;
                     }else if(orientation === 8){
-                        ctx.rotate(-90 * TO_RADIANS);
-                        x=x-width;
-                        y=0;
+                        degrees=-90
                     }
-              
-                    ctx.drawImage(img,x,y,img.width * ratio,img.height * ratio);
-
-                    var dataURL = canvas.toDataURL();
-
+                    if (degrees >= 360) degrees = 0;
+                    if (degrees === 0 || degrees === 180 ) {
+                        canvas.width = width;
+                        canvas.height = height;
+                    }
+                    else {
+                        // swap
+                        canvas.width = height;
+                        canvas.height = width;
+                    }
+                    ctx.save();
+                    // you want to rotate around center of canvas
+                    ctx.translate(canvas.width/2,canvas.height/2);
+                    ctx.rotate(degrees*Math.PI/180);
+                    ctx.drawImage(img, -width*0.5, -height*0.5);
+                    ctx.restore();
+                    let dataURL = canvas.toDataURL();
                     AuthActions.setProfileUploadFile(dataURL);
                     AuthActions.setProfileIcon(0);
-
                 }
                 img.src = event.target.result;
             }
             reader.readAsDataURL(e.target.files[0]);
-
-            UIActions.setSpinnerVisible(false);
         }
 
     }
@@ -256,6 +241,12 @@ class SettingProfileContainer extends Component {
 
     addFamilyClick = () => {
         console.log('addFamilyClick click');
+    }
+
+
+    handleImageLoaded() {
+        const { UIActions } = this.props;
+        UIActions.setSpinnerVisible(false);
     }
 
     render() {
