@@ -155,6 +155,11 @@ export const setControlGuard = (value) => axios.post('/smarthome/v1/guards',{dat
 });
 
 /*[ 스마트예약제어 ]*******************************/
+
+export const putSmartReserveGooutAction =  (usertoken) => axios.put('/smarthome/v1/smarts/goout',{data:''},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 export const getSmartReserveMorning =  (usertoken) => axios.get('/smarthome/v1/smarts/morning',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });

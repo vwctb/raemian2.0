@@ -47,7 +47,7 @@ const SET_SMART_RESERVE_MORNING = 'control/SET_SMART_RESERVE_MORNING';
 const INITIALIZE_RESERVE = 'control/INITIALIZE_RESERVE';
 const SET_CONTROL_HEATING_ONOFF = 'control/SET_CONTROL_HEATING_ONOFF';
 const RESERVE_CONTROL_WAKEUP_TIMER_AMPM = 'control/RESERVE_CONTROL_WAKEUP_TIMER_AMPM';
-
+const PUT_SMART_RESERVE_GOOUT_ACTION ='control/PUT_SMART_RESERVE_GOOUT_ACTION';
 // 액션 생성자
 export const initial = createAction(INITIAL);
 export const initialDayOfWeek = createAction(INITIAL_DAYOFWEEK);
@@ -88,15 +88,13 @@ export const setGasStatus = createAction(SET_CONTROL_GAS,WebAPI.setGasStatus);
 export const setReserveControlWakeupTimer = createAction(RESERVE_CONTROL_WAKEUP_TIMER); // form, time
 export const setReserveControlWakeupTimerAMPM = createAction(RESERVE_CONTROL_WAKEUP_TIMER_AMPM); // form, time
 
-
 export const setReserveControlWakeupDayofWeek = createAction(RESERVE_CONTROL_WAKEUP_DAYOFWEEK); // num, check
 export const initializeReserve = createAction(INITIALIZE_RESERVE); 
 export const getSmartReserveGoout = createAction(GET_SMART_RESERVE_GOOUT,WebAPI.getSmartReserveGoout); //
 export const setSmartReserveGoout = createAction(SET_SMART_RESERVE_GOOUT,WebAPI.setSmartReserveGoout); // 
 export const getSmartReserveMorning = createAction(GET_SMART_RESERVE_MORNING,WebAPI.getSmartReserveMorning); // 
 export const setSmartReserveMorning = createAction(SET_SMART_RESERVE_MORNING,WebAPI.setSmartReserveMorning); //
-
-
+export const putSmartReserveGooutAction = createAction(PUT_SMART_RESERVE_GOOUT_ACTION,WebAPI.putSmartReserveGooutAction); // 
 
 const initialState = Map({
     success:Map({
@@ -117,6 +115,7 @@ const initialState = Map({
         status:0
     }),
     reserveControl:Map({
+            gooutActionSuccess:null,
             gooutSuccess:null,
             wakeupSuccess:null,
             goout: Map({
@@ -500,6 +499,20 @@ export default handleActions({
             return state.setIn(['reserveControl','gooutSuccess'],JSON.parse(jsonData).success);
         }
     }),
+    ...pender({
+        type: PUT_SMART_RESERVE_GOOUT_ACTION,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log(jsonData);
+            return state.setIn(['reserveControl','gooutActionSuccess'],JSON.parse(jsonData).success);
+        }
+    }),
+
+
+    
+
+
     ...pender({
         type: GET_SMART_RESERVE_MORNING,
         onSuccess: (state, action) => {

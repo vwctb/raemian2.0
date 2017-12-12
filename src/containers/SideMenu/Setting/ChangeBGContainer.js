@@ -268,7 +268,7 @@ class SettingFamilyContainer extends Component {
                         if(img.height > 3000){
                             ratio=0.2;
                         }
-                        }
+                    }
 
 
 

@@ -164,7 +164,11 @@ class App extends Component {
                 <Route exact path="/auth/setAlrim" component={SetAlrim}/>
                 <Route exact path="/auth/complete" component={Complete}/>
                 <Route exact path="/" component={Home}/>
+                <Switch>
                 <Route exact path="/control/" component={Control}/>
+                <Route exact path="/control/gooutAction/:ok" component={Control}/>
+          
+                </Switch>
                 <Route exact path="/control/light" component={ControlLight}/>
                 <Switch>
                     <Route exact path="/control/heating/:name" component={ControlHeatingItem}/>
