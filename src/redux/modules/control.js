@@ -121,69 +121,11 @@ const initialState = Map({
             goout: Map({
                 use:false,
                 lights: List([
-                    Map({
-                        id: 1,
-                        name:'거실1',
-                        check:false,
-                    }),
-                    Map({
-                        id: 2,
-                        name:'거실2',
-                        check:false,
-                    }),
-                    Map({
-                        id: 3,
-                        name:'안방',
-                        check:false,
-                    }),
-                    Map({
-                        id: 4,
-                        name:'방1',
-                        check:false,
-                    }),
-                    Map({
-                        id: 5,
-                        name:'방2',
-                        check:false,
-                    }),
-                    Map({
-                        id: 6,
-                        name:'방3',
-                        check:false,
-                    }),
+                   
 
                     ]),
                 concents: List([
-                    Map({
-                        id: 1,
-                        name:'거실1',
-                        check:false,
-                    }),
-                    Map({
-                        id: 2,
-                        name:'거실2',
-                        check:false,
-                    }),
-                    Map({
-                        id: 3,
-                        name:'안방',
-                        check:false,
-                    }),
-                    Map({
-                        id: 4,
-                        name:'방1',
-                        check:false,
-                    }),
-                    Map({
-                        id: 5,
-                        name:'방2',
-                        check:false,
-                    }),
-                    Map({
-                        id: 6,
-                        name:'방3',
-                        check:false,
-                    }),
+                    
                 ]),
             }),
             wakeupAMPM:'am',
