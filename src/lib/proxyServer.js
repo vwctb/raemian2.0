@@ -1,4 +1,5 @@
 
 export const getProxyServer = () => {
-    return '211.201.31.134';
+    return '211.36.9.36';
 }
+
