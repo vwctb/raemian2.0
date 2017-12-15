@@ -121,13 +121,11 @@ class FamilyContainers extends Component {
         const data = {
             userkey:userkey,
             jsonData:KEY.encryptedKey(JSON.stringify(jsonData)),
-            headers:{
-                'usertoken':usertoken,
-            }
+            usertoken:usertoken,
         }
         console.log('data:',data);
         try {
-            await AuthActions.deleteFamily(data);
+            await AuthActions.deleteFamilyAfterLogin(data);
         } catch(e) {
             console.log(e);
         }

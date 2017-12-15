@@ -85,9 +85,17 @@ export const login = (value) => axios.post('/smarthome/v1/login',value,{headers:
 });
 
 export const deleteFamily  = (value) => axios.delete(`/smarthome/v1/familys/${value.userkey}`,{
-    headers:value.headers
+    data: { data: value.jsonData }, 
+    headers:{'registtoken':value.registtoken}
 }).catch(function (error) {
     console.log("channel error",error.response);
+});
+
+export const deleteFamilyAfterLogin  = (value) => axios.delete(`/smarthome/v1/familys/${value.userkey}`,{
+    data: { data: value.jsonData }, 
+    headers:{'usertoken':value.usertoken}
+}).catch(function (error) {
+console.log("channel error",error.response);
 });
 
 export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/all',{
@@ -96,9 +104,9 @@ export const setFormatFamily  = (value) => axios.delete('/smarthome/v1/familys/a
     console.log("channel error",error.response);
 });
 
-export const setFormatFamilyAfterLogin  = (value) => axios.delete('/smarthome/v1/familys/all',
-    {data: { data: value.data }, },
-    {headers:{'usertoken':value.usertoken}
+export const setFormatFamilyAfterLogin  = (value) => axios.delete('/smarthome/v1/familys/all',{
+    data: { data: value.data },
+    headers:{'usertoken':value.usertoken}
 }).catch(function (error) {
     console.log("channel error",error.response);
 });

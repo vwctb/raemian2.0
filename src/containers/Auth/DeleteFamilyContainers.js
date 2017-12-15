@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import {FamilyListContainer,BottomBtnContainer} from 'containers/Shared'
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {BtnDoubleModal, Modal, Dimmed, InputWithLabelModal} from 'components/Shared';
 import * as KEY from 'lib/raemianAES';
@@ -103,7 +102,6 @@ class FamilyContainers extends Component {
 
     deleteFamilyClick = (val,alias) => {
         const { UIActions,AuthActions,visible } = this.props;
-        const { history } = this.context.router;
         console.log('deleteFamily click'+val);
 
         AuthActions.setDeleteSelectFamily(val);
@@ -129,17 +127,19 @@ class FamilyContainers extends Component {
     onDelete = async () => {
         const { AuthActions } = this.props;
         const { userkey } = this.props.familyListDelete.toJS();
-        const { authConfirm, uuid } = this.props.base.toJS();
+        const { authConfirm } = this.props.base.toJS();
+
+        const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+
         const jsonData = {
             uuid:uuid
         }
         const data = {
             userkey:userkey,
             jsonData:KEY.encryptedKey(JSON.stringify(jsonData)),
-            headers:{
-                'registtoken':authConfirm.registtoken,
-            }
+            registtoken:authConfirm.registtoken
         }
+        console.log('jsonData:',jsonData);
         console.log('data:',data);
 
         try {
@@ -164,7 +164,8 @@ class FamilyContainers extends Component {
     handleClickFormat = async () => {
         const { AuthActions } = this.props;
         const { pass } = this.props.familyListFormat.toJS();
-        const { uuid,dong,ho } = this.props.base.toJS();
+        const { dong,ho } = this.props.base.toJS();
+        const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
         console.log('pass:',pass);
         const data = {
             dong:dong,

@@ -95,6 +95,7 @@ class App extends Component {
        const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy,pushid:pushid}));
        AuthActions.setUUID(uuid);
        AuthActions.setPUSHID(pushid);
+
         try {
             await AuthActions.postLogin({'data':data}); 
         } catch(e) {
@@ -104,7 +105,6 @@ class App extends Component {
         const {loginUserInfo} = this.props
         const {result,usertoken} = loginUserInfo.toJS();  
         isFirstLoad=false;
-        //console.log('loginUserInfo: ',loginUserInfo);
         if(result === 'fail'){
             history.push('/auth');
         }else{

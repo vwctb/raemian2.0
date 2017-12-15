@@ -44,6 +44,13 @@ const ImageBackground = styled.img`
 `;
 
 const BGBox = ({homebgs, handleImageLoaded}) => {
+    if(homebgs === undefined) {
+        homebgs=Map({
+            desc:'',
+            phototype:'',
+            img:''
+        })
+    }
 
     let { desc, phototype,img } = homebgs.toJS();
    
