@@ -62,6 +62,14 @@ export default (function socketHelper() {
                     });
                 }
 
+                if(value.device === 'gas'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_GAS',
+                        payload:value.items
+                    });
+                }
+
+
                 if(value.device === 'concent'){
                     _store.dispatch({
                         type:'control/RECEIVE_NEW_CONCENT',

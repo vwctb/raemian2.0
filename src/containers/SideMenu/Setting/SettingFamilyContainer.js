@@ -164,10 +164,9 @@ class FamilyContainers extends Component {
         }
         const { success } = this.props.familyListFormat.toJS();
         if(success){
-            const { history } = this.context.router;
             const {  UIActions, visible } = this.props;
             UIActions.setModalVisible(!visible);
-            history.push('/auth');
+            window.location.reload(true);
             setTimeout(() => {
                 modalSW = true;
             },500);

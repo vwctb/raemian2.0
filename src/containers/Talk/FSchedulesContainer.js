@@ -114,7 +114,7 @@ class FSchedulesContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
     }
-
+  
 
     HandleClickAddSchedule = () => {
         const{ history } = this.context.router;

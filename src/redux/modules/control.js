@@ -20,6 +20,7 @@ const GET_INITIAL_GAS = 'control/GET_INITIAL_GAS';
 const RECEIVE_NEW_LIGHT='control/RECEIVE_NEW_LIGHT';
 const RECEIVE_NEW_HEATING='control/RECEIVE_NEW_HEATING';
 const RECEIVE_NEW_CONCENT='control/RECEIVE_NEW_CONCENT';
+const RECEIVE_NEW_GAS='control/RECEIVE_NEW_GAS';
 const RECEIVE_NEW_GUARD='control/RECEIVE_NEW_GUARD';
 const RECEIVE_NEW_BATCHOFF = 'control/RECEIVE_NEW_BATCHOFF';
 
@@ -69,6 +70,9 @@ export const receiveNewLight = createAction(RECEIVE_NEW_LIGHT);
 export const receiveNewHeating = createAction(RECEIVE_NEW_LIGHT);
 export const receiveNewConcent = createAction(RECEIVE_NEW_CONCENT);
 export const receiveNewBatchoff = createAction(RECEIVE_NEW_BATCHOFF);
+export const receiveNewGas = createAction(RECEIVE_NEW_GAS);
+
+
 
 
 export const updateHeatingCondition = createAction(UPDATE_HEATING_CONDITION, WebAPI.updateHeatingCondition);
@@ -262,6 +266,11 @@ export default handleActions({
         return state.setIn(['data_guard','status'], fromJS(action.payload));
     },
 
+    [RECEIVE_NEW_GAS]: (state, action) => {
+        return state.set('data_gas', fromJS(action.payload));
+    },
+
+
     [SET_CONTROL_SPINNER_VISIBLE]: (state, action) => {
         return state.set('spinner', action.payload);
     },
@@ -323,15 +332,6 @@ export default handleActions({
             const data = JSON.parse(jsonData);
             console.log('data:',data);
             return state.setIn(['data_guard','status'],fromJS(data.status)).setIn(['success','control_guard_success'],true);
-        }
-    }),
-    ...pender({
-        type: SET_CONTROL_GAS,
-        onSuccess: (state, action) => {
-            const jsonData = KEY.decryptedKey(action.payload.data.data);
-            const data = JSON.parse(jsonData);
-            // const index = Number(data.items[0].id)-1;
-            return state.setIn(['data_gas',0],fromJS(data.items));
         }
     }),
     ...pender({
