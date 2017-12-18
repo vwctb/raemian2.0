@@ -146,17 +146,17 @@ class FamilyContainers extends Component {
          
     handleClickFormat = async () => {
         const { AuthActions } = this.props;
-        const { pass } = this.props.familyListFormat.toJS();
-        const { uuid,dong,ho } = this.props.base.toJS();
+        const { uuid,dong,ho,pass } = this.props.base.toJS();
         console.log('pass:',pass);
         const data = {
             dong:dong,
             ho:ho,
-            pass:KEY.encryptedKey(pass)
+            pass:KEY.encryptedKey(pass),
         }
         const jsonData = KEY.encryptedKey(JSON.stringify(data));
         const { usertoken } = this.props.loginUserInfo.toJS();
         console.log('data:',data);
+        console.log('usertoken:',usertoken);
         try {
             await AuthActions.setFormatFamilyAfterLogin({data:jsonData,usertoken:usertoken});
         } catch(e) {

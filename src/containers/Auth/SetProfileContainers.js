@@ -115,6 +115,8 @@ class SetProfileContainers extends Component {
         if(success){
             history.push('/auth/complete');
         }else{
+
+
             alert('회원가입실패');
         }
     }
@@ -247,7 +249,7 @@ class SetProfileContainers extends Component {
                 </Wrapper>
 
                 <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
-                    <div>
+                    <div> 
                         <MainNotice>
                             선택하신 색상은 다른 가족과<br/>
                             이미 연동되어 있습니다.<br/>

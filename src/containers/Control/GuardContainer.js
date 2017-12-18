@@ -164,7 +164,8 @@ class ControlHeating extends Component {
                     :
                     <div>
                         <MainNotice>
-                            방범설정에 실패하였습니다.
+                            방범설정에 실패하였습니다.<br/>
+                           
                         </MainNotice>
 
                         <BtnSingleModal

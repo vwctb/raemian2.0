@@ -91,13 +91,13 @@ const GuardItem = ({guard}) => (
             <Condition>
                 {guard === 1 && '외출'}
                 {guard === 2 && '재택'}
-                {guard === 0 && '해제'}
+                {(guard === 0 || guard === 3) && '해제'}
             </Condition>
         </Icon>
         <Title>
              {guard === 1 && '외출 방범이 설정되어 있습니다.'}
              {guard === 2 && '재택 방범이 설정되어 있습니다.'}
-             {guard === 0 && '방범이 해제되어 있습니다.'}
+             {(guard === 0 || guard === 3) && '방범이 해제되어 있습니다.'}
         </Title>
         <SubTitle>
             안전상의 이유로 방범 해제는<br/> 세대내 월패드에서만 가능합니다.

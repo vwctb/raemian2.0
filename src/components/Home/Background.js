@@ -55,7 +55,7 @@ const BGBox = ({homebgs, handleImageLoaded}) => {
     let { desc, phototype,img } = homebgs.toJS();
    
     if(desc === null || desc === ''){
-        desc = '행복한 레미안 하우스';
+        desc = '행복한 래미안 하우스';
     }
 
     return (
