@@ -57,7 +57,7 @@ class CCTVContent extends Component {
         return (
             <Wrapper>
                 <Body>{name}</Body>
-                <Image src={url}/>
+                <Image src={url} innerRef={ref=>window.cctvRef=ref} />
             </Wrapper>
         )
     }

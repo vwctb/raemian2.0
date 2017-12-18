@@ -4,7 +4,7 @@ import * as uiActions from 'redux/modules/ui';
 import * as listviewAction from 'redux/modules/listview';
 import CCTVContent from 'components/ListView/CCTVContent';
 import { bindActionCreators } from 'redux';
-
+let interval;
 class ListViewCCTVContent extends Component {
     async componentDidMount() {
         const { UIActions,ListViewActions, match } = this.props;
@@ -20,7 +20,25 @@ class ListViewCCTVContent extends Component {
         }
         console.log(match.params)
         UIActions.setSpinnerVisible(false);
+        interval =  setInterval(this.imageRefresh, 400);
     }
+
+    componentWillUnmount(){
+        clearInterval(interval);
+    }
+
+ 
+    imageRefresh=()=>{
+        let {url} = this.props.data_content;
+        if(url.indexOf("&dummy") >= 0){
+            url = url.substring(0, url.indexOf("&dummy"));
+        }
+        var tmp = new Date();
+        url += "&dummy="+tmp.getTime();
+        window.cctvRef.src=url;
+        
+    }
+
     render() {
         const {match, data_content} = this.props;
         return (
