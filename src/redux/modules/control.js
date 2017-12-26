@@ -292,6 +292,7 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log('jsonData2 :',jsonData);
+          
             return state.setIn(['success','control_batch_success'],fromJS(data.success));
         }
     }),
@@ -304,6 +305,7 @@ export default handleActions({
         console.log(action.payload);
         console.log(data);
         //console.log('tempdata:',tempdata);
+        
         return state.set('data_lights',fromJS(data.items)).setIn(['success','control_light_success'],data.success);
         }
     }),
@@ -314,6 +316,7 @@ export default handleActions({
             const data = JSON.parse(jsonData);
             console.log(action.payload);
             console.log(data);
+            
             return state.set('data_heatings',fromJS(data.items));
         }
     }),
@@ -322,6 +325,9 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
             return state.set('data_heatings',fromJS(data.items));
         }
     }),
@@ -331,6 +337,9 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log('data:',data);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
             return state.setIn(['data_guard','status'],fromJS(data.status)).setIn(['success','control_guard_success'],true);
         }
     }),
@@ -340,6 +349,9 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log('data:',data);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
             return state.set('data_gas',fromJS(data.items));
         }
     }),
@@ -360,6 +372,10 @@ export default handleActions({
         onSuccess: (state, action) => {
              const jsonData = KEY.decryptedKey(action.payload.data.data);
              const data = JSON.parse(jsonData);
+             console.log('data:',data);
+             if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+               // window.location.reload(true);
+            }
              return state.set('data_lights',fromJS(data.items));
         }
     }),
@@ -370,6 +386,9 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log('jsonData',jsonData);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
             return state.set('data_concents',fromJS(data.items));
        }
     }),
@@ -438,7 +457,7 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log(jsonData);
-            return state.setIn(['reserveControl','gooutSuccess'],JSON.parse(jsonData).success);
+            return state.setIn(['reserveControl','gooutSuccess'],data.success);
         }
     }),
     ...pender({
@@ -447,7 +466,7 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log(jsonData);
-            return state.setIn(['reserveControl','gooutActionSuccess'],JSON.parse(jsonData).success);
+            return state.setIn(['reserveControl','gooutActionSuccess'],data.success);
         }
     }),
 
@@ -469,6 +488,10 @@ export default handleActions({
                 minute:data.minute
             }
             console.log('result:',result);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
+
             const ampm = data.hour > 12 ? 'pm' : 'am';
             return state.setIn(['reserveControl','wakeup'],fromJS(result)).setIn(['reserveControl','wakeupAMPM'],ampm);
         }

@@ -352,6 +352,7 @@ export default handleActions({
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             console.log('jsonData',JSON.parse(jsonData).fschedules);
+
             return state.setIn(['loginUserInfo','newalarms'], fromJS(JSON.parse(jsonData).newalarms)).setIn(['loginUserInfo','fschedules'], fromJS(JSON.parse(jsonData).fschedules));
         }
     }),
@@ -362,6 +363,7 @@ export default handleActions({
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             //console.log(jsonData);
             //const jsonDatalength = (JSON.parse(jsonData).items).length;
+           
             return state.setIn(['setting','familyList'], fromJS(JSON.parse(jsonData).items));
         }
     }),
@@ -369,6 +371,7 @@ export default handleActions({
         type: GET_INITIAL_PROFILE,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
+           
             return state.setIn(['register', 'base', 'profile'], fromJS(JSON.parse(jsonData)));
         }
     }),
@@ -479,6 +482,7 @@ export default handleActions({
                     success:false
                 }
             }
+          
             return state.setIn(['setting', 'homebgs'], fromJS(JSON.parse(jsonData)));
         }
     }),

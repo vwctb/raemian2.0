@@ -12,17 +12,18 @@ import * as authActions from 'redux/modules/auth';
 //import GibberishAES from 'aes';
 class Home extends Component {
     endCursor = 0
+
+
+
     async componentDidMount() {
-        // 초기 메모 로딩
-        try {
-           // await Promise.all([HomeActions.getInitialFschedules(),HomeActions.getInitialNewalarms()]);
-           // this.getRecentMemo();
-           
-           
-        } catch(e) {
-            console.log(e);
-        }
+        const { UIActions, match, ListViewActions } = this.props;
+        
+        console.log('match.params.mode:',match.params.mode);
+        
+      
     }
+
+
 
     render() {
         const {handleClick, newTalk} = this.props;

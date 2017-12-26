@@ -37,11 +37,11 @@ class App extends Component {
         //alert('uuid3:'+window.deviceId);
         const { loginUserInfo } = this.props
         const { usertoken } = loginUserInfo.toJS();   
-        if(usertoken === null){
+       // if(usertoken === null){
             if(!history.location.pathname.match('auth')){
                 this.login();
             }
-        }
+       // }
         //document.addEventListener("resume", this.onResume, false);
         document.addEventListener("deviceready", this.onResume, false);
         //document.addEventListener("pause", this.onPause, false);
@@ -122,8 +122,8 @@ class App extends Component {
         const { history } = this.context.router;        
         const { HomeActions,UIActions,loginUserInfo } = this.props;
         const { usertoken } = loginUserInfo.toJS();  
-        UIActions.getNewTalks(usertoken);
         if(!history.location.pathname.match('auth')){
+            UIActions.getNewTalks(usertoken);
             if(storage.get('screenLockUse')){
                 HomeActions.setLockVisible(true);
             }
@@ -167,7 +167,6 @@ class App extends Component {
                 <Switch>
                 <Route exact path="/control/" component={Control}/>
                 <Route exact path="/control/ReserveControlGoout/gooutAction/:ok" component={ReserveControlGoout}/>
-          
                 </Switch>
                 <Route exact path="/control/light" component={ControlLight}/>
                 <Switch>

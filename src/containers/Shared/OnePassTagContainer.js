@@ -75,17 +75,19 @@ class OnePassTagContainer extends Component {
                     />
                 </TagSpace>
                 <TagSpace>
-                    {tagcolor === 'blue' && $CheckIcon}
-                    <ColorTag
-                        onClick={()=>onClickEvent('blue')}
-                        tagcolor={'blue'}
-                    />
-                </TagSpace>
-                <TagSpace>
                     {tagcolor === 'green' && $CheckIcon}
                     <ColorTag
                         onClick={()=>onClickEvent('green')}
                         tagcolor={'green'}
+                    />
+                    
+                </TagSpace>
+                <TagSpace>
+                    
+                    {tagcolor === 'blue' && $CheckIcon}
+                    <ColorTag
+                        onClick={()=>onClickEvent('blue')}
+                        tagcolor={'blue'}
                     />
                 </TagSpace>
                 <TagSpace>
