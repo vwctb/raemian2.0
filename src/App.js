@@ -85,9 +85,6 @@ class App extends Component {
         const { history } = this.context.router;
         const { AuthActions, UIActions} = this.props;
 
-        if(history.location.pathname.match('control')){
-            return;
-        }
         
         UIActions.setSpinnerVisible(true);
         const dummy = new Date().getTime();
