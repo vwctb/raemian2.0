@@ -76,9 +76,11 @@ class App extends Component {
                 HomeActions.setLockVisible(true);
             }
         }
+        this.login();
     }
 
     login = async()=>{
+        alert();
         console.log('login');
         const { history } = this.context.router;
         const { AuthActions, UIActions} = this.props;
