@@ -80,7 +80,7 @@ class App extends Component {
     }
 
     login = async()=>{
-        alert();
+
         console.log('login');
         const { history } = this.context.router;
         const { AuthActions, UIActions} = this.props;
