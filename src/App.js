@@ -57,7 +57,7 @@ class App extends Component {
             UIActions.getNewTalks(usertoken);
             if(!history.location.pathname.match('auth')){
                 if(usertoken === undefined || usertoken === null){
-                    this.login();
+                    //this.login();
                 }
             }
 
