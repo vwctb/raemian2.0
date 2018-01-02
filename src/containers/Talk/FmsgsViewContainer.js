@@ -31,16 +31,16 @@ class FmsgsWriteContainer extends Component {
         if(deleteSuccess){
             const{ history } = this.context.router;
             const {TalkActions} = this.props;
-
             TalkActions.setInitalFmsgsView();
             history.push('/talk/fmsgs');
         }
-
-
     }
 
     HandleClickWrite = () => {
         const{ history } = this.context.router;
+        const {TalkActions} = this.props;
+        const { seq } = this.props.msgViewData.toJS();
+        TalkActions.setFmsgsWriteReceiverkey(seq);
         history.push('/talk/fmsgs/write');
     }
 

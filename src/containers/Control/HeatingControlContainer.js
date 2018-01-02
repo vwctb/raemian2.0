@@ -32,8 +32,8 @@ class ControlHeating extends Component {
     }
     /*
     handleUpdate = async () => {
-        const { ControlActions, heatingitem } = this.props;
-        const { id, status, name, configTemp, currentTemp } = heatingitem.toJS();
+        const { ControlActions, controlitem } = this.props;
+        const { id, status, name, configTemp, currentTemp } = controlitem.toJS();
         try {
             await ControlActions.updateHeatingCondition({
                 id,
@@ -53,14 +53,14 @@ class ControlHeating extends Component {
 
     handleClick = () => {
         const { UIActions } = this.props;
-        const { status } = this.props.heatingitem.toJS();
+        const { status } = this.props.controlitem.toJS();
         let setStatus = (status === 'on') ? 'off': 'on';
         UIActions.setControlStatus({setStatus});
     }
 
     handleUpdate = async ()=>{
-        const { ControlActions, heatingitem, UIActions, visible } = this.props;
-        const { id, status, name, configTemp, currentTemp } = heatingitem.toJS();
+        const { ControlActions, controlitem, UIActions, visible } = this.props;
+        const { id, status, name, configTemp, currentTemp } = controlitem.toJS();
         const jsonDataControl = {
             id:id,
             configTemp:configTemp
@@ -70,12 +70,15 @@ class ControlHeating extends Component {
             id:id,
             status:status
         }
+        
         const dataControl = KEY.encryptedKey(JSON.stringify(jsonDataControl));
         const dataOnoff = KEY.encryptedKey(JSON.stringify(jsonDataOnoff));
         const { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setSpinnerVisible(true);
         console.log('jsonDataControl: ',jsonDataControl);
         console.log('jsonDataOnoff: ',jsonDataOnoff);
+
+        
         try {
             await ControlActions.setControlHeatingOnOff({data:dataControl,usertoken:usertoken});
             await ControlActions.setControlHeatingOnOff({data:dataOnoff,usertoken:usertoken});
@@ -83,6 +86,14 @@ class ControlHeating extends Component {
         } catch(e) {
             console.log(e);
         }
+
+        const data = 'all';
+        try {
+            await ControlActions.getInitialHeatings({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+
 
         const{ history } = this.context.router;
         history.push('/control/heating');
@@ -106,12 +117,12 @@ class ControlHeating extends Component {
 
 
     render() {
-        const {heatingitem} = this.props;
+        const {controlitem} = this.props;
         const {handleUpdate,handleClick,handleChange,visible} = this;
         return (
             <Wrapper>
                 <ControlSlider 
-                    heatingitem ={heatingitem}
+                    controlitem ={controlitem}
                     handleClick = {handleClick}
                     controlType = {'heating'}
                     handleChange={handleChange}
@@ -140,7 +151,7 @@ class ControlHeating extends Component {
 
 export default connect(
     (state) => ({
-        heatingitem: state.ui.getIn(['control','nowSelectItem']),
+        controlitem: state.ui.getIn(['control','nowSelectItem']),
         loginUserInfo: state.auth.get('loginUserInfo'),
         visible: state.ui.getIn(['modal','visible'])
 

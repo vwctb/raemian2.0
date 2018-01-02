@@ -19,6 +19,7 @@ const GET_INITIAL_GAS = 'control/GET_INITIAL_GAS';
 
 const RECEIVE_NEW_LIGHT='control/RECEIVE_NEW_LIGHT';
 const RECEIVE_NEW_HEATING='control/RECEIVE_NEW_HEATING';
+const RECEIVE_NEW_AIRCON='control/RECEIVE_NEW_AIRCON';
 const RECEIVE_NEW_CONCENT='control/RECEIVE_NEW_CONCENT';
 const RECEIVE_NEW_GAS='control/RECEIVE_NEW_GAS';
 const RECEIVE_NEW_GUARD='control/RECEIVE_NEW_GUARD';
@@ -47,6 +48,8 @@ const GET_SMART_RESERVE_MORNING = 'control/GET_SMART_RESERVE_MORNING';
 const SET_SMART_RESERVE_MORNING = 'control/SET_SMART_RESERVE_MORNING';
 const INITIALIZE_RESERVE = 'control/INITIALIZE_RESERVE';
 const SET_CONTROL_HEATING_ONOFF = 'control/SET_CONTROL_HEATING_ONOFF';
+const SET_CONTROL_AIRCON_ONOFF = 'control/SET_CONTROL_AIRCON_ONOFF';
+
 const RESERVE_CONTROL_WAKEUP_TIMER_AMPM = 'control/RESERVE_CONTROL_WAKEUP_TIMER_AMPM';
 const PUT_SMART_RESERVE_GOOUT_ACTION ='control/PUT_SMART_RESERVE_GOOUT_ACTION';
 // 액션 생성자
@@ -67,11 +70,11 @@ export const getInitialBatch = createAction(GET_INITIAL_BATCH, WebAPI.getInitial
 
 
 export const receiveNewLight = createAction(RECEIVE_NEW_LIGHT);
-export const receiveNewHeating = createAction(RECEIVE_NEW_LIGHT);
+export const receiveNewHeating = createAction(RECEIVE_NEW_HEATING);
 export const receiveNewConcent = createAction(RECEIVE_NEW_CONCENT);
 export const receiveNewBatchoff = createAction(RECEIVE_NEW_BATCHOFF);
 export const receiveNewGas = createAction(RECEIVE_NEW_GAS);
-
+export const receiveNewAircon = createAction(RECEIVE_NEW_AIRCON);
 
 
 
@@ -86,6 +89,8 @@ export const setCheckboxReserveControl = createAction(CHECKBOX_RESERVE_CONTROL);
 export const setBachOff = createAction(SET_CONTROL_BACHOFF,WebAPI.setBachOff); //true false
 export const setControlLightOnOff = createAction(SET_CONTROL_LIGHT_ONOFF,WebAPI.setControlLightOnOff); 
 export const setControlHeatingOnOff = createAction(SET_CONTROL_HEATING_ONOFF,WebAPI.setControlHeatingOnOff); 
+export const setControlAirconOnOff = createAction(SET_CONTROL_AIRCON_ONOFF,WebAPI.setControlAirconOnOff); 
+
 export const setControlConcentOnOff = createAction(SET_CONTROL_CONCENT_ONOFF,WebAPI.setControlConcentOnOff); 
 export const setControlGuard = createAction(SET_CONTROL_GUARD,WebAPI.setControlGuard); 
 export const setGasStatus = createAction(SET_CONTROL_GAS,WebAPI.setGasStatus); 
@@ -259,6 +264,9 @@ export default handleActions({
     [RECEIVE_NEW_HEATING]: (state, action) => {
         return state.set('data_heatings', fromJS(action.payload));
     },
+    [RECEIVE_NEW_AIRCON]: (state, action) => {
+        return state.set('data_aircons', fromJS(action.payload));
+    },
     [RECEIVE_NEW_CONCENT]: (state, action) => {
         return state.set('data_concents', fromJS(action.payload));
     },
@@ -309,17 +317,20 @@ export default handleActions({
         return state.set('data_lights',fromJS(data.items)).setIn(['success','control_light_success'],data.success);
         }
     }),
+   
     ...pender({
         type: SET_CONTROL_HEATING_ONOFF,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
             console.log(action.payload);
-            console.log(data);
-            
-            return state.set('data_heatings',fromJS(data.items));
+    
+            const index = state.get('data_heatings').findIndex(familyList => familyList.get('id') === data.items[0].id);
+            console.log('index:',index);
+            return state.setIn(['data_heatings',index],fromJS(data.items));
         }
     }),
+   
     ...pender({
         type: GET_INITIAL_HEATINGS,
         onSuccess: (state, action) => {
@@ -328,9 +339,38 @@ export default handleActions({
             if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
                 window.location.reload(true);
             }
+            console.log('init');
+            console.log('data.items:',data.items);
             return state.set('data_heatings',fromJS(data.items));
         }
     }),
+/*
+    ...pender({
+        type: SET_CONTROL_AIRCON_ONOFF,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log(action.payload);
+            console.log(data);
+            
+            return state.set('data_aircons',fromJS(data.items));
+        }
+    }),
+    */
+    ...pender({
+        type: GET_INITIAL_AIRCONS,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData);
+            console.log('action.payload:',action.payload);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
+            return state.set('data_aircons',fromJS(data.items));
+        }
+    }),
+
+
     ...pender({
         type: GET_INITIAL_GUARD,
         onSuccess: (state, action) => {
@@ -362,10 +402,6 @@ export default handleActions({
             const data = JSON.parse(jsonData);
             return state.set('batchoff',data.status);
         }
-    }),
-    ...pender({
-        type: GET_INITIAL_AIRCONS,
-        onSuccess: (state, action) => state.set('data_aircons', fromJS(action.payload.data))
     }),
     ...pender({
         type: GET_INITIAL_LIGHTS,

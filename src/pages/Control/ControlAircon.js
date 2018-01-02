@@ -7,15 +7,24 @@ import { AirconsContainer } from 'containers/Control';
 
 class ControlAircon extends Component {
     async componentDidMount() {
-        const { UIActions, ControlActions, auth, loginUserInfo} = this.props;
+        const { UIActions, ControlActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'에어컨'});
+        
+        const data = 'all';
+
+        
         try {
-            //await ControlActions.getInitialHeatings({usertoken:loginUserInfo.usertoken});
-            await ControlActions.getInitialAircons();
-        } catch(e) {
+            UIActions.setSpinnerVisible(true);
+            await ControlActions.getInitialAircons({data:data,usertoken:usertoken});
+        }catch(e) {
             console.log(e);
         }
+
+        UIActions.setSpinnerVisible(false);
+
+
     }
 
     render() {

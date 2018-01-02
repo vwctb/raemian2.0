@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { BtnDouble } from 'components/Shared';
 import * as uiActions from 'redux/modules/ui';
 import * as controlActions from 'redux/modules/control';
-
+import * as KEY from 'lib/raemianAES';
 const Wrapper = styled.div`
     /* 레이아웃 */
     display: flex;
@@ -24,18 +24,28 @@ const Wrapper = styled.div`
     font-size: 1.3rem;
 `;
 
-class ControlHeatingContainer extends Component {
+class ControlAirconContainer extends Component {
 
     handleUpdate = (allon) => {
         const { ControlActions } = this.props;
     }
 
-    onClickEvent1 = () => {
-        console.log('click1');
-    }
 
-    onClickEvent2 = () => {
-        console.log('click2');
+    handleControlAll = async (status)=>{
+        const jsonData = {
+            id:'all',
+            status:status
+        }
+        const data = KEY.encryptedKey(JSON.stringify(jsonData));
+        const { ControlActions, UIActions } = this.props;
+        const {usertoken} = this.props.loginUserInfo.toJS();
+        UIActions.setSpinnerVisible(true);
+        try {
+            await ControlActions.setControlAirconOnOff({data:data,usertoken:usertoken});
+        } catch(e) {
+            console.log(e);
+        }
+        UIActions.setSpinnerVisible(false);
     }
 
 
@@ -51,10 +61,10 @@ class ControlHeatingContainer extends Component {
                     />
                     <BtnDouble
                         name1={'전체켜기'}
-                        onClickEvent1={onClickEvent1} 
+                        onClickEvent1={()=>this.handleControlAll('on')}
                         color1={'50bbcd'} 
                         name2={'전체끄기'}
-                        onClickEvent2={onClickEvent2}
+                        onClickEvent2={()=>this.handleControlAll('off')}
                         color2={'cccbca'} 
                     />
                        
@@ -65,10 +75,11 @@ class ControlHeatingContainer extends Component {
 
 export default connect(
     (state) => ({
-        controlSliderItemListArray: state.control.get('data_aircons')
+        controlSliderItemListArray: state.control.get('data_aircons'),
+        loginUserInfo: state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({
          UIActions: bindActionCreators(uiActions, dispatch),
          ControlActions: bindActionCreators(controlActions, dispatch),
     })
-)(ControlHeatingContainer);
+)(ControlAirconContainer);

@@ -36,6 +36,7 @@ const FORMAT_FAMILY = 'auth/FORMAT_FAMILY';
 const FORMAT_INPUT = 'auth/FORMAT_INPUT';
 
 const CHECK_TAG_COLOR = 'auth/CHECK_TAG_COLOR';
+const RE_AUTH = 'auth/RE_AUTH';
 
 export const initial = createAction(INITIAL);
 export const checkTagColor = createAction(CHECK_TAG_COLOR,AuthAPI.checkTagColor); //{ tagcolor }
@@ -64,6 +65,8 @@ export const setDeleteSelectFamilyAlias = createAction(SET_DELETE_SELECT_FAMILY_
 export const setFormatFamily = createAction(FORMAT_FAMILY,AuthAPI.setFormatFamily); // dong ho pass(암호화된 외부비밀번호)
 
 export const setFormatFamilyAfterLogin = createAction(FORMAT_FAMILY,AuthAPI.setFormatFamilyAfterLogin);
+export const reAuth = createAction(RE_AUTH,AuthAPI.reAuth); // { visible }
+
 
 
 
@@ -92,6 +95,7 @@ const PUT_CPS = 'setting/PUT_CPS';
 const GET_ALARMS = 'setting/GET_ALARMS';
 const SET_ALARMS = 'setting/SET_ALARMS';
 
+
 export const getInitialProfile = createAction(GET_INITIAL_PROFILE,AuthAPI.getInitialProfile); // { usertoken }
 export const setSettingProfile = createAction(SET_SETTING_PROFILE,AuthAPI.setSettingProfile); // { usertoken, }
 export const getHomeBgs = createAction(GET_HOMEBGS,AuthAPI.getHomeBgs); // { usertoken }
@@ -105,9 +109,13 @@ export const putCPS = createAction(PUT_CPS,AuthAPI.putCPS); // { visible }
 export const getAlarms= createAction(GET_ALARMS,AuthAPI.getAlarms); // { visible }
 export const setAlarms = createAction(SET_ALARMS,AuthAPI.setAlarms); // { visible }
 
+
+
+
 const initialState = Map({
     ver:'201700102A',
     checkTagColor:false,
+    reAuthSuccess:false,
     loginUserInfo:Map({
         fschedules:List([]),
         result:"fail",
@@ -551,11 +559,18 @@ export default handleActions({
             const data = JSON.parse(jsonData).flag;
             return state.set('checkTagColor', data);
         }
+    }),
+    ...pender({
+        type: RE_AUTH,
+        onSuccess: (state, action) =>{
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            const data = JSON.parse(jsonData).success;
+            return state.set('reAuthSuccess', data);
+        }
     })
-
     
 
-
+    
     
     
 

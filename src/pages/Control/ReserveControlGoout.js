@@ -9,7 +9,7 @@ import { ReserveControlGooutContainer } from 'containers/Control';
 import * as KEY from 'lib/raemianAES';
 class ReserveControlGoout extends Component {
     async componentDidMount() {
-        const { UIActions,ControlActions,match } = this.props;
+        const { UIActions } = this.props;
         let { usertoken } = this.props.loginUserInfo.toJS();
         UIActions.setPageType({pageType:'/control'});
         UIActions.setHeaderTitle({title:'외출할 때 설정'});
@@ -32,14 +32,7 @@ class ReserveControlGoout extends Component {
             UIActions.setSpinnerVisible(false);
             usertoken = this.props.loginUserInfo.get('usertoken');
         }
-        if (match.params.ok === 'ok'){
-            try {
-                await ControlActions.getSmartReserveGoout(usertoken);
-                await ControlActions.putSmartReserveGooutAction(usertoken);
-            }catch(e) {
-                console.log(e);
-            }
-        }
+       
 
     }
 

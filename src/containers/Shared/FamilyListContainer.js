@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
 class FamilyListContainer extends Component {
     render() {
-        const { familyListArray,UIActions,familyClick,addFamilyClick,profile,deleteFamilyClick } = this.props;
+        const { familyListArray,UIActions,familyClick,addFamilyClick,reAuthClick,profile,deleteFamilyClick } = this.props;
         return (
             <Wrapper>
                 <FamilyList
@@ -28,6 +28,7 @@ class FamilyListContainer extends Component {
                     addFamilyClick={addFamilyClick}
                     familyClick={familyClick}
                     deleteFamilyClick={deleteFamilyClick}
+                    reAuthClick={reAuthClick}
                 />
             </Wrapper>
         );

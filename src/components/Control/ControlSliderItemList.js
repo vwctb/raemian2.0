@@ -9,6 +9,7 @@ const Wrapper = styled.div`
      top:3.5rem;
      bottom:4rem;
      overflow-y:auto;
+     width:100%;
 `;
 
 const ItemListWrapper = styled.div`

@@ -13,14 +13,25 @@ class FmsgsWrite extends Component {
         UIActions.setPageType({pageType:'/talk/fmsgs'});
         UIActions.setHeaderTitle({title:'새 메시지 작성'});
         UIActions.setSpinnerVisible(true);
-        TalkActions.setInitalFmsgsWrite();
+       
+        console.log('this.props.receiverkey:',this.props.receiverkey);
         try {
-            await TalkActions.initial('fmsgs');
+            if(this.props.receiverkey.size < 1){
+                await TalkActions.setInitalFmsgsWrite();
+                //await TalkActions.initial('fmsgs');
+            }
+
             await TalkActions.getFmsgsFamilysList(usertoken);
         }catch(e){
             console.log(e);
         }
         UIActions.setSpinnerVisible(false);
+    }
+
+
+    componentWillUnmount(){
+        const {TalkActions} = this.props;
+        TalkActions.setInitalFmsgsWrite();
     }
 
     render() {
@@ -32,6 +43,7 @@ class FmsgsWrite extends Component {
 
 export default connect(
     (state) => ({
+        receiverkey: state.talk.getIn(['fmsgs','write','receiverkey']),
         loginUserInfo: state.auth.get('loginUserInfo')
     }),
     (dispatch) => ({

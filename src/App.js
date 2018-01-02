@@ -166,7 +166,7 @@ class App extends Component {
                 <Route exact path="/" component={Home}/>
                 <Switch>
                 <Route exact path="/control/" component={Control}/>
-                <Route exact path="/control/ReserveControlGoout/gooutAction/:ok" component={ReserveControlGoout}/>
+                <Route exact path="/control/gooutAction/:ok" component={Control}/>
                 </Switch>
                 <Route exact path="/control/light" component={ControlLight}/>
                 <Switch>

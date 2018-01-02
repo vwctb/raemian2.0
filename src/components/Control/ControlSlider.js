@@ -118,7 +118,7 @@ class ControllSlider extends Component {
     }
    
     componentDidMount() {
-        const { configTemp, status } = this.props.heatingitem.toJS();
+        const { configTemp, status } = this.props.controlitem.toJS();
         const { handleClick, handleChange } = this.props;
         //const {handleClick} = this;
 
@@ -150,7 +150,7 @@ class ControllSlider extends Component {
 
 
     render() {
-        const {id, name, status, configTemp, currentTemp} = this.props.heatingitem.toJS();
+        const {id, name, status, configTemp, currentTemp} = this.props.controlitem.toJS();
         const {controlType, handleClick} = this.props;
         return (
        <div>

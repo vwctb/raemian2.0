@@ -62,6 +62,15 @@ export default (function socketHelper() {
                     });
                 }
 
+
+                if(value.device === 'aircon'){
+                    _store.dispatch({
+                        type:'control/RECEIVE_NEW_AIRCON',
+                        payload:value.items
+                    });
+                }
+
+
                 if(value.device === 'gas'){
                     _store.dispatch({
                         type:'control/RECEIVE_NEW_GAS',

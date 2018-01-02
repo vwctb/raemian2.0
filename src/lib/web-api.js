@@ -74,7 +74,9 @@ export const getAuth = (value) => axios.post('/smarthome/v1/auths',value,{header
     console.log("channel error",error.response);
 });
 
-
+export const reAuth = (value) => axios.put('/smarthome/v1/familys/'+value.userkey,{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','registtoken':value.registtoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
 
 export const regists = (value) => axios.post('/smarthome/v1/regists',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
     console.log("channel error",error.response);
@@ -122,7 +124,10 @@ export const getInitialHeatings = (value) => axios.get('/smarthome/v1/heatings?i
     console.log("channel error",error.response);
 });
 
-export const getInitialAircons = () => axios.get('http://localhost:3001/aircon'); 
+export const getInitialAircons = (value) => axios.get('/smarthome/v1/aircons?id='+value.data,{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
 export const getInitialLights =  (usertoken) => axios.get('/smarthome/v1/lights',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
@@ -147,6 +152,10 @@ export const setControlLightOnOff = (value) => axios.post('/smarthome/v1/lights'
 });
 
 export const setControlHeatingOnOff = (value) => axios.post('/smarthome/v1/heatings',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const setControlAirconOnOff = (value) => axios.post('/smarthome/v1/aircons',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
 

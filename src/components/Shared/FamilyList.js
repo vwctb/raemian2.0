@@ -77,7 +77,7 @@ const DeleteBtn = styled.div`
     }
 `;
 
-const FamilyList = ({familyListArray,onCheck,profile,familyClick,addFamilyClick,deleteFamilyClick}) => {
+const FamilyList = ({familyListArray,onCheck,profile,familyClick,reAuthClick,addFamilyClick,deleteFamilyClick}) => {
     let FamilyItemList = familyListArray.map(
         familyList => (
             
@@ -103,7 +103,7 @@ const FamilyList = ({familyListArray,onCheck,profile,familyClick,addFamilyClick,
 
             <ItemSpace
                 key={Number(familyList.get('userkey'))}
-                onClick={()=>familyClick(familyList.get('userkey'))}
+                onClick={()=>reAuthClick(familyList.get('userkey'),familyList.get('alias'))}
             >
                 <FamilyItem
                     familyListArray={familyListArray}

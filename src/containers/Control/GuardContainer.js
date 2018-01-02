@@ -135,7 +135,7 @@ class ControlHeating extends Component {
                 {    
                     guard === 0 && 
                     <BtnSingle
-                        name={'외출 방법 설정'}
+                        name={'외출 방범 설정'}
                         onClickEvent={()=>{this.handleClickModalOpen()}} 
                         color={'ff8062'} 
                     />

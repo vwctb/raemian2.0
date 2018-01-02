@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 class ControlHome extends Component {
 
     async componentDidMount() {
-        const { UIActions, ControlActions} = this.props;
+        const { UIActions, ControlActions, match} = this.props;
         let { usertoken } = this.props.loginUserInfo.toJS();
         
         ControlActions.initializeReserve();
@@ -66,7 +66,14 @@ class ControlHome extends Component {
         }
 
       
-          
+        if (match.params.ok === 'ok'){
+            try {
+                await ControlActions.getSmartReserveGoout(usertoken);
+                await ControlActions.putSmartReserveGooutAction(usertoken);
+            }catch(e) {
+                console.log(e);
+            }
+        }
 
         UIActions.setSpinnerVisible(false);
         
