@@ -15,12 +15,13 @@ class ControlHeating extends Component {
 
         const data = 'all';
         console.log('data:',data);
-        try {
+        try{
             UIActions.setSpinnerVisible(true);
             await ControlActions.getInitialHeatings({data:data,usertoken:usertoken});
-        }catch(e) {
+        }catch(e){
             console.log(e);
         }
+        
 
         UIActions.setSpinnerVisible(false);
     }

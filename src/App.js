@@ -39,7 +39,7 @@ class App extends Component {
         const { usertoken } = loginUserInfo.toJS();   
        // if(usertoken === null){
             if(!history.location.pathname.match('auth')){
-              //  this.login();
+             this.login();
             }
        // }
         //document.addEventListener("resume", this.onResume, false);
@@ -57,7 +57,7 @@ class App extends Component {
             UIActions.getNewTalks(usertoken);
             if(!history.location.pathname.match('auth')){
                 if(usertoken === undefined || usertoken === null){
-                   // this.login();
+                 this.login();
                 }
             }
 
@@ -76,7 +76,7 @@ class App extends Component {
                 HomeActions.setLockVisible(true);
             }
         }
-        this.login();
+
     }
 
     login = async()=>{
@@ -84,7 +84,6 @@ class App extends Component {
         console.log('login');
         const { history } = this.context.router;
         const { AuthActions, UIActions} = this.props;
-
         
         UIActions.setSpinnerVisible(true);
         const dummy = new Date().getTime();

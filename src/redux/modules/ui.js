@@ -223,7 +223,7 @@ export default handleActions({
              const jsonData = KEY.decryptedKey(action.payload.data.data);
              const data = JSON.parse(jsonData);
              if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
-                window.location.reload(true);
+                //window.location.reload(true);
              }
              return state.set('newTalk',fromJS(data));
         }
