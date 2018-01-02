@@ -39,7 +39,7 @@ class App extends Component {
         const { usertoken } = loginUserInfo.toJS();   
        // if(usertoken === null){
             if(!history.location.pathname.match('auth')){
-               // this.login();
+                this.login();
             }
        // }
         //document.addEventListener("resume", this.onResume, false);
@@ -57,7 +57,7 @@ class App extends Component {
             UIActions.getNewTalks(usertoken);
             if(!history.location.pathname.match('auth')){
                 if(usertoken === undefined || usertoken === null){
-                    //this.login();
+                    this.login();
                 }
             }
 
@@ -76,7 +76,6 @@ class App extends Component {
                 HomeActions.setLockVisible(true);
             }
         }
-        this.login();
     }
 
     login = async()=>{
@@ -167,7 +166,6 @@ class App extends Component {
                 <Route exact path="/" component={Home}/>
                 <Switch>
                 <Route exact path="/control/" component={Control}/>
-                <Route exact path="/control/gooutAction/:ok" component={Control}/>
                 </Switch>
                 <Route exact path="/control/light" component={ControlLight}/>
                 <Switch>
