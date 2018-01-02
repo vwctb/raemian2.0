@@ -39,7 +39,7 @@ class App extends Component {
         const { usertoken } = loginUserInfo.toJS();   
        // if(usertoken === null){
             if(!history.location.pathname.match('auth')){
-                this.login();
+               // this.login();
             }
        // }
         //document.addEventListener("resume", this.onResume, false);
@@ -76,6 +76,7 @@ class App extends Component {
                 HomeActions.setLockVisible(true);
             }
         }
+        this.login();
     }
 
     login = async()=>{
