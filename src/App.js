@@ -104,16 +104,9 @@ class App extends Component {
         const {loginUserInfo} = this.props
         const {result,usertoken} = loginUserInfo.toJS();  
         isFirstLoad=false;
-        alert('uuid:'+uuid);
-        alert('pushid:'+pushid);
-        alert('result:'+result);
+
         if(result === 'fail'){
             history.push('/auth');
-        }else{
-            let expires = "";
-            let name = "complex_url"
-            let value = proxyServer.getProxyServer();
-            document.cookie = name + "=" + value + expires + "; path=/";
         }
 
         UIActions.getNewTalks(usertoken);
