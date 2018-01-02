@@ -317,17 +317,16 @@ export default handleActions({
         return state.set('data_lights',fromJS(data.items)).setIn(['success','control_light_success'],data.success);
         }
     }),
-   
     ...pender({
         type: SET_CONTROL_HEATING_ONOFF,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
             const data = JSON.parse(jsonData);
-            console.log(action.payload);
-    
-            const index = state.get('data_heatings').findIndex(familyList => familyList.get('id') === data.items[0].id);
-            console.log('index:',index);
-            return state.setIn(['data_heatings',index],fromJS(data.items));
+            console.log('action.payload:',action.payload);
+            if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
+                window.location.reload(true);
+            }
+            return state.set('data_heatings',fromJS(data.items));
         }
     }),
    
