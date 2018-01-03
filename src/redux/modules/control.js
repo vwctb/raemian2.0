@@ -326,7 +326,17 @@ export default handleActions({
             if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
                 window.location.reload(true);
             }
-            return state.set('data_heatings',fromJS(data.items));
+
+
+            if(data.items.length > 1){
+                return state.set('data_heatings',fromJS(data.items));
+            }else{
+                const index = state.get('data_heatings').findIndex(control => control.get('id') === data.items[0].id)
+                return state.setIn(['data_heatings',index],fromJS(data.items[0]));
+            }
+            
+
+
         }
     }),
    
@@ -338,12 +348,17 @@ export default handleActions({
             if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
                 window.location.reload(true);
             }
-            console.log('init');
-            console.log('data.items:',data.items);
-            return state.set('data_heatings',fromJS(data.items));
+        
+            if(data.items.length > 1){
+                return state.set('data_heatings',fromJS(data.items));
+            }else{
+                const index = state.get('data_heatings').findIndex(control => control.get('id') === data.items[0].id)
+                return state.setIn(['data_heatings',index],fromJS(data.items[0]));
+            }
+          
         }
     }),
-/*
+
     ...pender({
         type: SET_CONTROL_AIRCON_ONOFF,
         onSuccess: (state, action) => {
@@ -352,10 +367,15 @@ export default handleActions({
             console.log(action.payload);
             console.log(data);
             
-            return state.set('data_aircons',fromJS(data.items));
+            if(data.items.length > 1){
+                return state.set('data_aircons',fromJS(data.items));
+            }else{
+                const index = state.get('data_aircons').findIndex(control => control.get('id') === data.items[0].id)
+                return state.setIn(['data_aircons',index],fromJS(data.items[0]));
+            }
         }
     }),
-    */
+   
     ...pender({
         type: GET_INITIAL_AIRCONS,
         onSuccess: (state, action) => {
@@ -365,7 +385,13 @@ export default handleActions({
             if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
                 window.location.reload(true);
             }
-            return state.set('data_aircons',fromJS(data.items));
+
+            if(data.items.length > 1){
+                return state.set('data_aircons',fromJS(data.items));
+            }else{
+                const index = state.get('data_aircons').findIndex(control => control.get('id') === data.items[0].id)
+                return state.setIn(['data_aircons',index],fromJS(data.items[0]));
+            }
         }
     }),
 

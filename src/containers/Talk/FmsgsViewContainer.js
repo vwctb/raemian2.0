@@ -39,8 +39,8 @@ class FmsgsWriteContainer extends Component {
     HandleClickWrite = () => {
         const{ history } = this.context.router;
         const {TalkActions} = this.props;
-        const { seq } = this.props.msgViewData.toJS();
-        TalkActions.setFmsgsWriteReceiverkey(seq);
+        const { alias } = this.props.msgViewData.toJS();
+        TalkActions.setFmsgsWriteReceiverName(alias);
         history.push('/talk/fmsgs/write');
     }
 

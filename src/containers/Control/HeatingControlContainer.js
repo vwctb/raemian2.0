@@ -87,13 +87,7 @@ class ControlHeating extends Component {
             console.log(e);
         }
 
-        const data = 'all';
-        try {
-            await ControlActions.getInitialHeatings({data:data,usertoken:usertoken});
-        } catch(e) {
-            console.log(e);
-        }
-
+      
 
         const{ history } = this.context.router;
         history.push('/control/heating');
@@ -106,7 +100,8 @@ class ControlHeating extends Component {
 
         //UIActions.setSpinnerVisible(false);
     }
-    
+
+
     onHide = () =>{
         const { UIActions,visible } = this.props;
         UIActions.setModalVisible(!visible);

@@ -83,12 +83,6 @@ class ControlAircon extends Component {
             console.log(e);
         }
 
-        const data = 'all';
-        try {
-            await ControlActions.getInitialAircons({data:data,usertoken:usertoken});
-        } catch(e) {
-            console.log(e);
-        }
 
 
         const{ history } = this.context.router;

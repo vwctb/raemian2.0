@@ -29,6 +29,7 @@ const SEND_FMSGS = 'talk/fmsgs/SEND_FMSGS';
 const DELETE_FMSGS = 'talk/fmsgs/DELETE_FMSGS';
 const CHECKBOX_FMSGS_RECEIVETIME = 'talk/fmsgs/write/CHECKBOX_FMSGS_RECEIVETIME';
 const SET_FMSGS_RECEIVERKEY = 'talk/fmsgs/write/SET_FMSGS_RECEIVERKEY';
+const SET_FMSGS_RECEIVER_NAME = 'talk/fmsgs/write/SET_FMSGS_RECEIVER_NAME';
 const SET_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/SET_FMSGS_WRITE_UPLOADFILE';
 const POST_FMSGS_WRITE_UPLOADFILE = 'talk/fmsgs/Write/POST_FMSGS_WRITE_UPLOADFILE';
 const CHANGE_INPUT_FMSGS_WRITE = 'talk/fmsgs/write/CHANGE_INPUT_FMSGS_WRITE'; // input 값 변경
@@ -61,6 +62,7 @@ export const checkboxAddReapt = createAction(CHECKBOX_ADD_REPEAT);
 export const setFschedulesAdd = createAction(SET_FSCHEDULES_ADD,WebApi.setFschedulesAdd);
 export const checkboxFmsgsWrite = createAction(CHECKBOX_FMSGS_RECEIVETIME);
 export const setFmsgsWriteReceiverkey = createAction(SET_FMSGS_RECEIVERKEY);
+export const setFmsgsWriteReceiverName = createAction(SET_FMSGS_RECEIVER_NAME);
 export const setFmsgsWriteUploadFile = createAction(SET_FMSGS_WRITE_UPLOADFILE);
 export const postFmsgsWriteUploadFile = createAction(POST_FMSGS_WRITE_UPLOADFILE,WebApi.postFmsgsWriteUploadFile);
 export const changeInputFmsgsWrite = createAction(CHANGE_INPUT_FMSGS_WRITE);
@@ -192,6 +194,14 @@ export default handleActions({
         index === -1 ? key.push(action.payload) : key.splice(index, 1);
         return state.setIn(['fmsgs','write','receiverkey'],fromJS(key));
     },
+    [SET_FMSGS_RECEIVER_NAME]: (state, action) => {
+      
+        const index = state.getIn(['fmsgs','familys']).findIndex(control => control.get('alias') === action.payload)
+        const key = state.getIn(['fmsgs','familys',index,'userkey'])
+        console.log('key::',key);
+        return state.setIn(['fmsgs','write','receiverkey'],fromJS([key]));
+    },
+
     [CHECKBOX_FMSGS_RECEIVETIME]: (state, action) => state.setIn(['fmsgs','write','receivetime'],action.payload),
     [SET_FMSGS_WRITE_UPLOADFILE] :  (state, action) => {
         const { fileName, fileType, fileData, multipartFile } = action.payload;
