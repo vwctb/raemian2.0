@@ -16,6 +16,7 @@ const InnerWrapper = styled.div`
     top:3.5rem;
     bottom:0;
     background:#34393e;
+    text-align: center;
 `;
 
 
@@ -45,7 +46,22 @@ const Notice = styled.div`
     bottom: 4rem;
   
 `;
+const ManualDownBtn = styled.div`
+    width:10rem;
 
+    margin-top:3rem;
+    display:inline-block;
+    font-size: 0.8rem;
+    padding:1rem;
+    border:1px solid white;
+    color:#ffffff;
+    text-align:center;
+
+    &:active {
+        filter: brightness(80%);
+    }
+
+`;
 
 class VerInfoContainer extends Component {
 
@@ -64,6 +80,13 @@ class VerInfoContainer extends Component {
         console.log('update click');
     }
 
+    fileDown = () => {
+        let link = document.createElement("a");
+        link.download = '매뉴얼다운';
+        link.href = 'http://www.uasis.com/manual/raemian/manual.pdf';
+        link.click();
+    }
+
 
     render() {
         const {lobbycfs} = this.props;
@@ -78,6 +101,13 @@ class VerInfoContainer extends Component {
                       Ver.20171024A<br/>
                      <Span> 2017.10.24 업데이트 됨</Span>
                 </NoticeTitle>
+
+                <ManualDownBtn
+                    onClick={this.fileDown}
+                >
+                매뉴얼 다운로드
+                </ManualDownBtn>
+
                 {
                     /*
                 <Notice>
