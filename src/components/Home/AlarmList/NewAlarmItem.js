@@ -73,8 +73,8 @@ const Icon = styled.div`
 const IconImg = styled.div`
     width:1.4rem;
     height:1.4rem;
-    border-radius: 1.4rem;
-    background-image: url(${props => props.icon === 1 ? ImgArray[props.icon] : props.img});
+    border-radius: 1.4rem;       
+    background-image: url(${ props => props.icon > 0 ? ImgArray[props.icon] : (props.img === null || props.img === '') ? ImgArray[9] : props.img });
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
