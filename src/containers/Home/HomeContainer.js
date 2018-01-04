@@ -62,6 +62,10 @@ class HomeContainer extends Component {
         history.push('/listview/visitors');
     }
 
+    handleClickComehomes =()=>{
+        const { history } = this.context.router;
+        history.push('/listview/comehomes');
+    }
     handleImageLoaded() {
         /*
         if(this.props){
@@ -96,6 +100,7 @@ class HomeContainer extends Component {
                         onClickEventParcels={this.handleClickParcels}
                         onClickEventNotices={this.handleClickNotices}
                         onClickEventVisitors={this.handleClickVisitors}
+                        onClickEventComehome={this.handleClickComehomes}
                         newalarms={newalarms}
                     />
                 </ListContainer>

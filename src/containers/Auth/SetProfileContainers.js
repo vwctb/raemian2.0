@@ -121,7 +121,7 @@ class SetProfileContainers extends Component {
         }
     }
 
-    onHide = () =>{
+    onHide = () => {
         const { UIActions,visible } = this.props;
         UIActions.setModalVisible(!visible);
         setTimeout(() => {
@@ -148,7 +148,7 @@ class SetProfileContainers extends Component {
             await AuthActions.checkTagColor(
                 {
                     tagcolor:val,
-                    headers:{'Content-Type':'application/json; charest=utf-8','registtoken':authConfirm.registtoken}
+                    headers:{ 'Content-Type':'application/json; charest=utf-8','registtoken':authConfirm.registtoken }
                 }
             );
           } catch(e) {
