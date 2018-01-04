@@ -41,13 +41,13 @@ const NewAlarmList = ({newalarms, onClickEventParcels, onClickEventNotices, onCl
             </TitleBar>
 
             {
-                newalarms.get('homecom') &&
+                newalarms.get('homecome') &&
                 <NewAlarmItem
                     onClickEvent= {onClickEventVisitors}
-                    item = {'homecom'}
-                    comehome = {newalarms.get('homecom')}
-                    icon = {newalarms.get('homecomIcon')}
-                    img = {newalarms.get('homecomImg')}
+                    item = {'homecome'}
+                    homecome = {newalarms.get('homecome')}
+                    icon = {newalarms.get('homecomeIcon')}
+                    img = {newalarms.get('homecomeImg')}
                 />
             }
             <NewAlarmItem

@@ -78,6 +78,7 @@ class HomeContainer extends Component {
             newalarms = loginUserInfo.get('newalarms');
         if(newalarms === undefined) newalarms = Map({});
         if(fschedules === undefined) fschedules = List();
+
         return (
             <Wrapper>
                 <BG

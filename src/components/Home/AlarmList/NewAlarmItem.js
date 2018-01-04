@@ -108,14 +108,17 @@ class NewAlarmItem extends Component {
     static propTypes = {
         item:PropTypes.string,
         value:PropTypes.number,
-        onOpen: PropTypes.func
+        onOpen: PropTypes.func,
+        homecome:PropTypes.string,
+        img:PropTypes.string,
+        icon:PropTypes.number
     }
 
 
-    setContent = (item,value,onClickEvent,comehome,img,icon)=>{
+    setContent = (item,value,onClickEvent,homecome,img,icon)=>{
 
         let result ='',resultDiv;
-
+    
         switch(item){
             case 'parcel':
                 result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>;
@@ -130,7 +133,7 @@ class NewAlarmItem extends Component {
                 result = (value === 0 || value === undefined) ? <Text>미수령 택배가 없습니다.</Text> : <Text>미수령 택배가 <ColorText>{value+'건'}</ColorText> 있습니다.</Text>;
                 break;
             case 'homecome':
-                result = (comehome !== '' || comehome !== undefined) && <Text><ColorText>{comehome+'님이'}</ColorText> 있습니다.</Text>;
+                result = (homecome !== '' || homecome !== undefined) && <Text><ColorText>{homecome}</ColorText>님이 집에 도착했습니다.</Text>;
                 break;
         }
 
@@ -146,10 +149,10 @@ class NewAlarmItem extends Component {
 
     render() {
         
-        const { item, value, onClickEvent } = this.props;   
+        const { item, value, onClickEvent,homecome, img, icon } = this.props;   
         return (
             <div>
-                {this.setContent(item, value, onClickEvent)}  
+                {this.setContent(item, value, onClickEvent,homecome,img,icon)}  
             </div>
         )
     }

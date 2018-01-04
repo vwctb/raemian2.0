@@ -7,7 +7,7 @@ import {BtnSingle,BtnSingleModal,Modal,Dimmed} from 'components/Shared';
 import * as authActions from 'redux/modules/auth';
 import * as uiActions from 'redux/modules/ui';
 import { bindActionCreators } from 'redux';
-
+import * as proxyServer from 'lib/proxyServer';
 import styled from 'styled-components';
 
 const InnerWrapper = styled.div`
@@ -98,8 +98,8 @@ class VerInfoContainer extends Component {
                     useCheckBox = {false}
                 />
                 <NoticeTitle>
-                      Ver.20171024A<br/>
-                     <Span> 2017.10.24 업데이트 됨</Span>
+                    Ver.{proxyServer.getVerNumber()}<br/>
+                     <Span> {proxyServer.getUpdateDate()} 업데이트 됨</Span>
                 </NoticeTitle>
 
                 <ManualDownBtn
