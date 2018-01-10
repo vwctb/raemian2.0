@@ -65,7 +65,9 @@
                 var strAgent;
                 var tokenId; 
                 var bPhoneGap = false;
-                
+                const phonetype = navigator.userAgent.match('/iPhone|iPad|iPod/i') ? "ios" : "android";
+                alert(phonetype);
+                alert(navigator.userAgent);
                 //테스트서버  211.201.31.134
                 //레미안에스티지서버   211.36.9.36
                 window.proxyServer = '211.201.31.134';
