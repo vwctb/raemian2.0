@@ -13,16 +13,10 @@ class FSchedules extends Component {
         UIActions.setHeaderTitle({title:'가족일정'});
 
         try {
-            const {usertoken} = this.props.loginUserInfo.toJS();
             await TalkActions.initial('date');
             await TalkActions.initial('activeDate');
             const { date } = this.props;
-            const year = moment(date).local().format('YYYY');
-            const month = moment(date).local().format('M');       
-            //console.log('usertoken',usertoken);
-            //console.log(year);
-            //console.log(month);
-            await TalkActions.getFschedulesList({year:year,month:month,usertoken:usertoken});
+       
 
             TalkActions.setActiveDate(moment(date.format('YYYY-MM-DD')));
             //일정추가 - 선택한 날짜 셋팅

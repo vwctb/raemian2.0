@@ -37,7 +37,10 @@ body {
   -webkit-touch-callout:none!important;
 }
 
-
+input {
+  -webkit-appearance: none;
+  -webkit-border-radius:0;
+}
 
 
 
