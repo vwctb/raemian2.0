@@ -70,7 +70,7 @@ class SetProfileContainers extends Component {
         const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
         const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
         const { icon, img, alias, tagcolor } = profile;
-        const phonetype = navigator.userAgent.match('/iPhone|iPad|iPod/i') ? "ios" : "android";
+        const phonetype = navigator.userAgent.match('iPhone') ? "ios" : "android";
         const jsonData = {
             dong:dong,
             ho:ho,
