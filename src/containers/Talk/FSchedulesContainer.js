@@ -118,12 +118,12 @@ class FSchedulesContainer extends Component {
 
     HandleClickAddSchedule = () => {
         const{ history } = this.context.router;
-        history.push('/talk/fschedules/add');
+       // history.push('/talk/fschedules/add');
     }
 
     HandleClickUpdateSchedule = (seq) => {
         const{ history } = this.context.router;
-        history.push('/talk/fschedules/update/'+seq);
+        //history.push('/talk/fschedules/update/'+seq);
 
     }
 

@@ -19,3 +19,4 @@ export { default as Spinner } from './Spinner';
 export { default as Terms } from './Terms';
 export { default as Privacy } from './Privacy';
 export { default as TalkInput } from './TalkInput';
+export { default as ServiceAgree } from './ServiceAgree';

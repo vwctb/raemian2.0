@@ -101,13 +101,10 @@ class VerInfoContainer extends Component {
                     Ver.{proxyServer.getVerNumber()}<br/>
                      <Span> {proxyServer.getUpdateDate()} 업데이트 됨</Span>
                 </NoticeTitle>
-
-                <ManualDownBtn
-                    onClick={this.fileDown}
-                >
-                매뉴얼 다운로드
-                </ManualDownBtn>
-
+                {
+                    !navigator.userAgent.match('iPhone') && <ManualDownBtn onClick={this.fileDown}> 매뉴얼 다운로드</ManualDownBtn>
+                }
+                
                 {
                     /*
                 <Notice>

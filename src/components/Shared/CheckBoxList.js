@@ -60,7 +60,6 @@ const CheckBoxSpace = styled.div`
 const BtnSubSingle = styled.div`
     width: 5rem;
     height: 1.8rem;
-    padding: 0 0.6rem 0 0.6rem;
     line-height: 1.8rem;
     font-size: 0.9rem;
     background:#ff8062;
@@ -76,7 +75,7 @@ const BtnSubSingle = styled.div`
 
 
 
-const CheckBoxList = ({checkBoxListArray,onCheck,termsClick,policyClick}) => {
+const CheckBoxList = ({checkBoxListArray,onCheck,termsClick,policyClick,serviceAgreeClick}) => {
 
     const CheckBoxItemList = checkBoxListArray.map(
         controlitem => (
@@ -102,7 +101,7 @@ const CheckBoxList = ({checkBoxListArray,onCheck,termsClick,policyClick}) => {
                     (controlitem.get('btnKey') !== undefined) && 
                     <BtnSubSingle 
                         onClick={
-                           controlitem.get('btnKey') === 'terms' ? termsClick : policyClick 
+                           controlitem.get('btnKey') === 'terms' ? termsClick : controlitem.get('btnKey') === 'policy' ? policyClick : serviceAgreeClick
                         }
                     >
                         {controlitem.get('btnName')}

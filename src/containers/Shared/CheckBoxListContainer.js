@@ -21,7 +21,7 @@ class CheckBoxListContainer extends Component {
 
 
     render() {
-        const { checkBoxListArray,AuthActions,termsClick,policyClick } = this.props;
+        const { checkBoxListArray,AuthActions,termsClick,policyClick,serviceAgreeClick } = this.props;
         return (
             <Wrapper>
                 <CheckBoxList
@@ -29,6 +29,7 @@ class CheckBoxListContainer extends Component {
                     onCheck={AuthActions.setCheckboxAgree}
                     termsClick={termsClick}
                     policyClick={policyClick}
+                    serviceAgreeClick={serviceAgreeClick}
                 />
             </Wrapper>
         );

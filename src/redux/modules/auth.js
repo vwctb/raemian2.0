@@ -186,6 +186,13 @@ const initialState = Map({
                 btnKey:'policy',
                 btnName:'방침보기'
             }),
+            Map({
+                check: false,
+                name: '귀가알림 서비스 이용에 동의합니다.',
+                index: 4,
+                btnKey:'service',
+                btnName:'서비스보기'
+            }),
         ]),
         exists: Map({
             email: false,

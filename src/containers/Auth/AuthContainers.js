@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Layout from 'components/Layout';
-import {BtnSingle,Modal,Dimmed,Terms,Privacy} from 'components/Shared';
+import {BtnSingle, Modal, Dimmed, Terms, Privacy, ServiceAgree} from 'components/Shared';
 import { SubTitle } from 'components/Menu/SideMenu/Setting/Shared'
 import AuthHeader from 'components/Auth/AuthHeader';
 import * as uiActions from 'redux/modules/ui';
@@ -25,6 +25,7 @@ const Wrapper = styled.div`
     font-size: 1rem;
     overflow-y: auto;
 `;
+
 const MainNotice = styled.div`
     width: 100%;
     height:25rem;
@@ -74,19 +75,25 @@ class AuthContainers extends Component {
         window.location.href = 'http://119.194.107.93/prev';        
     }
 
-
     policyClick = () => {
         modalTitle = '개인정보 취급방침';
         const { UIActions,visible } = this.props;
         if(!modalSW) return; //반복 모달 호출현상 방지
         UIActions.setModalVisible(!visible);
         modalSW = false;
-        
     }
 
     termsClick = () => {
         modalTitle = '이용약관';
         const { UIActions,visible } = this.props;
+        if(!modalSW) return; //반복 모달 호출현상 방지
+        UIActions.setModalVisible(!visible);
+        modalSW = false;
+    }
+
+    serviceAgreeClick = () => {
+        modalTitle = '서비스 동의';
+        const { UIActions, visible } = this.props;
         if(!modalSW) return; //반복 모달 호출현상 방지
         UIActions.setModalVisible(!visible);
         modalSW = false;
@@ -119,6 +126,7 @@ class AuthContainers extends Component {
                         checkBoxListArray ={checkBoxListArray}
                         policyClick = {this.policyClick}
                         termsClick = {this.termsClick}
+                        serviceAgreeClick= {this.serviceAgreeClick}
                     />
                 </Wrapper>
               
@@ -128,10 +136,16 @@ class AuthContainers extends Component {
                 />
                 <Modal visible={visible} onHide={this.onHide} title={modalTitle}>
                     {
-                        modalTitle === '이용약관' ?
+                        modalTitle === '이용약관' &&
                         <Terms/>
-                        :
+                    }
+                    {
+                        modalTitle === '개인정보 취급방침' &&
                         <Privacy/>
+                    }
+                    {
+                        modalTitle === '서비스 동의' &&
+                        <ServiceAgree/>
                     }
                 </Modal>
                  <Dimmed visible={visible}/>
