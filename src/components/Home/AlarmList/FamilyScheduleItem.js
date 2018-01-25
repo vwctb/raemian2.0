@@ -57,6 +57,7 @@ class FamilyScheduleItem extends Component {
 
     render() {
         const { date, remaining, desc } = this.props.fschedules.toJS();
+        console.log('date',date);
         const { handleClick } = this;
         return (
             <div>

@@ -22,12 +22,8 @@ class FSchedules extends Component {
             TalkActions.setAddYear({form:'write',data:date.format('YYYY')});
             TalkActions.setAddMonth({form:'write',data:date.format('M')});
             TalkActions.setAddDay({form:'write',data:date.format('D')});
-
-             
             await TalkActions.getFschedulesList({year:date.format('YYYY'),month:date.format('M'),usertoken:usertoken});
-              
-
-  
+            console.log('listArray: ', this.props.listArray);
 
         } catch(e) {
             console.log(e);
@@ -44,7 +40,8 @@ class FSchedules extends Component {
 export default connect(
     (state) => ({
         date:state.talk.get('date'),
-        loginUserInfo:state.auth.get('loginUserInfo')
+        loginUserInfo:state.auth.get('loginUserInfo'),
+        listArray: state.talk.getIn(['fschedule','list'])
     }),
     (dispatch) => ({
         UIActions: bindActionCreators(uiActions, dispatch),

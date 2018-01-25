@@ -34,7 +34,7 @@ export const media = ({
     `,
 
     small_mobile: (...args) => css`
-    @media (max-width: 320px) {
+    @media (max-width: 340px) {
         ${ css(...args) }
     }
 `

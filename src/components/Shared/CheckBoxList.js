@@ -40,7 +40,7 @@ const Body = styled.div`
         font-size: 0.82rem;
     `}
     ${media.small_mobile`
-        font-size: 0.75rem;
+        font-size: 0.72rem;
     `}
 
     opacity: 0.6;
