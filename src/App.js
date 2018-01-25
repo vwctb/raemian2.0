@@ -38,9 +38,10 @@ class App extends Component {
         const { loginUserInfo } = this.props
         const { usertoken } = loginUserInfo.toJS();   
        // if(usertoken === null){
-            if(!history.location.pathname.match('auth')){
-             this.login();
-            }
+        if(!history.location.pathname.match('auth')){
+            this.login();
+        }
+           
        // }
         //document.addEventListener("resume", this.onResume, false);
         document.addEventListener("deviceready", this.onResume, false);
@@ -100,11 +101,11 @@ class App extends Component {
             pushid = window.tokenId
        }
 
-        if(window.uuid === undefined || window.uuid === null ){
+        if(window.deviceId === undefined || window.deviceId === null ){
             uuid = localStorage.getItem('uuid');
         }else{
-            localStorage.setItem('uuid', window.uuid);
-            uuid = window.uuid
+            localStorage.setItem('uuid', window.deviceId);
+            uuid = window.deviceId
         }
 
         if(!strAgent.match('cordova_mobile')){
@@ -137,8 +138,10 @@ class App extends Component {
     onResume = () => {
         const { history } = this.context.router;        
         const { HomeActions,UIActions,loginUserInfo } = this.props;
-        const { usertoken } = loginUserInfo.toJS();  
-        //this.login();
+        const { usertoken } = loginUserInfo.toJS();
+        if(!isFirstLoad){
+            this.login();
+        }
         if(!history.location.pathname.match('auth')){
             UIActions.getNewTalks(usertoken);
             if(storage.get('screenLockUse')){
