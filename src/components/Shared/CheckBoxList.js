@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import CheckBox from './CheckBox';
+import { shadow, media } from 'lib/style-utils';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -34,6 +35,14 @@ const Body = styled.div`
     color:white;
     text-align:left;
     font-size: 0.9rem;
+
+    ${media.mobile`
+        font-size: 0.82rem;
+    `}
+    ${media.small_mobile`
+        font-size: 0.75rem;
+    `}
+
     opacity: 0.6;
     margin-left:0.5rem;
     float: left;
@@ -58,15 +67,28 @@ const CheckBoxSpace = styled.div`
 `;
 
 const BtnSubSingle = styled.div`
-    width: 5rem;
+   
+
+    ${media.mobile`
+        width: 5rem;
+        margin: 0.6rem;
+        font-size: 0.9rem;
+    `}
+    ${media.small_mobile`
+        width: 4rem;
+        font-size: 0.8rem;
+        margin: 0.6rem 0.6rem 0.6rem 0.3rem;
+    `}
+
+
     height: 1.8rem;
     line-height: 1.8rem;
-    font-size: 0.9rem;
+
     background:#ff8062;
     color:#ffffff;
     float:right;
     text-align:center;
-    margin: 0.6rem;
+   
     &:active {
         filter: brightness(80%);
     }

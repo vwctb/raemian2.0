@@ -73,7 +73,7 @@ class FSchedulesAddContainer extends Component {
             repeat:repeat,
             alarm:alarm
         }
-
+        console.log('jsonData:',jsonData);
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
 
         try {

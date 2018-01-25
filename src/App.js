@@ -88,8 +88,30 @@ class App extends Component {
         UIActions.setSpinnerVisible(true);
         const dummy = new Date().getTime();
        // const data = KEY.encryptedKey(JSON.stringify({uuid:'uuidkey10120202',dummy:dummy}));
-       const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
-       const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
+       //const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
+       //let pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
+       let pushid,uuid;
+       const strAgent = navigator.userAgent.toLowerCase();
+    
+       if(window.tokenId === undefined || window.tokenId === null ){
+            pushid = localStorage.getItem('pushid');
+       }else{
+            localStorage.setItem('pushid', window.tokenId);
+            pushid = window.tokenId
+       }
+
+        if(window.uuid === undefined || window.uuid === null ){
+            uuid = localStorage.getItem('uuid');
+        }else{
+            localStorage.setItem('uuid', window.uuid);
+            uuid = window.uuid
+        }
+
+        if(!strAgent.match('cordova_mobile')){
+            uuid = 'uuidkey10120202';
+            pushid ='tokenid10120202';
+        }
+
        const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy,pushid:pushid}));
        AuthActions.setUUID(uuid);
        AuthActions.setPUSHID(pushid);
@@ -116,6 +138,7 @@ class App extends Component {
         const { history } = this.context.router;        
         const { HomeActions,UIActions,loginUserInfo } = this.props;
         const { usertoken } = loginUserInfo.toJS();  
+        this.login();
         if(!history.location.pathname.match('auth')){
             UIActions.getNewTalks(usertoken);
             if(storage.get('screenLockUse')){

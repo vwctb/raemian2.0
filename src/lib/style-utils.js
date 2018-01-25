@@ -1,11 +1,7 @@
 /**
  * Created by taebumchoi on 2017. 6. 17..
  */
-
-
 import { css, keyframes } from 'styled-components';
-
-
 export const media = ({
     desktop: (...args) => css`
         @media (max-width: 1200px) {
@@ -35,8 +31,13 @@ export const media = ({
         @media (max-width: 375px) {
             ${ css(...args) }
         }
-    `
+    `,
 
+    small_mobile: (...args) => css`
+    @media (max-width: 320px) {
+        ${ css(...args) }
+    }
+`
     
 });
 

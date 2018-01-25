@@ -9,6 +9,7 @@ import moment from 'moment';
 // Timeago 라이브러리 관련 코드 불러오기
 import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
+
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import * as proxyServer from 'lib/proxyServer';
 const proxy = proxyServer.getProxyServer();

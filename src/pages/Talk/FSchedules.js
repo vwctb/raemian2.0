@@ -11,18 +11,22 @@ class FSchedules extends Component {
         const { UIActions,TalkActions} = this.props;
         UIActions.setPageType({pageType:'/talk'});
         UIActions.setHeaderTitle({title:'가족일정'});
-
+        const {usertoken} = this.props.loginUserInfo.toJS();
         try {
             await TalkActions.initial('date');
             await TalkActions.initial('activeDate');
             const { date } = this.props;
        
-
             TalkActions.setActiveDate(moment(date.format('YYYY-MM-DD')));
             //일정추가 - 선택한 날짜 셋팅
             TalkActions.setAddYear({form:'write',data:date.format('YYYY')});
             TalkActions.setAddMonth({form:'write',data:date.format('M')});
             TalkActions.setAddDay({form:'write',data:date.format('D')});
+
+             
+            await TalkActions.getFschedulesList({year:date.format('YYYY'),month:date.format('M'),usertoken:usertoken});
+              
+
   
 
         } catch(e) {

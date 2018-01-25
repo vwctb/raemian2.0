@@ -13,10 +13,10 @@ import { Map,List, fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
-    position:absolute;
-    width:100%;
-    top:3.5rem;
-    bottom: 0;
+    position: absolute;
+    width: 100%;
+    top: 3.5rem;
+    bottom: 4rem;
     background:#f7f6ef;
     overflow-y:auto;
 `;
@@ -118,12 +118,12 @@ class FSchedulesContainer extends Component {
 
     HandleClickAddSchedule = () => {
         const{ history } = this.context.router;
-       // history.push('/talk/fschedules/add');
+        history.push('/talk/fschedules/add');
     }
 
     HandleClickUpdateSchedule = (seq) => {
         const{ history } = this.context.router;
-        //history.push('/talk/fschedules/update/'+seq);
+        history.push('/talk/fschedules/update/'+seq);
 
     }
 

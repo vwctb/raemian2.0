@@ -61,7 +61,7 @@ const ListWrapper = styled.div`
 `;
 
 const TitleSpace = styled.div`
-    width:10rem;
+
     height:5rem;
     float:left;
     display: flex;

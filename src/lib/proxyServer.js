@@ -2,6 +2,7 @@
 export const getProxyServer = () => {
     //테스트서버  211.201.31.134
     //레미안에스티지서버   211.36.9.36
+
     let result = window.proxyServer === undefined ? '211.201.31.134' : window.proxyServer;
     return result;
 }

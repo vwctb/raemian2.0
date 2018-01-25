@@ -99,7 +99,10 @@ class SetProfileContainers extends Component {
                 pass:''
             },
         }
+
         console.log('jsonData:',jsonData);
+        localStorage.setItem('uuid', uuid);
+        localStorage.setItem('pushid', pushid);
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
         this.login(data);
     }
@@ -116,8 +119,6 @@ class SetProfileContainers extends Component {
         if(success){
             history.push('/auth/complete');
         }else{
-
-
             alert('회원가입실패');
         }
     }

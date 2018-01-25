@@ -25,7 +25,6 @@ const Wrapper = styled.div`
     font-size: 1rem;
     overflow-y: auto;
 `;
-
 const MainNotice = styled.div`
     width: 100%;
     height:25rem;

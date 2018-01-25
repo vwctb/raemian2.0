@@ -77,12 +77,27 @@
   .rc-Day {
     display: inline-block;
     width: 2.4rem;
-    height: 2.4rem;
     margin:5px;
     line-height: 2.4rem;
     text-align: center;
     cursor: pointer;
   }
+
+  @media (max-width: 375px) {
+    .rc-Day {
+      width: 2.4rem;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .rc-Day {
+      width: 2rem;
+    }
+  }
+
+
+
+
   .rc-Day--active {
     background-color: #50bbcd!important;
     color:white !important;
