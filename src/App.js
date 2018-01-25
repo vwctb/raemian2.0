@@ -106,12 +106,12 @@ class App extends Component {
             localStorage.setItem('uuid', window.uuid);
             uuid = window.uuid
         }
-/*
+
         if(!strAgent.match('cordova_mobile')){
             uuid = 'uuidkey10120202';
             pushid ='tokenid10120202';
         }
-*/
+
        const data = KEY.encryptedKey(JSON.stringify({uuid:uuid,dummy:dummy,pushid:pushid}));
        AuthActions.setUUID(uuid);
        AuthActions.setPUSHID(pushid);
@@ -138,7 +138,7 @@ class App extends Component {
         const { history } = this.context.router;        
         const { HomeActions,UIActions,loginUserInfo } = this.props;
         const { usertoken } = loginUserInfo.toJS();  
-        this.login();
+        //this.login();
         if(!history.location.pathname.match('auth')){
             UIActions.getNewTalks(usertoken);
             if(storage.get('screenLockUse')){
