@@ -15,19 +15,16 @@ class FSchedules extends Component {
         try {
             await TalkActions.initial('date');
             await TalkActions.initial('activeDate');
-            const { dateData } = this.props;
-            console.log('dateData: ', dateData);
-            const date = moment(dateData);
-           
-            console.log('date: ', date);
-            TalkActions.setActiveDate(date.format('YYYY-MM-DD'));
+            const { date } = this.props;
+        
+            TalkActions.setActiveDate(moment(date.format('YYYY-MM-DD')));
             //일정추가 - 선택한 날짜 셋팅
             TalkActions.setAddYear({form:'write',data:date.format('YYYY')});
-            TalkActions.setAddMonth({form:'write',data:date.format('M')});
-            TalkActions.setAddDay({form:'write',data:date.format('D')});
+            TalkActions.setAddMonth({form:'write',data:date.format('M')}); 
+            TalkActions.setAddDay({form:'write',data:date.format('D')}); 
             await TalkActions.getFschedulesList({year:date.format('YYYY'),month:date.format('M'),usertoken:usertoken});
             console.log('listArray: ', this.props.listArray);
-
+  
         } catch(e) {
             console.log(e);
         }
@@ -42,7 +39,7 @@ class FSchedules extends Component {
 
 export default connect(
     (state) => ({
-        dateData:state.talk.get('date'),
+        date:state.talk.get('date'),
         loginUserInfo:state.auth.get('loginUserInfo'),
         listArray: state.talk.getIn(['fschedule','list'])
     }),
