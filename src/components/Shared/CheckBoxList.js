@@ -67,8 +67,11 @@ const CheckBoxSpace = styled.div`
 `;
 
 const BtnSubSingle = styled.div`
-   
-
+    ${media.bigphone`
+        width: 5rem;
+        margin: 0.6rem;
+        font-size: 0.9rem;
+    `}
     ${media.mobile`
         width: 5rem;
         margin: 0.6rem;
@@ -79,8 +82,6 @@ const BtnSubSingle = styled.div`
         font-size: 0.8rem;
         margin: 0.6rem 0.6rem 0.6rem 0.3rem;
     `}
-
-
     height: 1.8rem;
     line-height: 1.8rem;
 
