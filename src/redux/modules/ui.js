@@ -152,11 +152,10 @@ const initialState = Map({
                 name: '가족 관리',
                 index: 5
             }),
-            /*
             Map({
                 name: '스마트폰 출입',
                 index: 6
-            }),*/
+            }),
             Map({
                 name: '버전 정보',
                 index: 7
