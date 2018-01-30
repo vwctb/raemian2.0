@@ -9,10 +9,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import {OnePassTagContainer,ProfilePhotoAliasContainer} from 'containers/Shared'
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as KEY from 'lib/raemianAES';
-import {BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
+import {BtnDoubleModal,BtnSingleModal, Modal, Dimmed} from 'components/Shared';
 
 const Wrapper = styled.div`
     position: absolute;
@@ -37,7 +36,6 @@ const OnePassNotice = styled.div`
 
 `;
 
-
 const MainNotice = styled.div`
     width: 100%;
     text-align:center;
@@ -53,6 +51,9 @@ const OrangeText = styled.span`
 
 let tempTagColor=null;
 let modalSW=true;
+let modalType=null;
+let alertText=null;
+
 class SetProfileContainers extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -66,11 +67,25 @@ class SetProfileContainers extends Component {
 */
     handleClick = () => {
         //회원가입 this.props.base.toJS();   
+
+        const { UIActions,visible } = this.props;
         const { dong, ho, profile } = this.props.base.toJS();
         const uuid = window.deviceId ? window.deviceId : 'uuidkey10120202';
         const pushid = window.tokenId ? window.tokenId : 'tokenid10120202';
         const { icon, img, alias, tagcolor } = profile;
         const phonetype = navigator.userAgent.match('iPhone') ? "ios" : "android";
+
+
+        if(alias.length === 0){
+            modalType = 'alert';
+            alertText = '애칭을 입력해주세요.';            
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
+            return;
+        }
+
+
         const jsonData = {
             dong:dong,
             ho:ho,
@@ -108,7 +123,7 @@ class SetProfileContainers extends Component {
     }
 
     async login(data){
-        const { AuthActions } = this.props;
+        const { AuthActions, UIActions,visible } = this.props;
         try {
           await AuthActions.postRegists({'data':data});
         } catch(e) {
@@ -119,7 +134,11 @@ class SetProfileContainers extends Component {
         if(success){
             history.push('/auth/complete');
         }else{
-            alert('회원가입실패');
+            modalType = 'alert';
+            alertText = '회원가입실패';            
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
         }
     }
 
@@ -145,7 +164,6 @@ class SetProfileContainers extends Component {
         tempTagColor = val;
         const { AuthActions, UIActions, visible } = this.props;
         const { authConfirm } = this.props.base.toJS();
-
         try {
             await AuthActions.checkTagColor(
                 {
@@ -160,6 +178,7 @@ class SetProfileContainers extends Component {
         if(!checkTagColor){
             AuthActions.setProfileTagColor(val);
         }else{
+            modalType = 'tagCheck';
             if(!modalSW) return; //반복 모달 호출현상 방지
             UIActions.setModalVisible(!visible);
             modalSW = false;
@@ -251,7 +270,9 @@ class SetProfileContainers extends Component {
                 </Wrapper>
 
                 <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
-                    <div> 
+                {
+                    modalType === "tagCheck" && 
+                    <div>
                         <MainNotice>
                             선택하신 색상은 다른 가족과<br/>
                             이미 연동되어 있습니다.<br/>
@@ -260,7 +281,6 @@ class SetProfileContainers extends Component {
                                 무시하고 연동하겠습니까?
                             </OrangeText>
                         </MainNotice>
-                        
                         <BtnDoubleModal
                             onClickEvent1={this.onSetTagColor}
                             onClickEvent2={this.onHide}
@@ -268,6 +288,20 @@ class SetProfileContainers extends Component {
                             name2={'취소'}
                         />
                     </div>
+                }
+
+                {
+                    modalType === "alert" && 
+                    <div>
+                        <MainNotice>
+                           { alertText }
+                        </MainNotice>
+                        <BtnSingleModal
+                            onClickEvent={this.onHide}
+                            name={'확인'}
+                        />
+                    </div>
+                }
                 </Modal>
                 <Dimmed visible={visible}/>
 
@@ -275,7 +309,6 @@ class SetProfileContainers extends Component {
         )
     };
 };
-
 
 export default connect(
     (state) => ({

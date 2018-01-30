@@ -37,7 +37,6 @@ class PWLockContainer extends Component {
         }
 
         const data = KEY.encryptedKey(JSON.stringify(jsonData));
-        
        // console.log('jsonData :',jsonData);
         UIActions.setSpinnerVisible(true);
         try {
@@ -61,7 +60,6 @@ class PWLockContainer extends Component {
         if(use === true){
             storage.set('screenLockUse',false);
         }
-
     }
 
     onClickEvent = (e) =>{

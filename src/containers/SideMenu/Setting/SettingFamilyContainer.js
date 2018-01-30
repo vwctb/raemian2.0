@@ -262,9 +262,6 @@ class FamilyContainers extends Component {
 
                 </Modal>
                 <Dimmed visible={visible}/>
-
-
-             
             </Layout>
         )
     };

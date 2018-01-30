@@ -7,12 +7,11 @@ import * as uiActions from 'redux/modules/ui';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
-import {OnePassTagContainer,ProfilePhotoAliasContainer} from 'containers/Shared'
+import {OnePassTagContainer,ProfilePhotoAliasContainer } from 'containers/Shared';
+import {BtnSingleModal, BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
 import PropTypes from 'prop-types';
 import * as KEY from 'lib/raemianAES';
-import {BtnDoubleModal, Modal, Dimmed} from 'components/Shared';
 import * as ori from 'lib/jpegOrientation';
-
 const Wrapper = styled.div`
     position: absolute;
     width: 100%;
@@ -24,7 +23,6 @@ const Wrapper = styled.div`
     font-size: 1rem;
     overflow-y: auto;
 `;
-
 const OnePassNotice = styled.div`
     width: 100%;
     text-align:center;
@@ -35,8 +33,6 @@ const OnePassNotice = styled.div`
     padding:2rem 0 1rem 0rem;
 
 `;
-
-
 const MainNotice = styled.div`
     width: 100%;
     text-align:center;
@@ -51,6 +47,8 @@ const OrangeText = styled.span`
 
 let tempTagColor=null;
 let modalSW=true;
+let modalType=null;
+let alertText=null;
 class SettingProfileContainer extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -72,12 +70,19 @@ class SettingProfileContainer extends Component {
     }
    */
     handleClick = async () => {
-        const { AuthActions,UIActions } = this.props;
-        UIActions.setSpinnerVisible(true);
-
+        const { AuthActions,UIActions,visible } = this.props;
         const { profile } = this.props.base.toJS();
         const { icon, img, alias, tagcolor } = profile;
         const { usertoken } = this.props.loginUserInfo.toJS();
+        if(alias.length === 0){
+            modalType = 'alert';
+            alertText = '애칭을 입력해주세요.';            
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
+            return;
+        }
+        UIActions.setSpinnerVisible(true);
         const jsonData = {
             icon:Number(icon),
             img:img,
@@ -96,12 +101,14 @@ class SettingProfileContainer extends Component {
             UIActions.changeSideMenuView({sideViewIndex:0,sideViewTitle:'전체 메뉴'});
             AuthActions.initial('setting');
         }else{
-            alert('프로필 수정 에러');
+            modalType = 'alert';
+            alertText = '프로필 수정 에러';
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
         }
 
      UIActions.setSpinnerVisible(false);
-
-
     }
 
     handleChangeFile = (e) => {
@@ -116,13 +123,17 @@ class SettingProfileContainer extends Component {
           reader.readAsDataURL(e.target.files[0]);
         }
         */
-        const { AuthActions, UIActions} = this.props;
+        const { AuthActions, UIActions, visible} = this.props;
         UIActions.setSpinnerVisible(true);
         if(e.target.files.length === 0) return;
         const type =  e.target.files[0].type;
         const size =  Math.round((e.target.files[0].size/1024)/1024);
         if(size > 10){
-            alert("이미지파일의 용량은 10MB를 초과할 수 없습니다.")
+            modalType = 'alert';
+            alertText = '이미지파일의 용량은 10MB를 초과할 수 없습니다.';            
+            if(!modalSW) return; //반복 모달 호출현상 방지
+            UIActions.setModalVisible(!visible);
+            modalSW = false;
             return;
         }
 
@@ -214,6 +225,7 @@ class SettingProfileContainer extends Component {
         if(!checkTagColor){
             AuthActions.setProfileTagColor(val);
         }else{
+            modalType = 'tagCheck';
             if(!modalSW) return; //반복 모달 호출현상 방지
             UIActions.setModalVisible(!visible);
             modalSW = false;
@@ -307,6 +319,8 @@ class SettingProfileContainer extends Component {
                 />
 
                 <Modal visible={visible} onHide={this.onHide} title={'알림'}>                
+                {
+                    modalType === "tagCheck" && 
                     <div>
                         <MainNotice>
                             선택하신 색상은 다른 가족과<br/>
@@ -316,7 +330,6 @@ class SettingProfileContainer extends Component {
                                 무시하고 연동하겠습니까?
                             </OrangeText>
                         </MainNotice>
-                        
                         <BtnDoubleModal
                             onClickEvent1={this.onSetTagColor}
                             onClickEvent2={this.onHide}
@@ -324,6 +337,20 @@ class SettingProfileContainer extends Component {
                             name2={'취소'}
                         />
                     </div>
+                }
+
+                {
+                    modalType === "alert" && 
+                    <div>
+                        <MainNotice>
+                           { alertText }
+                        </MainNotice>
+                        <BtnSingleModal
+                            onClickEvent={this.onHide}
+                            name={'확인'}
+                        />
+                    </div>
+                }
                 </Modal>
                 <Dimmed visible={visible}/>
             </Layout>
