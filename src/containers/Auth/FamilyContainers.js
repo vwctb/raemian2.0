@@ -131,6 +131,15 @@ class FamilyContainers extends Component {
         }
     }
 
+    onHide = () => {
+        const { UIActions,visible } = this.props;
+        UIActions.setModalVisible(!visible);
+        setTimeout(() => {
+            modalSW = true;
+        },500);
+    }
+
+
     deleteFamilyClick = () => {
         const { history } = this.context.router;
         history.push('/auth/deleteFamilyGroup');

@@ -22,7 +22,7 @@ import { Spinner } from 'components/Shared';
 import storage from 'lib/storage';
 import * as proxyServer from 'lib/proxyServer';
 
-
+let loop = true;
 let isFirstLoad = true;
 class App extends Component {
     static contextTypes = {
@@ -42,7 +42,7 @@ class App extends Component {
             this.login();
         }
            
-       // }
+        // }
         //document.addEventListener("resume", this.onResume, false);
         document.addEventListener("deviceready", this.onResume, false);
         //document.addEventListener("pause", this.onPause, false);
@@ -50,12 +50,23 @@ class App extends Component {
 
     componentWillUpdate(nextProps, nextState) {
         const { UIActions , spinner} = this.props;
+  
         if(!isFirstLoad){
             const { history } = this.context.router;
             const { loginUserInfo } = this.props
             const { usertoken } = loginUserInfo.toJS();   
-            console.log('usertoken:',usertoken); 
-            UIActions.getNewTalks(usertoken);
+           
+            if(loop){
+                UIActions.getNewTalks(usertoken);
+                console.log('usertoken:',usertoken); 
+                loop=false;
+            }
+
+            setTimeout(function() {
+                loop=true;
+            }, 1000);
+            
+            
             if(!history.location.pathname.match('auth')){
                 if(usertoken === undefined || usertoken === null){
                  this.login();
@@ -128,10 +139,10 @@ class App extends Component {
         isFirstLoad=false;
 
         if(result === 'fail'){
-            history.push('/auth');
+            window.location.href = 'http://119.194.107.93/prev';
         }
 
-        UIActions.getNewTalks(usertoken);
+        //UIActions.getNewTalks(usertoken);
         UIActions.setSpinnerVisible(false);
     }
 
@@ -147,7 +158,6 @@ class App extends Component {
             if(storage.get('screenLockUse')){
                 HomeActions.setLockVisible(true);
             }
-       
         }
     }
 

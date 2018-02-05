@@ -78,8 +78,12 @@ class Menu extends Component {
                 case 6 : // 6. 스마트폰 출입
                     await AuthActions.getRobbycfs(usertoken);
                     break;
-                default : // 7. 버전정보
+                case 7 : // 7. 버전정보
                     //await AuthActions.getHomeBgs(usertoken);
+                    break;
+                default : // 8. 단지정보
+                    await AuthActions.getDongHo(usertoken);
+                    await AuthActions.getDanjiName();
                     break;
             }
         } catch(e) {

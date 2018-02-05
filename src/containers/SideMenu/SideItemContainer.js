@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {ControlItemContainer,ListViewItemContainer,TalkItemContainer,SettingItemContainer} from 'containers/SideMenu';
-import { PWLockContainer, ChangeBGContainer, SettingAlrimContainer, SettingFamilyContainer, SettingProfileContainer, SettingSmartPhoneContainer, VerInfoContainer } from 'containers/SideMenu/Setting';
+import { PWLockContainer, ChangeBGContainer, SettingAlrimContainer, SettingFamilyContainer, SettingProfileContainer, SettingSmartPhoneContainer, VerInfoContainer, DanjiContainer } from 'containers/SideMenu/Setting';
 import MenuHeader from 'components/Menu/SideMenu/Items/MenuHeader';
 
 import { Link } from 'react-router-dom';
@@ -81,6 +81,7 @@ const ItemMenu = ({slideBack,changeSideMenuView,sideViewIndex,sideViewTitle,sett
                     {sideViewIndex === 5 && <SettingFamilyContainer changeSideMenuView={changeSideMenuView}/>  }
                     {sideViewIndex === 6 && <SettingSmartPhoneContainer changeSideMenuView={changeSideMenuView}/> }
                     {sideViewIndex === 7 && <VerInfoContainer changeSideMenuView={changeSideMenuView}/> }
+                    {sideViewIndex === 8 && <DanjiContainer changeSideMenuView={changeSideMenuView}/> }
                 </SettingSpace> : null
 
             }

@@ -94,9 +94,15 @@ const PUT_CPS = 'setting/PUT_CPS';
 
 const GET_ALARMS = 'setting/GET_ALARMS';
 const SET_ALARMS = 'setting/SET_ALARMS';
-
+const GET_DONGHO = 'setting/GET_DONGHO';
+const GET_DANJINAME = 'setting/GET_DANJINAME';
 
 export const getInitialProfile = createAction(GET_INITIAL_PROFILE,AuthAPI.getInitialProfile); // { usertoken }
+export const getDongHo = createAction(GET_DONGHO,AuthAPI.getDongHo); // { usertoken }
+export const getDanjiName = createAction(GET_DANJINAME,AuthAPI.getDanjiName); // { usertoken }
+
+
+
 export const setSettingProfile = createAction(SET_SETTING_PROFILE,AuthAPI.setSettingProfile); // { usertoken, }
 export const getHomeBgs = createAction(GET_HOMEBGS,AuthAPI.getHomeBgs); // { usertoken }
 export const setHomeBgs = createAction(SET_HOMEBGS,AuthAPI.setHomeBgs); // { usertoken, data:desc,phototype,img }
@@ -137,6 +143,7 @@ const initialState = Map({
     }),
     register: Map({
         success:false,
+        danji:List([]),
         base: Map({
             dong: '',
             ho: '',
@@ -386,8 +393,26 @@ export default handleActions({
         type: GET_INITIAL_PROFILE,
         onSuccess: (state, action) => {
             const jsonData = KEY.decryptedKey(action.payload.data.data);
-           
             return state.setIn(['register', 'base', 'profile'], fromJS(JSON.parse(jsonData)));
+        }
+    }),
+
+    ...pender({
+        type: GET_DONGHO,
+        onSuccess: (state, action) => {
+            const jsonData = KEY.decryptedKey(action.payload.data.data);
+            return state.setIn(['register', 'base', 'dong'], JSON.parse(jsonData).dong).setIn(['register', 'base', 'ho'], JSON.parse(jsonData).ho);
+        }
+    }),
+    ...pender({
+        type: GET_DANJINAME,
+        onSuccess: (state, action) => {
+            const jsonData = fromJS(action.payload.data);
+            //const index = jsonData.findIndex(list => list.get('r_server') === Location.host);
+            const index = jsonData.findIndex(list => list.get('r_server') === '211.201.31.134');
+            console.log('Location.host :',Location.host);
+            const data = jsonData.getIn([index,'r_name']);
+            return state.setIn(['register', 'danji'], data);
         }
     }),
     ...pender({

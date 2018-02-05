@@ -5,3 +5,4 @@ export { default as SettingFamilyContainer } from './SettingFamilyContainer';
 export { default as SettingProfileContainer } from './SettingProfileContainer';
 export { default as SettingSmartPhoneContainer } from './SettingSmartPhoneContainer';
 export { default as VerInfoContainer } from './VerInfoContainer';
+export { default as DanjiContainer } from './DanjiContainer';

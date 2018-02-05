@@ -160,6 +160,10 @@ const initialState = Map({
             Map({
                 name: '버전 정보',
                 index: 7
+            }),
+            Map({
+                name: '단지 정보',
+                index: 8
             })
         ]),
 
@@ -225,6 +229,7 @@ export default handleActions({
              if(data.errorMsg === '사용자 토큰이 잘못 되었습니다.'){
                 //window.location.reload(true);
              }
+             console.log('new talks');
              return state.set('newTalk',fromJS(data));
         }
     }),

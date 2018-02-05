@@ -32,6 +32,16 @@ export const getInitialProfile = (usertoken) => axios.get('/smarthome/v1/profile
     console.log("channel error",error.response);
 });
 
+
+export const getDongHo = (usertoken) => axios.get('/smarthome/v1/dongho',{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':usertoken}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+export const getDanjiName = () => axios.get('http://119.194.107.93/api/list',{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
+    console.log("channel error",error.response);
+});
+
+
 export const setSettingProfile = (value) => axios.post('/smarthome/v1/profiles',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
@@ -68,7 +78,7 @@ export const checkTagColor = (value) => axios.get('/smarthome/v1/tags?tagcolor='
 export const getAuthForScreenLock = (value) => axios.post('/smarthome/v1/auths',{data:value.data},{headers:{'Content-Type':'application/json; charest=utf-8','usertoken':value.usertoken}}).catch(function (error) {
     console.log("channel error",error.response);
 });
-
+getDongHo
 // auth
 export const getAuth = (value) => axios.post('/smarthome/v1/auths',value,{headers:{'Content-Type':'application/json; charest=utf-8'}}).catch(function (error) {
     console.log("channel error",error.response);
