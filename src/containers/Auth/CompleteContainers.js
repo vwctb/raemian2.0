@@ -151,7 +151,7 @@ class SignupContainers extends Component {
                 
                 <Annotaion>{'"가입이 완료되었습니다!"'}</Annotaion>
                 <UserInfo>
-                {'서초 에스티지S'}<br/> 
+                {window.danjiName}<br/> 
                 {dong+'동 '+ ho+'호'}
                 </UserInfo>
                 <MainPhotoWrapper>

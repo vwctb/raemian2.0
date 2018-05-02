@@ -118,7 +118,7 @@ class AuthContainers extends Component {
                     />
                 <Wrapper>
                     <SubTitle
-                        title = {'아래 중 하나를 선택해주세요!'}
+                        title = {'아래의 약관에 모두 동의해주세요!'}
                         useCheckBox = {false}
                     />
                     <CheckBoxListContainer
