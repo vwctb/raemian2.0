@@ -19,7 +19,6 @@ const InnerWrapper = styled.div`
     text-align: center;
 `;
 
-
 const NoticeTitle = styled.div`
     width: 100%;
     text-align:center;
@@ -28,8 +27,8 @@ const NoticeTitle = styled.div`
     line-height:1.5rem;
     padding:3rem 0 3rem 0rem;
     background:#3e454b;
-    
 `;
+
 const Span = styled.span`
     color:white;
     opacity: 0.6;
@@ -65,7 +64,7 @@ const ManualDownBtn = styled.div`
 
 class VerInfoContainer extends Component {
 
-/*
+    /*
     componentDidMount() {
         const { AuthActions } = this.props;
         AuthActions.changeInputLockPass("");
@@ -89,7 +88,6 @@ class VerInfoContainer extends Component {
 
 
     render() {
-        const {danji} = this.props;
         const {dong,ho} =this.props.base.toJS();
         return (
             <Wrapper>
@@ -99,7 +97,7 @@ class VerInfoContainer extends Component {
                     useCheckBox = {false}
                 />
                 <NoticeTitle>
-                    {danji}<br/>
+                    {window.danjiName}<br/>
                      <Span>{dong+'동 '+ho+'호'}</Span>
                 </NoticeTitle>
               
@@ -111,7 +109,6 @@ class VerInfoContainer extends Component {
 
 export default connect(
     (state) => ({
-        danji: state.auth.getIn(['register','danji']),
         base: state.auth.getIn(['register','base'])
 
     }),
