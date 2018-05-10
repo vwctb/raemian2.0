@@ -119,16 +119,16 @@ class ControllSlider extends Component {
    
     componentDidMount() {
         const { configTemp, status } = this.props.controlitem.toJS();
-        const { handleClick, handleChange } = this.props;
+        const { handleClick, handleChange, controlType } = this.props;
         //const {handleClick} = this;
-
+        
         $(this.slider).roundSlider({
             radius: 110,
             width: 10,
             editableTooltip: false,
             animation: false,
-            min: 18,
-            max: 35,
+            min: (controlType === "heating") ? 5 : 18,
+            max: (controlType === "heating") ? 40 : 30,
             handleSize: "+20",
             value: configTemp,
             startAngle: 90,

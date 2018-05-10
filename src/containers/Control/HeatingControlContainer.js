@@ -63,7 +63,8 @@ class ControlHeating extends Component {
         const { id, status, name, configTemp, currentTemp } = controlitem.toJS();
         const jsonDataControl = {
             id:id,
-            configTemp:configTemp
+            configTemp:configTemp,
+            type:"aircon"
         }
 
         const jsonDataOnoff = {
